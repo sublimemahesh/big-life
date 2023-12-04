@@ -339,14 +339,18 @@ class StrategyController extends Controller
         $this->authorize('update', Strategy::class);
 
         $validated = Validator::make($request->all(), [
-            'commission_level_count' => ['required', 'integer', 'gte:2'],
-            'commissions' => ['required', 'array', 'size:' . $request->get('commission_level_count')],
-            'commissions.*' => ['required', 'integer'],
-            'rank_gift' => ['required', 'integer'],
-            'rank_bonus' => ['required', 'integer'],
+            'commission_level_count' => ['required', 'integer', 'gte:1'],
+            'commissions' => ['nullable', Rule::requiredIf($request->get('commission_level_count') > 0), 'array', 'size:' . $request->get('commission_level_count')],
+            'commissions.*' => ['required', 'numeric'],
+            'rank_gift' => ['required', 'numeric'],
+            'rank_bonus' => ['required', 'numeric'],
         ])->validate();
 
-        unset($validated['commissions'][0]); // Make sure does not contain 0th index
+        if (isset($validated['commissions']) && is_array($validated['commissions'])) {
+            unset($validated['commissions'][0]); // Make sure does not contain 0th index
+        } else {
+            $validated['commissions'] = [];
+        }
 
         $total_percentage = array_sum($validated['commissions']) + $validated['rank_gift'] + $validated['rank_bonus'];
 
@@ -355,7 +359,11 @@ class StrategyController extends Controller
         }
 
         $commission_level_count = count($validated['commissions']);
-        $commissions = json_encode($validated['commissions'], JSON_THROW_ON_ERROR);
+        if (!isset($validated['commissions']) || count($validated['commissions']) <= 0) {
+            $commissions = '{}';
+        } else {
+            $commissions = json_encode($validated['commissions'], JSON_THROW_ON_ERROR);
+        }
 
         if ((int)$request->get('commission_level_count') !== $commission_level_count) {
             throw new RuntimeException('Something does not seem to be ok with commission level count');

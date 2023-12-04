@@ -20,7 +20,6 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
-use Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 use Throwable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -37,6 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasRecursiveRelationships;
 
     protected $with = ['profile'];
+
+    public function getParentKeyName()
+    {
+        return 'super_parent_id';
+    }
 
     protected array $cascadeDeletes = ['ranks'];
 

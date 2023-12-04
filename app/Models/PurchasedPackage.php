@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,7 +24,22 @@ class PurchasedPackage extends Model
 
     protected $table = 'purchased_package';
 
-    protected $fillable = ['last_earned_at', 'commission_issued_at', 'transaction_id', 'user_id', 'purchaser_id', 'package_id', 'invested_amount', 'payable_percentage', 'status', 'expired_at', 'package_info'];
+    protected $fillable = [
+        'last_earned_at',
+        'commission_issued_at',
+        'transaction_id',
+        'user_id',
+        'purchaser_id',
+        'package_id',
+        'invested_amount',
+        'payable_percentage',
+        'status',
+        'expired_at',
+        'package_info',
+        'investment_profit',
+        'level_commission_profit',
+        'earned_profit',
+    ];
 
     protected $appends = [
         'package_info_json',
@@ -71,6 +87,21 @@ class PurchasedPackage extends Model
     public function getIsCommissionIssuedAttribute(): bool
     {
         return $this->commission_issued_at !== null;
+    }
+
+    public function getTotalProfitPercentageAttribute(): float
+    {
+        return $this->investment_profit + $this->level_commission_profit;
+    }
+
+    public function getTotalProfitAttribute(): float
+    {
+        return ($this->invested_amount / 100) * $this->total_profit_percentage;
+    }
+
+    public function getTotalEarnedProfitAttribute(): float
+    {
+        return ($this->invested_amount / 100) * $this->earned_profit;
     }
 
     public function getPackageActivateDateAttribute(): string
@@ -131,6 +162,11 @@ class PurchasedPackage extends Model
     public function earnings(): morphMany
     {
         return $this->morphMany(Earning::class, 'earnable');
+    }
+
+    public function totalEarnings(): HasMany
+    {
+        return $this->hasMany(Earning::class, 'purchased_package_id', 'id');
     }
 
     public function scopeActivePackages(Builder $query): Builder
