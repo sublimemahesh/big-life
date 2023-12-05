@@ -40,8 +40,8 @@ class RegisterSteps extends Component
 
     public function mount()
     {
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
-        $this->state['sponsor'] = optional($this->sponsor)->username;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
+        $this->state['sponsor'] = $this->sponsor?->username;
         $this->disable_sponsor_modify = $this->sponsor->id !== null;
     }
 
@@ -58,17 +58,17 @@ class RegisterSteps extends Component
             'state.super_parent_id' => [
                 'nullable',
                 Rule::exists('users', 'id')
-                    ->when(config('fortify.super_parent_id') !== (int)$this->state['super_parent_id'], function ($q) {
-                        $q->whereNotNull('position')->whereNotNull('parent_id');
-                    })
+//                    ->when(config('fortify.super_parent_id') !== (int)$this->state['super_parent_id'], function ($q) {
+//                        $q->whereNotNull('position')->whereNotNull('parent_id');
+//                    })
             ],
             'state.position' => ['required', "lte:{$genealogy_children}", 'gte:1',],
             'state.sponsor' => [
                 'nullable',
-                Rule::exists('users', 'username')
-                    ->when(config('fortify.super_parent_username') !== $this->state['sponsor'], function ($q) {
-                        $q->whereNotNull('position')->whereNotNull('parent_id');
-                    }),
+                Rule::exists('users', 'username'),
+//                    ->when(config('fortify.super_parent_username') !== $this->state['sponsor'], function ($q) {
+//                        $q->whereNotNull('position')->whereNotNull('parent_id');
+//                    }),
                 'string',
                 'max:255'
             ],
@@ -97,11 +97,12 @@ class RegisterSteps extends Component
     public function updatedStateSponsor($value): void
     {
         $this->sponsor = User::where('username', $value)
+            ->whereRelation('roles', 'name', 'user')
             ->when(config('fortify.super_parent_username') !== $value, function ($q) {
-                $q->whereNotNull('position')->whereNotNull('parent_id');
+                $q->whereNotNull('super_parent_id');
             })
             ->firstOrNew();
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
 
         $this->validateOnly('state.sponsor');
     }
@@ -111,10 +112,10 @@ class RegisterSteps extends Component
 
         $this->sponsor = User::when(config('fortify.super_parent_id') !== (int)$value,
             function ($q) {
-                $q->whereNotNull('position')->whereNotNull('parent_id');
+                $q->whereNotNull('super_parent_id');
             })
             ->findOrNew($value);
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
         $this->validateOnly('state.sponsor');
     }
 
