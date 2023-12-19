@@ -157,7 +157,9 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 'type' => $commission->type,
                                 'status' => 'RECEIVED',
                             ]));
-                            $commission->update(['last_earned_at' => \Carbon::now()]);
+                            // TODO: Strange error on update object of class stdclass could not be converted to string
+//                            $commission->update(['last_earned_at' => \Carbon::now()->format('Y-m-d H:i:s')]);
+                            Commission::find($commission->id)->update(['last_earned_at' => \Carbon::now()->format('Y-m-d H:i:s')]);
                             $commission->increment('paid', $commission_amount);
 
                             $total_already_earned_income = $activePackage->total_earned_profit + $commission_amount;
@@ -190,6 +192,17 @@ class SaleLevelCommissionJob implements ShouldQueue
                     }
 
                     if (!$isQualified || $commission_amount_left > 0) {
+                        if ($commission_amount_left > 0) {
+                            Commission::forceCreate([
+                                'parent_id' => $commission->id,
+                                'user_id' => $commission_level_user->id,
+                                'purchased_package_id' => $package->id,
+                                'amount' => $commission_amount_left,
+                                'paid' => 0,
+                                'type' => $i === 1 ? 'DIRECT' : 'INDIRECT',
+                                'status' => 'DISQUALIFIED'
+                            ]);
+                        }
                         $commission->adminEarnings()->create([
                             'user_id' => $commission->user_id,
                             'type' => 'DISQUALIFIED_COMMISSION',
