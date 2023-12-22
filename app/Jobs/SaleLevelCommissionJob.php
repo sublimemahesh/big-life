@@ -61,6 +61,11 @@ class SaleLevelCommissionJob implements ShouldQueue
     public function handle()
     {
 
+        Log::channel('daily')->info(
+            "SaleLevelCommissionJob Started | PURCHASE PACKAGE: {$this->package->id} | " .
+            "USER : {$this->purchasedUser->username} - {$this->purchasedUser->id}"
+        );
+        
         DispatchPendingBvPointsJob::dispatch();
         CalculateBvPointsJob::dispatch($this->purchasedUser,$this->package);
 
@@ -139,6 +144,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                             $total_already_earned_income = ($activePackage->invested_amount / 100) * $already_earned_percentage;
                             $total_allowed_income = ($activePackage->invested_amount / 100) * $activePackage->total_profit_percentage;
 
+                            // TODO: BUG $total_allowed_income is not accurate, use commission amount instead and fix
                             $remaining_income = $total_allowed_income - $total_already_earned_income;
                             if ($commission_amount > $remaining_income) {
                                 $activePackage->update(['status' => 'EXPIRED']);
@@ -302,5 +308,11 @@ class SaleLevelCommissionJob implements ShouldQueue
 
             $package->update(['commission_issued_at' => now()]);
         });
+
+
+        Log::channel('daily')->info(
+            "SaleLevelCommissionJob Exited | PURCHASE PACKAGE: {$this->package->id} | " .
+            "USER : {$this->purchasedUser->username} - {$this->purchasedUser->id}"
+        );
     }
 }
