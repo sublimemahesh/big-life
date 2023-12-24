@@ -248,7 +248,7 @@ class StrategyController extends Controller
 
         $validated = Validator::make($request->all(), [
             'staking_withdrawal_fee' => ['required', 'numeric'],
-            'payout_transfer_fee' => ['required', 'numeric'],
+            'payout_transfer_fee' => ['required', 'numeric', 'gte:0', 'lte:100'],
             'p2p_transfer_fee' => 'required|numeric',
         ])->validate();
 

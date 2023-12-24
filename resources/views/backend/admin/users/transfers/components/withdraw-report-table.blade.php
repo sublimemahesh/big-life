@@ -108,9 +108,19 @@
         </tr>
         </thead>
         <tfoot>
-        <tr>
-            <th colspan="11" style="text-align:right"></th>
-        </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Current Page <br>Total: </th>
+                <th style="text-align:right" class="text-wrap pe-1"></th>
+                <th style="text-align:right" class="text-wrap pe-1"></th>
+                <th style="text-align:right" class="text-wrap pe-1"></th>
+            </tr>
         </tfoot>
     </table>
 </div>

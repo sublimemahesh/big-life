@@ -44,14 +44,14 @@ $(function () {
                     }, 0);
             }
 
-            let amount = new Intl.NumberFormat().format(sumVal(8));
-            $(api.column(10).footer()).html(`Current page total amount: USDT ${amount}`);
+            let amount = new Intl.NumberFormat().format(sumVal(9));
+            $(api.column(9).footer()).html(`USDT ${amount}`);
 
-            let transaction_fee = new Intl.NumberFormat().format(sumVal(9));
-            $(api.column(10).footer()).append(`<br><br>Current Page Trx fees: USDT ${transaction_fee}`);
+            let transaction_fee = new Intl.NumberFormat().format(sumVal(10));
+            $(api.column(10).footer()).html(`USDT ${transaction_fee}`);
 
-            let total = new Intl.NumberFormat().format(sumVal(10));
-            $(api.column(10).footer()).append(`<br><br>Current Page Total: USDT ${total}`);
+            let total = new Intl.NumberFormat().format(sumVal(11));
+            $(api.column(11).footer()).html(`USDT ${total}`);
         },
         columnDefs: [{
             render: function (date, type, full, meta) {
