@@ -125,6 +125,8 @@ class SaleLevelCommissionJob implements ShouldQueue
 
                     $commission = Commission::forceCreate([
                         'user_id' => $commission_level_user->id,
+                        'level_user_id' => $purchasedUser->id,
+                        'commission_level' => $i,
                         'purchased_package_id' => $package->id,
                         'amount' => $commission_amount,
                         'paid' => 0,
@@ -167,6 +169,8 @@ class SaleLevelCommissionJob implements ShouldQueue
 
                             $commission->earnings()->save(Earning::forceCreate([
                                 'user_id' => $commission->user_id,
+                                'level_user_id' => $purchasedUser->id,
+                                'income_level' => $i,
                                 'purchased_package_id' => $activePackage->id,
                                 'amount' => $commission_amount,
                                 'payed_percentage' => $commissions[$i],
@@ -211,6 +215,8 @@ class SaleLevelCommissionJob implements ShouldQueue
                         if ($commission_amount_left > 0 && $commission_amount_left !== $commission->amount) {
                             Commission::forceCreate([
                                 'parent_id' => $commission->id,
+                                'level_user_id' => $purchasedUser->id,
+                                'commission_level' => $i,
                                 'user_id' => $commission_level_user->id,
                                 'purchased_package_id' => $package->id,
                                 'amount' => $commission_amount_left,
