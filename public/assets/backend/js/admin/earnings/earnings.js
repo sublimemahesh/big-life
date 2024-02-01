@@ -150,11 +150,7 @@ $(function () {
                             try {
                                 const remainingCount = await fetchRemainingEarningCount(value);
                                 // $(Swal.getHtmlContainer()).html(`Remaining Earnings: ${count}`);
-
-                                const response = await axios.post(APP_URL + '/admin/reports/users/earnings/get-pending-earnings', {
-                                    date: value,
-                                });
-
+  
                                 if (remainingCount > 0) {
                                     resolve();
                                 } else {
