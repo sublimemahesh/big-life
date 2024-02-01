@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\Earning;
 use App\Models\PurchasedPackage;
 use App\Models\Strategy;
-use App\Models\User;
 use App\Models\Wallet;
 use Carbon\Carbon;
 use DB;
@@ -22,11 +21,13 @@ class GenerateUserDailyEarning implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private PurchasedPackage $purchase;
-    private ?Carbon $execution_time;
+    private Carbon|null $execution_time;
+    private string $date;
 
-    public function __construct(PurchasedPackage $purchase, $execution_time = null)
+    public function __construct(PurchasedPackage $purchase, string $date, $execution_time = null)
     {
         $this->purchase = $purchase;
+        $this->date = $date;
         $this->execution_time = $execution_time ?? now();
     }
 
@@ -50,8 +51,9 @@ class GenerateUserDailyEarning implements ShouldQueue
 
         try {
             DB::transaction(function () use ($purchase) {
-                $earned = $purchase->earnings()->whereDate('created_at', date('Y-m-d'))->doesntExist();
-                // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', date('Y-m-d'))->doesntExist();
+                $date = $this->date;
+                $earned = $purchase->earnings()->whereDate('created_at', $date)->doesntExist();
+                // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', $date)->doesntExist();
                 if ($earned) {
 
                     $purchase->loadSum('earnings', 'amount');
@@ -239,9 +241,9 @@ class GenerateUserDailyEarning implements ShouldQueue
                         }
                     }
                     //Wallet::updateOrCreate(['user_id' => $purchase->user_id]);
-                    Log::channel('daily')->notice("Purchased Package Earning saved (" . date('Y-m-d') . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+                    Log::channel('daily')->notice("Purchased Package Earning saved (" . $date . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
                 } else {
-                    Log::channel('daily')->warning("Purchased Package Already earned! (" . date('Y-m-d') . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+                    Log::channel('daily')->warning("Purchased Package Already earned! (" . $date . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
                 }
             });
         } catch (\Throwable $e) {

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\PurchasedPackage;
+use App\Models\Strategy;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -194,6 +196,7 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
             // Earnings
             Route::get('users/earnings', 'Admin\EarningController@index')->name('earnings.index');
             Route::post('users/earnings/calculate-profit', 'Admin\EarningController@calculateProfit');
+            Route::post('users/earnings/get-pending-earnings', 'Admin\EarningController@getPendingEarnings');
             Route::post('users/rewards/calculate-bonus', 'Admin\EarningController@issueMonthlyRankBonuses');
             Route::post('users/earnings/calculate-commission', 'Admin\EarningController@calculateCommission');
             Route::post('users/earnings/release-staking-interest', 'Admin\EarningController@releaseStakingInterest');
