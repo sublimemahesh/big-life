@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\ActivityLogAction;
 use App\Http\Controllers\Controller;
 use App\Models\Earning;
-use App\Models\PurchasedPackage;
-use App\Models\Strategy;
 use Artisan;
 use Exception;
 use Illuminate\Http\Request;
@@ -59,19 +57,7 @@ class EarningController extends Controller
         }
 //        $earningPendingActivePackagesDate = '2024-02-02';
         $earningPendingActivePackagesDate = date('Y-m-d');
-        $investment_start_at = Strategy::where('name', 'investment_start_at')->firstOr(fn() => new Strategy(['value' => 2]));
-        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
-            $earningPendingActivePackages = 0;
-        } else {
-            $earningPendingActivePackages = PurchasedPackage::with('user')
-                ->where('status', 'ACTIVE')
-                ->where('is_free_package', 1)
-//        ->where('id', 1719)
-                ->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$earningPendingActivePackagesDate}'")
-                ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $earningPendingActivePackagesDate))
-//        ->toSql();
-                ->count();
-        }
+        $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
         return view('backend.admin.users.earnings.index', compact('earningPendingActivePackages', 'earningPendingActivePackagesDate'));
     }
 
@@ -104,18 +90,7 @@ class EarningController extends Controller
         ])->validate();
 
         $earningPendingActivePackagesDate = $validated['date'];
-        $investment_start_at = Strategy::where('name', 'investment_start_at')->firstOr(fn() => new Strategy(['value' => 2]));
-        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
-            $earningPendingActivePackages = 0;
-        } else {
-            $earningPendingActivePackages = PurchasedPackage::with('user')
-                ->where('status', 'ACTIVE')
-                ->where('is_free_package', 1)
-                ->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$earningPendingActivePackagesDate}'")
-                ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $earningPendingActivePackagesDate))
-                //        ->toSql();
-                ->count();
-        }
+        $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
 
         $json['status'] = true;
         $json['message'] = 'Success';

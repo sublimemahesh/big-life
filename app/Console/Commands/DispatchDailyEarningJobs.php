@@ -65,6 +65,8 @@ class DispatchDailyEarningJobs extends Command
             $investment_start_at = Strategy::where('name', 'investment_start_at')->firstOr(fn() => new Strategy(['value' => 2]));
 //            Log::channel('daily')->notice("calculate:profit package earning starts at: `created_at` + INTERVAL {$investment_start_at->value} DAY <= NOW()");
             // Retrieve all users with purchased packages
+            Log::channel('daily')->notice("calculate:profit Total Active Packages count ({$date}): " . getPendingEarningsCount($date));
+
             $activePackages = PurchasedPackage::with('user')
                 ->where('status', 'active')
 //                ->where(function (Builder $query) {
