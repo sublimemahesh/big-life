@@ -45,6 +45,7 @@ class Transaction extends Model
         'proof_document',
         'repudiate_note',
         'status',
+        'create_order_request'
     ];
 
     protected $appends = [

@@ -30,19 +30,31 @@ class TransactionService
         return DataTables::eloquent($this->filter($user_id, $purchase_id))
             ->addColumn('trx_id', fn($trx) => '#' . str_pad($trx->id, '4', '0', STR_PAD_LEFT))
             ->addColumn('user', static function ($trx) {
-                return "ID: " . str_pad($trx->user_id, '4', '0', STR_PAD_LEFT) .
-                    "<br> <code class='text-uppercase'>{$trx->user->username}</code>";
+                if ($trx->user->hasRole('user') || !\Auth::user()->hasRole('user')) {
+                    return "ID: " . str_pad($trx->user_id, '4', '0', STR_PAD_LEFT) .
+                        "<br> <code class='text-uppercase'>{$trx->user->username}</code>";
+                }
+                return "Admin";
             })->addColumn('purchaser', static function ($trx) {
-                return "ID: " . str_pad($trx->purchaser_id, '4', '0', STR_PAD_LEFT) .
-                    "<br> <code class='text-uppercase'>{$trx->purchaser->username}</code>";
+                if ($trx->purchaser->hasRole('user') || !\Auth::user()->hasRole('user')) {
+                    return "ID: " . str_pad($trx->purchaser_id, '4', '0', STR_PAD_LEFT) .
+                        "<br> <code class='text-uppercase'>{$trx->purchaser->username}</code>";
+                }
+
+                return "Admin";
+            })
+            ->addColumn('package', function ($trx) {
+                return $trx->create_order_request_info?->goods->goodsName ?? '-';
+//                return "PRODUCT: <code class='text-uppercase'>" . $trx->package_type . '</code><br>' .
+//                "NAME: " . $trx->create_order_request_info->goods->goodsName ?? '-';
             })
             ->addColumn('package', fn($trx) => $trx->create_order_request_info->goods->goodsName ?? '-')
             ->addColumn('trx_amount', fn($trx) => number_format($trx->amount, 2))
             ->addColumn('paid_at', fn($trx) => Carbon::parse($trx->created_at)->format('Y-m-d H:i:s'))
             ->addColumn('type', static function ($trx) {
-                return "PRODUCT: <code class='text-uppercase'>" . $trx->package_type . '</code><br>' .
-                    "TYPE: <code class='text-uppercase'>" . $trx->type . '</code><br>' .
-                    "METHOD: <code class='text-uppercase'>" . $trx->pay_method . '</code>';
+                return $trx->pay_method;
+//                return "TYPE: <code class='text-uppercase'>" . $trx->type . '</code><br>' .
+//                    "METHOD: <code class='text-uppercase'>" . $trx->pay_method . '</code>';
             })
             //->addColumn('created_at', fn($trx) => $trx->created_at->format('Y-m-d h:i A'))
             //->addColumn('updated_at', fn($trx) => $trx->updated_at->format('Y-m-d h:i A'))
