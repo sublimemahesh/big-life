@@ -30,6 +30,7 @@ class RegisterSteps extends Component
         "email" => null,
         "password" => null,
         "super_parent_id" => null,
+        "position" => null,
         "sponsor" => null,
         "username" => null,
         "terms" => null,
@@ -46,6 +47,7 @@ class RegisterSteps extends Component
 
     protected function rules(): array
     {
+        $genealogy_children = config('genealogy.children', 2);
         return [
             'state.first_name' => ['required', 'string', 'max:255'],
             'state.last_name' => ['required', 'string', 'max:255'],
@@ -60,6 +62,7 @@ class RegisterSteps extends Component
                         $q->whereNotNull('position')->whereNotNull('parent_id');
                     })
             ],
+            'state.position' => ['required', "lte:{$genealogy_children}", 'gte:1',],
             'state.sponsor' => [
                 'nullable',
                 Rule::exists('users', 'username')

@@ -21,7 +21,7 @@ class GenealogyController extends Controller
 {
     public function index(Request $request, User|null $user)
     {
-
+        $genealogy_children = config('genealogy.children', 2);
         if ($user?->id === null) {
             $user = Auth::user();
         }
@@ -43,7 +43,7 @@ class GenealogyController extends Controller
 
             return response()->json($json);
         }
-        return view('backend.user.genealogy.index', compact('user', 'descendants'));
+        return view('backend.user.genealogy.index', compact('user', 'descendants', 'genealogy_children'));
     }
 
     /**
@@ -110,7 +110,7 @@ class GenealogyController extends Controller
     public function IncomeLevels(Request $request)
     {
         $user = Auth::user();
-
+         $genealogy_children = config('genealogy.children', 2);
         $income_levels = DB::select("WITH RECURSIVE member_levels AS (
                                 SELECT id, parent_id, 1 AS level
                                 FROM users
@@ -122,11 +122,11 @@ class GenealogyController extends Controller
                             )
                             SELECT
                                 ml.level,
-                                POWER(5, ml.level - 1) AS total_possible_members,
+                                POWER(:genealogy_children, ml.level - 1) AS total_possible_members,
                                 COUNT(*) AS member_count,
                                 SUM(CASE WHEN EXISTS (SELECT 1 FROM purchased_package pp WHERE pp.user_id = ml.id AND pp.status = 'active' AND pp.expired_at >= :expired_at) THEN 1 ELSE 0 END) AS active_sales_count
                             FROM member_levels ml
-                            GROUP BY ml.level;", ['user_id' => $user->id, 'expired_at' => Carbon::now()->format('Y-m-d H:i:s')]);
+                            GROUP BY ml.level;", ['user_id' => $user->id, 'genealogy_children' => $genealogy_children, 'expired_at' => Carbon::now()->format('Y-m-d H:i:s')]);
 
         $numberFormatter = new NumberFormatter('en_US', NumberFormatter::ORDINAL);
 
@@ -135,10 +135,11 @@ class GenealogyController extends Controller
 
     public function managePosition(Request $request, User $parent, $position)
     {
+        $genealogy_children = config('genealogy.children', 2);
         $validator = Validator::make(compact('position'), [
             'position' => [
                 'required',
-                'lte:5',
+                "lte:{$genealogy_children}",
                 'gte:1',
                 Rule::unique('users', 'position')
                     ->where('parent_id', $parent->id)
@@ -159,15 +160,15 @@ class GenealogyController extends Controller
 
         $pendingUsers = $loggedUser->directSales()
             ->whereNull('parent_id')
-            ->whereNull('position')
+            ->whereNull('parent_id')
             ->whereHas('activePackages')
             ->oldest()->get();
 
         $descendant_count = $loggedUser->descendants()->count();
         $parent->loadCount('children');
 
-        $available_spaces = 5 - $parent->children_count;
-        $available_percentage = ($available_spaces / 5) * 100;
+        $available_spaces = $genealogy_children - $parent->children_count;
+        $available_percentage = ($available_spaces / $genealogy_children) * 100;
 
 
         return view('backend.user.genealogy.manage-position', compact('parent', 'descendant_count', 'pendingUsers', 'position', 'loggedUser', 'available_spaces', 'available_percentage'));
@@ -175,9 +176,10 @@ class GenealogyController extends Controller
 
     public function assignPosition(Request $request, User $parent, $position): \Illuminate\Http\JsonResponse
     {
+        $genealogy_children = config('genealogy.children', 2);
         $loggedUser = Auth::user();
         $parent->loadCount('children');
-        $available_spaces = 5 - $parent->children_count;
+        $available_spaces = $genealogy_children - $parent->children_count;
 
         $validated = Validator::make([
             'position' => $position,
@@ -187,7 +189,7 @@ class GenealogyController extends Controller
             'available_spaces' => 'required|gte:1',
             'position' => [
                 'required',
-                'lte:5',
+                "lte:{$genealogy_children}",
                 'gte:1',
                 Rule::unique('users', 'position')
                     ->where('parent_id', $parent->id)
@@ -197,7 +199,7 @@ class GenealogyController extends Controller
                 Rule::exists('users', 'id')
                     ->where('super_parent_id', $loggedUser->id)
                     ->whereNull('parent_id')
-                    ->whereNull('position')
+                    ->whereNull('parent_id')
             ]
         ])->validate();
 
@@ -213,7 +215,7 @@ class GenealogyController extends Controller
         try {
             DB::transaction(static function () use ($assignedUser, $parent, $position) {
                 $assignedUser->update(['parent_id' => $parent->id, 'position' => $position]);
-                User::upgradeAncestorsRank($parent, 1, $position);
+                // User::upgradeAncestorsRank($parent, 1, $position);
 
                 $pending_commission_purchased_packages = $assignedUser->activePackages()->whereNull('commission_issued_at')->get();
                 foreach ($pending_commission_purchased_packages as $package) {
