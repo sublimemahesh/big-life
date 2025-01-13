@@ -48,7 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'phone_verified_at', 'super_parent_id', 'parent_id', 'username', 'position', 'suspended_at'
+        'name', 'email', 'password', 'phone', 'phone_verified_at', 'super_parent_id', 'parent_id', 'username', 'position', 'suspended_at',
+        'left_points_balance','right_points_balance'
     ];
 
     /**
@@ -192,6 +193,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function totalInvestment(): HasMany
     {
         return $this->purchasedPackages()->totalInvestment($this);
+    }
+
+    public function bvPointEarnings(): HasMany
+    {
+        return $this->hasMany(BvPointEarning::class, 'user_id');
+    }
+
+    public function bvPointRewards(): HasMany
+    {
+        return $this->hasMany(BvPointReward::class, 'user_id');
     }
 
     public function getDepthAttribute()

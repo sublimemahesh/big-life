@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -107,6 +108,11 @@ class PurchasedPackage extends Pivot
     public function transaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Transaction::class, 'transaction_id', 'id');
+    }
+
+    public function bvPointEarning(): HasOne
+    {
+        return $this->hasOne(BvPointEarning::class, 'purchased_package_id');
     }
 
     public function adminEarnings(): morphMany
