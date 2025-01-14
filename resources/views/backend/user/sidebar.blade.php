@@ -45,6 +45,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('user.bv_points.earnings') }}" class="rounded-1" aria-expanded="false">
+                    <i class="bi bi-currency-exchange"></i>
+                    <span class="nav-text">BV Points</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('user.ranks.summery') }}" class="rounded-1" aria-expanded="false">
                     <i class="bi bi-trophy-fill"></i>
                     <span class="nav-text"> Chart & Summery </span>

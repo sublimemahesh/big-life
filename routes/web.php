@@ -58,7 +58,7 @@ Route::get('test', function () {
 Route::get('payments/binancepay/response', 'Payment\BinancePayController@response');
 Route::get('payments/binancepay/fallback', 'Payment\BinancePayController@fallback');
 
-Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified','active_user', 'has_any_role']], function () {
+Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified', 'active_user', 'has_any_role']], function () {
 
     Route::withoutMiddleware('mobile_verified')->group(static function () {
         Route::get('verify/mobile', 'MobileVerifyController@index')->name('mobile.verification.notice');
@@ -342,6 +342,9 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::get('earnings', 'User\EarningController@index')->name('earnings.index');
         Route::get('earnings/summary-report', 'User\EarningController@earningSummary')->name('earnings.summary-report');
 
+        Route::get('bv-points/earnings', 'User\BvPointController@earnings')->name('bv_points.earnings');
+        Route::get('bv-points/rewards', 'User\BvPointController@rewards')->name('bv_points.rewards');
+
         Route::get('team/users-list', 'User\GenealogyController@teamList')->name('team.users-list');
         Route::get('team/income-levels', 'User\GenealogyController@IncomeLevels')->name('team.income-levels');
         Route::get('team/incomes/commission', 'User\EarningController@teamCommissionsIncome')->name('team.incomes.commission');
@@ -378,7 +381,6 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
 
         // Tutorial Request
         Route::get('tutorials', 'User\TutorialController@index')->name('tutorials.index');
-
 
 
         // support tickets

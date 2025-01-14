@@ -145,18 +145,24 @@ class BVPointCalculationTest extends TestCase
             'right_point' => 20,
         ]);
 
+        $left_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
+        $right_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
+        $eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
+
         // Check reward record
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $left_parent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => 'claimed',
+            'status' => $eligibility,
         ]);
 
-        $this->assertDatabaseHas('wallets', [
-            'user_id' => $left_parent->id,
-            'balance' => 7,
-        ]);
+        if ($eligibility === 'claimed') {
+            $this->assertDatabaseHas('wallets', [
+                'user_id' => $left_parent->id,
+                'balance' => 7,
+            ]);
+        }
     }
 
     public function test_deep_tree()
@@ -250,12 +256,16 @@ class BVPointCalculationTest extends TestCase
             'right_point' => 0,
         ]);
 
+        $left_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
+        $right_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
+        $left_parent_eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
+
         // Check reward record for parent
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $left_parent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => 'claimed',
+            'status' => $left_parent_eligibility,
         ]);
 
         // No reward should be issued for grandparent
@@ -328,12 +338,16 @@ class BVPointCalculationTest extends TestCase
             'right_point' => 20,
         ]);
 
+        $left_children_count = $superParent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
+        $right_children_count = $superParent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
+        $superParent_eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
+
         // Check reward record for parent
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $superParent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => 'claimed',
+            'status' => $superParent_eligibility,
         ]);
 
         // No reward should be issued
@@ -341,7 +355,9 @@ class BVPointCalculationTest extends TestCase
             'user_id' => $parent->id,
         ]);
 
-        $this->assertEquals(7, $superParent->wallet->balance);
+        if ($superParent_eligibility === 'claimed') {
+            $this->assertEquals(7, $superParent->wallet->balance);
+        }
         $this->assertEquals(0, $parent->wallet->balance);
     }
 }

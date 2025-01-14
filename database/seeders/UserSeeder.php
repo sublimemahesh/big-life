@@ -46,6 +46,7 @@ class UserSeeder extends Seeder
                     'username' => 'Alex',
                     'email' => 'noreply@wintogetherplan.com',
                     'email_verified_at' => now(),
+                    'phone_verified_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
                     'password' => Hash::make('Xl&6!O#8@m%$9M'), // password
