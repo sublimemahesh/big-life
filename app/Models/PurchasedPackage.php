@@ -6,6 +6,7 @@ use App\Traits\NextPaymentDate;
 use Carbon\Carbon;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -15,10 +16,12 @@ use JsonException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class PurchasedPackage extends Pivot
+class PurchasedPackage extends Model
 {
     use SoftDeletes, NextPaymentDate;
     use Loggable;
+
+    protected $table = 'purchased_package';
 
     protected $fillable = ['last_earned_at', 'commission_issued_at', 'transaction_id', 'user_id', 'purchaser_id', 'package_id', 'invested_amount', 'payable_percentage', 'status', 'expired_at', 'package_info'];
 
