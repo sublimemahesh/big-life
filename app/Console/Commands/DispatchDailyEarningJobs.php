@@ -48,7 +48,7 @@ class DispatchDailyEarningJobs extends Command
                 })
                 ->where('expired_at', '>=', Carbon::now())
                 ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', date('Y-m-d')))
-                ->chunk(100, function ($activePackages) {
+                ->chunkById(100, function ($activePackages) {
                     // Loop over each  active packages and calculate their profit
                     foreach ($activePackages as $package) {
                         // Set the desired execution time for the job

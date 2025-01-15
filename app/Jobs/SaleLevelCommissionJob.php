@@ -53,6 +53,10 @@ class SaleLevelCommissionJob implements ShouldQueue
      */
     public function handle()
     {
+
+        DispatchPendingBvPointsJob::dispatch();
+        CalculateBvPointsJob::dispatch($this->purchasedUser,$this->package);
+
         \DB::transaction(function () {
             $purchasedUser = $this->purchasedUser;
             $package = $this->package;

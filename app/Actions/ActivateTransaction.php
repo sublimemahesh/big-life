@@ -60,11 +60,14 @@ class ActivateTransaction
             $withdraw_limit = ($package->invested_amount * $max_withdraw_limit->value) / 100;
             $wallet->increment('withdraw_limit', $withdraw_limit);
 
-            if ($purchasedUser->position === null) {
-                if ($purchasedUser->super_parent_id === config('fortify.super_parent_id')) {
-                    logger()->notice("NewUserGenealogyAutoPlacement::class via BinancePayController");
-                    NewUserGenealogyAutoPlacement::dispatch($purchasedUser)->onConnection('sync');
-                }
+            if ($purchasedUser->parent_id === null) {
+                logger()->notice("NewUserGenealogyAutoPlacement::class via BinancePayController");
+                NewUserGenealogyAutoPlacement::dispatch($purchasedUser)->onConnection('sync');
+
+                // if ($purchasedUser->super_parent_id === config('fortify.super_parent_id')) {
+                //     logger()->notice("NewUserGenealogyAutoPlacement::class via BinancePayController");
+                //     NewUserGenealogyAutoPlacement::dispatch($purchasedUser)->onConnection('sync');
+                // }
                 if ($purchasedUser->id === config('fortify.super_parent_id')) {
                     if ($package->invested_amount <= 0) {
                         $package->update(['commission_issued_at' => now()]);

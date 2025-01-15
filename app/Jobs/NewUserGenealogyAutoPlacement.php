@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\BinaryPlaceEnum;
 use App\Models\User;
 use Arr;
 use DB;
@@ -42,27 +43,27 @@ class NewUserGenealogyAutoPlacement implements ShouldQueue
     {
         try {
             DB::transaction(function () {
-                if ($this->user->position !== null) {
-                    logger()->warning("NewUserGenealogyAutoPlacement::class : user: " . $this->user->id . " | Position is already assigned");
-                    return;
-                }
+                // if ($this->user->position !== null) {
+                //     logger()->warning("NewUserGenealogyAutoPlacement::class : user: " . $this->user->id . " | Position is already assigned");
+                //     return;
+                // }
                 if ($this->user->super_parent_id === null) {
                     logger()->warning("NewUserGenealogyAutoPlacement::class : user: " . $this->user->id . " | Super Parent is not exist");
                     return;
                 }
-                $available_parent_id = User::findAvailableSubLevel($this->user->super_parent_id);
+                $available_parent_id = User::findAvailableBinaryPlacement($this->user->super_parent_id, BinaryPlaceEnum::tryFrom($this->user->position));
                 if (empty($available_parent_id->id)) {
                     logger()->warning("NewUserGenealogyAutoPlacement::class : user: " . $this->user->id . " | No parent found with available nodes");
                     return;
                 }
-                $parent = User::find($available_parent_id->id);
-                $filled__position = $parent->children->pluck('position')->toArray();
-                $available__position = array_diff([1, 2, 3, 4, 5], $filled__position);
-                sort($available__position);
-                $available__position = Arr::first($available__position);
+                // $parent = User::find($available_parent_id->id);
+                // $filled__position = $parent->children->pluck('position')->toArray();
+                // $available__position = array_diff([1, 2, 3, 4, 5], $filled__position);
+                // sort($available__position);
+                // $available__position = Arr::first($available__position);
 
-                $this->user->update(['parent_id' => $available_parent_id->id, 'position' => $available__position]);
-                User::upgradeAncestorsRank($parent, 1, $available__position);
+                $this->user->update(['parent_id' => $available_parent_id->id]);
+                // User::upgradeAncestorsRank($parent, 1, $available__position);
 
                 $pending_commission_purchased_packages = $this->user->activePackages()->whereNull('commission_issued_at')->get();
                 foreach ($pending_commission_purchased_packages as $package) {

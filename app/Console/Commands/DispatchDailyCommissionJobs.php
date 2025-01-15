@@ -40,7 +40,7 @@ class DispatchDailyCommissionJobs extends Command
                 ->where('status', 'QUALIFIED')
                 ->whereDoesntHave('earnings', static function ($query) {
                     return $query->whereDate('created_at', date('Y-m-d'));
-                })->chunk(100, function ($activeCommissions) {
+                })->chunkById(100, function ($activeCommissions) {
                     foreach ($activeCommissions as $commission) {
                         $executionTime = Carbon::parse(date('Y-m-d') . ' ' . $commission->created_at->format('H:i:s'));
                         $this->info($executionTime);

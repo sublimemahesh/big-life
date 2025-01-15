@@ -37,8 +37,8 @@
                             <i class="ti-plug"></i>
                         </span>
                         <div class="media-body">
-                            <p class="mb-1">Selected Position Number</p>
-                            <h4 class="mb-0">{{ $position }}</h4>
+                            <p class="mb-1">Selected Position Placement</p>
+                            <h4 class="mb-0">{{ \App\Enums\BinaryPlaceEnum::tryFrom($position)?->name }}</h4>
                             <span><code>Tree Depth: {{ $parent->depth }}</code> </span>
                         </div>
                     </div>
