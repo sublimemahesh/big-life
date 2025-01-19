@@ -155,7 +155,7 @@ class GenealogyController extends Controller
         $loggedUser = Auth::user();
         $loggedUser->loadCount([
             'directSales',
-            'directSales as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')
+            'directSalesWithInactive as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')
         ]);
 
         $pendingUsers = $loggedUser->directSales()

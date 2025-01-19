@@ -149,6 +149,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(self::class, 'super_parent_id', 'id')->whereNotNull('parent_id');
     }
 
+    public function directSalesWithInactive(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(self::class, 'super_parent_id', 'id');
+    }
+
     public function wallet(): HasOne
     {
         return $this->hasOne(Wallet::class, 'user_id')->withDefault(new Wallet);

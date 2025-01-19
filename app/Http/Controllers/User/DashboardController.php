@@ -69,7 +69,7 @@ class DashboardController extends Controller
             ->whereStatus('DISQUALIFIED')
             ->sum('amount'), 2);
 
-        Auth::user()->loadCount(['directSales as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')]);
+        Auth::user()->loadCount(['directSalesWithInactive as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')]);
         $wallet = Auth::user()->wallet;
 
         // records
