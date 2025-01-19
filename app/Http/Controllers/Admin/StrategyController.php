@@ -154,10 +154,27 @@ class StrategyController extends Controller
         $validated = Validator::make($request->all(), [
             'withdrawal_limits_package' => ['required', 'integer'],
             'withdrawal_limits_commission' => 'required|integer',
-            'max_withdraw_limit' => 'required|integer',
-            'minimum_payout_limit' => 'required|integer',
+            'max_withdraw_limit' => ['required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }],
+            'minimum_payout_limit' => [
+                'required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }
+            ],
             'minimum_p2p_transfer_limit' => 'required|integer',
-            'daily_max_withdrawal_limits' => 'required|integer',
+            'daily_max_withdrawal_limits' => ['required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }],
             'withdrawal_days_of_week' => 'required|array|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
         ])->validate();
 
