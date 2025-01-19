@@ -146,7 +146,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function directSales(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(self::class, 'super_parent_id', 'id');
+        return $this->hasMany(self::class, 'super_parent_id', 'id')->whereNotNull('position');
     }
 
     public function wallet(): HasOne
