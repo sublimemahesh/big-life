@@ -12818,8 +12818,8 @@ label {
 @media only screen and (max-width: 47.9375rem) {
     .nav-header .logo-color {
         display: block;
-        height: 45px;
-        width: 45px;
+        height: auto;
+        width: 55px;
     }
 }
 

@@ -69,7 +69,7 @@ class InvoiceController extends Controller
         }
 
         $invoice['sender'] = (object)[
-            'name' => 'owara3m.com',
+            'name' => ' wintogetherplan.com',
             'registration_number' => null,
             'vat_number' => null,
             'address' => 'info@owara3m.com',
@@ -137,7 +137,7 @@ class InvoiceController extends Controller
                 $invoice['description'] .= " <br> <b>Reason:</b> {$withdraw->repudiate_note}";
             }
             $invoice['sender'] = (object)[
-                'name' => 'owara3m.com',
+                'name' => ' wintogetherplan.com',
                 'registration_number' => null,
                 'vat_number' => null,
                 'address' => 'info@owara3m.com',

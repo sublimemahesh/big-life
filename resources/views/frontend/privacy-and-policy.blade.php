@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'Privacy & Policy | Owara3m ')
+    @section('title', 'Privacy & Policy | Win Together ')
     @section('header-title', 'Welcome ')
     @section('header')
     @include('frontend.layouts.header-other')

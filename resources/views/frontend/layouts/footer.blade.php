@@ -98,7 +98,7 @@
         <div class="container p-t30">
             <div class="row">
                 <div class="wt-footer-bot-left">
-                    <span class="copyrights-text">© 2023 Owara3m. All Rights Reserved.</span>
+                    <span class="copyrights-text">© 2023 Win Together. All Rights Reserved.</span>
                 </div>
                 <div class="wt-footer-bot-right">
                     <ul class="copyrights-nav pull-right">
