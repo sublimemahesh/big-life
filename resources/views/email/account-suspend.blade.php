@@ -31,6 +31,6 @@
 
     <p>
         Best regards, <br>
-        wintogetherplan.com Team
+     wintogetherplan.com Team
     </p>
 @endsection
