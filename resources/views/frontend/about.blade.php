@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'About Us | Owara3m ')
+    @section('title', 'About Us | Win Together ')
     @section('header-title', 'Welcome ')
 
     @section('header')
@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="section-head text-left">
-                            <span class="wt-title-subline text-gray-dark font-16 m-b15">What is Owara3m</span>
+                            <span class="wt-title-subline text-gray-dark font-16 m-b15">What is Win Together</span>
                             <h2 class="text-uppercase">{{ $abouts->title }}</h2>
                             <div class="wt-separator-outer">
                                 <div class="wt-separator bg-primary"></div>
@@ -62,7 +62,7 @@
             <div class="container">
                 <!-- TITLE START-->
                 <div class="section-head text-center">
-                    <h2 class="text-uppercase">Why Choose Owara3m</h2>
+                    <h2 class="text-uppercase">Why Choose Win Together</h2>
                     <div class="wt-separator-outer">
                         <div class="wt-separator bg-primary"></div>
                     </div>
