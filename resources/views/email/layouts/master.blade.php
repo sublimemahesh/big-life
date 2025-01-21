@@ -55,7 +55,7 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <img src="https://www.owara3m.com/assets/frontend/images/logo-light.png" alt="{{ config('app.name','Win Together') }}" style="height: 50px;">
+                                        <img src="https://www.wintogetherplan.com/assets/frontend/images/logo-light.png" alt="{{ config('app.name','Win Together') }}" style="height: 50px;">
                                     </td>
                                     <td style="text-align: right; color:#999">
                                         <span>{{ config('app.name','Win Together') }}</span>

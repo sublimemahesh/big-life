@@ -37,7 +37,7 @@
                     <!-- TITLE START-->
                     <div class="section-head text-center">
 
-                        <p>Owara3m.com is a forex and cryptocurrency trading investment site that offers an opportunity
+                        <p>wintogetherplan.com is a forex and cryptocurrency trading investment site that offers an opportunity
                             for investors to participate in trading activities and potentially earn a profit share.
                             Here's how it works:</p>
                         <div class="wt-separator-outer">

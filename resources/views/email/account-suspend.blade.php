@@ -31,6 +31,6 @@
 
     <p>
         Best regards, <br>
-        owara3m.com Team
+        wintogetherplan.com Team
     </p>
 @endsection

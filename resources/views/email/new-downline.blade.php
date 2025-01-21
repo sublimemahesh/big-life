@@ -28,6 +28,6 @@
 
     <p>
         Best regards, <br>
-        owara3m.com
+        wintogetherplan.com
     </p>
 @endsection
