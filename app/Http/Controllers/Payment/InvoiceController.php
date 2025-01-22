@@ -72,8 +72,8 @@ class InvoiceController extends Controller
             'name' => ' wintogetherplan.com',
             'registration_number' => null,
             'vat_number' => null,
-            'address' => 'info@owara3m.com',
-            'email' => 'info@owara3m.com',
+            'address' => 'wintogetherplan@proton.me',
+            'email' => 'wintogetherplan@proton.me',
             'postal_code' => null,
             'phone' => null,
         ];
@@ -140,8 +140,8 @@ class InvoiceController extends Controller
                 'name' => ' wintogetherplan.com',
                 'registration_number' => null,
                 'vat_number' => null,
-                'address' => 'info@owara3m.com',
-                'email' => 'info@owara3m.com',
+                'address' => 'wintogetherplan@proton.me',
+                'email' => 'wintogetherplan@proton.me',
                 'postal_code' => null,
                 'phone' => null,
             ];
