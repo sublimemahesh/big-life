@@ -34,4 +34,4 @@
 
 <p style="margin-top:5px">Feel free to contact us anytime if you have any further inquiries.</p>
 
-<a href="mailto:info@owara3m">info@owara3m.com</a>
+<a href="mailto:wintogetherplan@proton.me">wintogetherplan@proton.me</a>
