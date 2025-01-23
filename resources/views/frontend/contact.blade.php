@@ -66,7 +66,7 @@
                             </div>
                             <div class="icon-content text-black">
                                 <h5 class="wt-tilte text-uppercase">Email</h5>
-                                <p>wintogetherplan@proton.me</p>
+                                <p>support@wintogetherplan.com</p>
                             </div>
                         </div>
                     </div>
