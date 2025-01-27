@@ -37,14 +37,15 @@ class DispatchPendingBvPointsJob implements ShouldQueue
     public function handle()
     {
         BvPointReward::where('status', 'pending')
-            ->withCount([
-                'user.directSales as left_direct_sales_count' => function (Builder $query) {
-                    $query->where('position', BinaryPlaceEnum::LEFT->value);
-                },
-                'user.directSales as right_direct_sales_count' => function (Builder $query) {
-                    $query->where('position', BinaryPlaceEnum::RIGHT->value);
-                }
-            ])
+            ->with('user')
+            // ->withCount([
+            //     'user.directSales as left_direct_sales_count' => function (Builder $query) {
+            //         $query->where('position', BinaryPlaceEnum::LEFT->value);
+            //     },
+            //     'user.directSales as right_direct_sales_count' => function (Builder $query) {
+            //         $query->where('position', BinaryPlaceEnum::RIGHT->value);
+            //     }
+            // ])
             ->whereHas('user', function (Builder $query) {
                 // Ensure the user has at least one direct left child and one direct right child
                 $query->whereRelation('directSales', 'position', BinaryPlaceEnum::LEFT->value)
@@ -57,10 +58,11 @@ class DispatchPendingBvPointsJob implements ShouldQueue
                         $user = $reward->user instanceof User ? $reward->user : User::find($reward->user_id);
                         $reward_user_wallet = $user->wallet();
 
-                        // $left_children_count = $user->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
-                        // $right_children_count = $user->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
-                        $left_children_count = $reward->left_direct_sales_count;
-                        $right_children_count = $reward->right_direct_sales_count;
+                        $left_children_count = $user->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
+                        $right_children_count = $user->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
+
+                        // $left_children_count = $reward->left_direct_sales_count;
+                        // $right_children_count = $reward->right_direct_sales_count;
 
                         Log::info("Reward {$user->id} user {$reward->id} direct sales count: ", [
                             'left_children_count' => $left_children_count,

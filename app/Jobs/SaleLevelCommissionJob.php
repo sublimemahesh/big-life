@@ -65,7 +65,7 @@ class SaleLevelCommissionJob implements ShouldQueue
             "SaleLevelCommissionJob Started | PURCHASE PACKAGE: {$this->package->id} | " .
             "USER : {$this->purchasedUser->username} - {$this->purchasedUser->id}"
         );
-        
+
         DispatchPendingBvPointsJob::dispatch();
         CalculateBvPointsJob::dispatch($this->purchasedUser,$this->package);
 
@@ -79,9 +79,9 @@ class SaleLevelCommissionJob implements ShouldQueue
                 return true;
             }
 
-            $level_commission_requirement = $strategies->where('name', 'level_commission_requirement')->first(null, fn() => new Strategy(['value' => 5]));
+            $level_commission_requirement = $strategies->where('name', 'level_commission_requirement')->first(null, fn() => new Strategy(['value' => 1]));
 
-            $commissions = $strategies->where('name', 'commissions')->first(null, fn() => new Strategy(['value' => '{"1":"5","2":"2.5","3":"1.5","4":"1"}']));
+            $commissions = $strategies->where('name', 'commissions')->first(null, fn() => new Strategy(['value' => '{"1":"8","2":"2","3":"1"}']));
             $commissions = json_decode($commissions->value, true, 512, JSON_THROW_ON_ERROR);
 
 
@@ -103,13 +103,13 @@ class SaleLevelCommissionJob implements ShouldQueue
                 $commission_level_strategy = $strategies->where('name', 'commission_level_count')->first(null, fn() => new Strategy(['value' => 4]));
                 $commission_level = (int)$commission_level_strategy->value;
 
-                $commission_level_user = $purchasedUser->parent instanceof User ? $purchasedUser->parent : User::find($purchasedUser->super_parent_id);
+                $commission_level_user = $purchasedUser->sponsor instanceof User ? $purchasedUser->sponsor : User::find($purchasedUser->super_parent_id);
                 for ($i = $commission_start_at; $i <= $commission_level; $i++) {
 
                     $commission_amount = ($package->invested_amount * $commissions[$i]) / 100;
 
                     $direct_sale_count = $commission_level_user->children()->count();
-                    $is_level_commission_requirement_satisfied = $direct_sale_count >= ($level_commission_requirement->value ?? 5);
+                    $is_level_commission_requirement_satisfied = $direct_sale_count >= ($level_commission_requirement->value ?? 1);
 
                     $isQualified = $commission_level_user->is_active && $is_level_commission_requirement_satisfied;
                     $commission_amount_left = $isQualified ? 0 : $commission_amount;
@@ -247,7 +247,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                             "LEVEL USER : {$commission_level_user->username} - {$commission_level_user->id}");
                         break;
                     }
-                    $commission_level_user = $commission_level_user->parent;
+                    $commission_level_user = $commission_level_user->sponsor;
                 }
             } else {
                 Log::channel('daily')->warning("NO DIRECT PARENT USER FOUND | PURCHASE PACKAGE: {$package->id} | USER: {$purchasedUser->username} - {$purchasedUser->id}");

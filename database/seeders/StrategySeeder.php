@@ -66,7 +66,7 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'commission_level_count',
                 'data_type' => 'int',
-                'value' => 4,
+                'value' => 3,
                 'comment' => 'How many levels are allowed to give commission',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -74,19 +74,19 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'commissions',
                 'data_type' => 'json',
-                'value' => '{"1":"5","2":"2.5","3":"1.5","4":"1"}',
+                'value' => '{"1":"8","2":"2","3":"1"}',
                 'comment' => 'Commission percentages for each commission allowed levels',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
+            /*[
                 'name' => 'trade_income',
                 'data_type' => 'json',
                 'value' => '{"1":"50","2":"25","3":"12.50","4":"6.25"}',
                 'comment' => 'Trade Income percentages for each level',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
+            ],*/
             [
                 'name' => 'rank_level_count',
                 'data_type' => 'int',

@@ -17,7 +17,7 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Log;
 
-class CalculateBvPointsJob implements ShouldQueue, ShouldBeUnique
+class CalculateBvPointsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,10 +31,6 @@ class CalculateBvPointsJob implements ShouldQueue, ShouldBeUnique
         //
     }
 
-    public function middleware()
-    {
-        return [(new WithoutOverlapping($this->package->id))->releaseAfter(60)];
-    }
 
     /**
      * Execute the job.
@@ -62,7 +58,7 @@ class CalculateBvPointsJob implements ShouldQueue, ShouldBeUnique
                 // Traverse the genealogy tree and issue BV points
                 $currentUser = $purchasedUser;
                 while ($currentUser->parent_id !== null) {
-                    $parent = $currentUser->parent instanceof User ? $currentUser->parent : null;
+                    $parent = $currentUser->parent instanceof User ? $currentUser->parent : User::find($currentUser->parent_id);
 
                     // Determine the side (left or right) based on the user's position
                     $left_side_point = 0;
