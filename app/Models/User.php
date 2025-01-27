@@ -37,11 +37,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = ['profile'];
 
-    public function getParentKeyName()
-    {
-        return 'super_parent_id';
-    }
-
     protected array $cascadeDeletes = ['ranks'];
 
     protected $dates = ['deleted_at'];

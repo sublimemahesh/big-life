@@ -212,7 +212,7 @@ class BVPointCalculationTest extends TestCase
         ]);
 
         // Dispatch the job
-        CalculateBvPointsJob::dispatch($purchasedUser, $package);
+        CalculateBvPointsJob::dispatch($purchasedUser, $package)->onConnection('sync');
 
         // Assertions for parent
         $leftChild->refresh();
@@ -308,7 +308,7 @@ class BVPointCalculationTest extends TestCase
         ]);
 
         // Dispatch the job
-        CalculateBvPointsJob::dispatch($purchasedUser, $package);
+        CalculateBvPointsJob::dispatch($purchasedUser, $package)->onConnection('sync');
 
         // Assertions
         $parent->refresh();
