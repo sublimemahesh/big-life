@@ -36,7 +36,6 @@ class ActivateTransaction
                 'invested_amount' => $transaction->package->amount,
                 'payable_percentage' => $transaction->package->daily_leverage,
                 'status' => 'ACTIVE',
-                'is_free_package' => strtoupper($transaction->pay_method) === 'FREE',
                 'expired_at' => Carbon::now()->addMonths($transaction->package->month_of_period)->format('Y-m-d H:i:s'),
                 'package_info' => $transaction->package->toJson(),
             ]);

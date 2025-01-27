@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\ActivityLogAction;
 use App\Http\Controllers\Controller;
 use App\Models\Earning;
+use App\Models\PurchasedPackage;
+use App\Models\Strategy;
 use Artisan;
 use Exception;
 use Illuminate\Http\Request;
@@ -57,7 +59,11 @@ class EarningController extends Controller
         }
 //        $earningPendingActivePackagesDate = '2024-02-02';
         $earningPendingActivePackagesDate = date('Y-m-d');
-        $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
+            $earningPendingActivePackages = 0;
+        } else {
+            $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        }
         return view('backend.admin.users.earnings.index', compact('earningPendingActivePackages', 'earningPendingActivePackagesDate'));
     }
 
@@ -90,7 +96,11 @@ class EarningController extends Controller
         ])->validate();
 
         $earningPendingActivePackagesDate = $validated['date'];
-        $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
+            $earningPendingActivePackages = 0;
+        } else {
+            $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        }
 
         $json['status'] = true;
         $json['message'] = 'Success';

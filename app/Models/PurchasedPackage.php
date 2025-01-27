@@ -238,7 +238,7 @@ class PurchasedPackage extends Model
                     $date1 = Carbon::parse($period[0])->format('Y-m-d H:i:s');
                     $date2 = Carbon::parse($period[1])->format('Y-m-d H:i:s');
                     $query->when($date1 && $date2, fn($q) => $q->where('created_at', '>=', $date1)->where('created_at', '<=', $date2));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $query->whereDate('created_at', $period[0]);
                 } finally {
                     return;

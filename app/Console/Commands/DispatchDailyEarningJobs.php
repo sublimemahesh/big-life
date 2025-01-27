@@ -62,24 +62,23 @@ class DispatchDailyEarningJobs extends Command
 //        return CommandAlias::SUCCESS;
 
         if (!$execute_date->isWeekend()) {
-            $investment_start_at = Strategy::where('name', 'investment_start_at')->firstOr(fn() => new Strategy(['value' => 2]));
-//            Log::channel('daily')->notice("calculate:profit package earning starts at: `created_at` + INTERVAL {$investment_start_at->value} DAY <= NOW()");
+            // $investment_start_at = Strategy::where('name', 'investment_start_at')->firstOr(fn() => new Strategy(['value' => 2]));
+            // Log::channel('daily')->notice("calculate:profit package earning starts at: `created_at` + INTERVAL {$investment_start_at->value} DAY <= NOW()");
             // Retrieve all users with purchased packages
             Log::channel('daily')->notice("calculate:profit Total Active Packages count ({$date}): " . getPendingEarningsCount($date));
 
             $activePackages = PurchasedPackage::with('user')
                 ->where('status', 'active')
-//                ->where(function (Builder $query) {
-//                    $query->whereRaw(
-//                        "(WEEKDAY(`created_at`) IN (1,2,3,4) AND DATE(`created_at`) + INTERVAL 6 DAY <= DATE('" . Carbon::now() . "')) OR
-//                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 5 DAY <= DATE('" . Carbon::now() . "')) OR
-//	                        (WEEKDAY(`created_at`) IN (0,6) AND DATE(`created_at`) + INTERVAL 4 DAY <= DATE('" . Carbon::now() . "'))"
-//                    ) // after 5 days from package purchase
-//                    ->orWhereDate('created_at', '<', '2023-02-01');
-//                })
+                ->where(function (Builder $query) {
+                    $query->whereRaw(
+                        "(WEEKDAY(`created_at`) IN (1,2,3,4) AND DATE(`created_at`) + INTERVAL 6 DAY <= DATE('" . Carbon::now() . "')) OR
+                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 5 DAY <= DATE('" . Carbon::now() . "')) OR
+	                        (WEEKDAY(`created_at`) IN (0,6) AND DATE(`created_at`) + INTERVAL 4 DAY <= DATE('" . Carbon::now() . "'))"
+                    );
+                })
                 //->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$date}'") // after 5 days from package purchase
                 ->where('expired_at', '>=', Carbon::now())
-                ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $date))
+                ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $date)->where('type', 'PACKAGE'))
                 ->chunk(100, function ($activePackages) use ($date) {
                     // Loop over each  active packages and calculate their profit
                     foreach ($activePackages as $package) {
