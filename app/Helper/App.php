@@ -36,7 +36,7 @@ function getPendingEarningsCount(mixed $earningPendingActivePackagesDate): int
                 );
             })
             //->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$earningPendingActivePackagesDate}'")
-            ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $earningPendingActivePackagesDate))
+            ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $earningPendingActivePackagesDate)->where('type', 'PACKAGE'))
             ->count();
     }
     return $earningPendingActivePackages;

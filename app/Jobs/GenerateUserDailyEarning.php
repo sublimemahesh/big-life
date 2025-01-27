@@ -52,11 +52,11 @@ class GenerateUserDailyEarning implements ShouldQueue
         try {
             DB::transaction(function () use ($purchase) {
                 $date = $this->date;
-                $earned = $purchase->earnings()->whereDate('created_at', $date)->doesntExist();
+                 $earned = $purchase->earnings()->whereDate('created_at', $date)->where('type', 'PACKAGE')->doesntExist();
                 // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', $date)->doesntExist();
                 if ($earned) {
 
-                    $purchase->loadSum('earnings', 'amount');
+                    $purchase->loadSum(['earnings' => fn($q) => $q->where('type', 'PACKAGE')], 'amount');
 
                     $payable_percentages = Strategy::where('name', 'payable_percentages')->firstOr(fn() => new Strategy(['value' => '{"direct":0.332,"indirect":0.332,"package":1}']));
                     $payable_percentages = json_decode($payable_percentages->value, false, 512, JSON_THROW_ON_ERROR);
@@ -83,7 +83,7 @@ class GenerateUserDailyEarning implements ShouldQueue
                             "User: {$purchase->user->username} - {$purchase->user_id}");
                     }
 
-                    if ($purchase->investment_profit <= $purchase->earned_profit) {
+                    if ($purchase->investment_profit <= $purchase->package_earned_profit) {
                         $earned_amount = 0;
                         $purchase->update(['status' => 'EXPIRED']);
                         Log::channel('daily')->warning(
