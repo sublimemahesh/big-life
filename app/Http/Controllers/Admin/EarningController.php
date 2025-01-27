@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\ActivityLogAction;
 use App\Http\Controllers\Controller;
 use App\Models\Earning;
+use App\Models\PurchasedPackage;
+use App\Models\Strategy;
 use Artisan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use JsonException;
 use Symfony\Component\HttpFoundation\Response;
+use Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class EarningController extends Controller
@@ -54,23 +57,56 @@ class EarningController extends Controller
                 ->rawColumns(['user', 'earnable_type'])
                 ->make();
         }
-        return view('backend.admin.users.earnings.index');
+//        $earningPendingActivePackagesDate = '2024-02-02';
+        $earningPendingActivePackagesDate = date('Y-m-d');
+        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
+            $earningPendingActivePackages = 0;
+        } else {
+            $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        }
+        return view('backend.admin.users.earnings.index', compact('earningPendingActivePackages', 'earningPendingActivePackagesDate'));
     }
 
     /**
      * @throws JsonException
      */
-    public function calculateProfit(ActivityLogAction $activityLog): \Illuminate\Http\JsonResponse
+    public function calculateProfit(Request $request, ActivityLogAction $activityLog): \Illuminate\Http\JsonResponse
     {
         abort_if(Gate::denies('generate_daily_package_earnings'), Response::HTTP_FORBIDDEN);
         $activityLog->exce('generate_daily_package_earnings');
+        $validated = Validator::make($request->all(), [
+            'date' => ['required', 'date', 'date_format:Y-m-d', 'before_or_equal:today'],
+        ])->validate();
+
         //$this->authorize('calculate_profit');
-        $res = Artisan::call('calculate:profit');
+        $res = Artisan::call("calculate:profit {$validated['date']}");
         $json['status'] = $res === 0;
         $json['message'] = Artisan::output();
         $json['icon'] = $res === 0 ? 'success' : 'error'; // warning | info | question | success | error
         $code = $res === 0 ? 200 : 422;
         return response()->json($json, $code);
+    }
+
+    public function getPendingEarnings(Request $request): \Illuminate\Http\JsonResponse
+    {
+        abort_if(Gate::denies('generate_daily_package_earnings'), Response::HTTP_FORBIDDEN);
+
+        $validated = Validator::make($request->all(), [
+            'date' => ['required', 'date', 'date_format:Y-m-d', 'before_or_equal:today'],
+        ])->validate();
+
+        $earningPendingActivePackagesDate = $validated['date'];
+        if (\Carbon::parse($earningPendingActivePackagesDate)->isWeekend()) {
+            $earningPendingActivePackages = 0;
+        } else {
+            $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
+        }
+
+        $json['status'] = true;
+        $json['message'] = 'Success';
+        $json['icon'] = 'success'; // warning | info | question | success | error
+        $json['data'] = compact('earningPendingActivePackages', 'earningPendingActivePackagesDate');
+        return response()->json($json, 200);
     }
 
     /**

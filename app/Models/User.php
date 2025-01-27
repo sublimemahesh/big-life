@@ -7,6 +7,7 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +21,6 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
-use Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 use Throwable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -139,17 +139,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->purchasedPackages()->activePackages()->count() >= 1;
     }
 
-    public function sponsor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function sponsor(): BelongsTo
     {
         return $this->belongsTo(self::class, 'super_parent_id', 'id')->withDefault();
     }
 
-    public function directSales(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function directSales(): HasMany
     {
         return $this->hasMany(self::class, 'super_parent_id', 'id')->whereNotNull('parent_id');
     }
 
-    public function directSalesWithInactive(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function directSalesWithInactive(): HasMany
     {
         return $this->hasMany(self::class, 'super_parent_id', 'id');
     }
@@ -159,17 +159,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Wallet::class, 'user_id')->withDefault(new Wallet);
     }
 
-    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class, 'user_id', 'id')->withDefault(new Profile);
     }
 
-    public function purchasedPackages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function purchasedPackages(): HasMany
     {
         return $this->hasMany(PurchasedPackage::class, 'user_id', 'id');
     }
 
-    public function activePackages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function activePackages(): HasMany
     {
         return $this->purchasedPackages()->activePackages();
 
@@ -185,12 +185,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->descendantPackages()->activePackages();
     }
 
-    public function earnings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function earnings(): HasMany
     {
         return $this->hasMany(Earning::class, 'user_id');
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'user_id', 'id');
     }

@@ -12736,7 +12736,7 @@ label {
 
 .nav-header {
     height: 5rem;
-    width: 18.75rem;
+    width: 19.5rem;
     display: inline-block;
     text-align: left;
     position: absolute;
@@ -17808,7 +17808,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .deznav {
-    width: 18.75rem;
+    width: 19.5rem;
     padding-bottom: 10px;
     height: calc(100% - 5rem);
     position: absolute;

@@ -40,8 +40,8 @@ class RegisterSteps extends Component
 
     public function mount()
     {
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
-        $this->state['sponsor'] = optional($this->sponsor)->username;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
+        $this->state['sponsor'] = $this->sponsor?->username;
         $this->disable_sponsor_modify = $this->sponsor->id !== null;
     }
 
@@ -97,11 +97,12 @@ class RegisterSteps extends Component
     public function updatedStateSponsor($value): void
     {
         $this->sponsor = User::where('username', $value)
+            ->whereRelation('roles', 'name', 'user')
             ->when(config('fortify.super_parent_username') !== $value, function ($q) {
                 $q->whereNotNull('position')->whereNotNull('parent_id');
             })
             ->firstOrNew();
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
 
         $this->validateOnly('state.sponsor');
     }
@@ -114,7 +115,7 @@ class RegisterSteps extends Component
                 $q->whereNotNull('position')->whereNotNull('parent_id');
             })
             ->findOrNew($value);
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
         $this->validateOnly('state.sponsor');
     }
 
