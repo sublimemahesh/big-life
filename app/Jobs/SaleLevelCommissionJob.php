@@ -314,9 +314,8 @@ class SaleLevelCommissionJob implements ShouldQueue
         });
 
 
-        CalculateBvPointsJob::dispatch($this->purchasedUser, $this->package)->chain([
-            DispatchPendingBvPointsJob::dispatch()
-        ]);
+        CalculateBvPointsJob::dispatch($this->purchasedUser, $this->package)->onConnection('sync')->afterResponse();
+        DispatchPendingBvPointsJob::dispatch()->onConnection('sync')->afterResponse();
 
         Log::channel('daily')->info(
             "SaleLevelCommissionJob Exited | PURCHASE PACKAGE: {$this->package->id} | " .

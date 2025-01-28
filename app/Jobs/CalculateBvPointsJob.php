@@ -220,5 +220,7 @@ class CalculateBvPointsJob implements ShouldQueue
         } catch (\Throwable|\Exception|\Error $e) {
             Log::channel('bv-points')->error($e->getMessage() . " | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
         }
+
+        Log::channel('bv-points')->info("CalculateBvPointsJob exited");
     }
 }

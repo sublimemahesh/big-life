@@ -36,6 +36,7 @@ class DispatchPendingBvPointsJob implements ShouldQueue
      */
     public function handle()
     {
+        Log::channel('bv-points')->info("DispatchPendingBvPointsJob started");
         BvPointReward::where('status', 'pending')
             ->whereNull('parent_id')
             ->with('user')
@@ -83,5 +84,6 @@ class DispatchPendingBvPointsJob implements ShouldQueue
                     }
                 }
             });
+        Log::channel('bv-points')->info("DispatchPendingBvPointsJob exited");
     }
 }
