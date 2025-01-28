@@ -94,23 +94,94 @@ class CalculateBvPointsJob implements ShouldQueue
                     foreach (array_reverse($bv_points, true) as $points => $usdValue) {
                         if ($parent->left_points_balance >= $points && $parent->right_points_balance >= $points) {
 
+                            $isQualified = $parent->is_active;
+
                             // Create a reward record
                             $reward = BvPointReward::create([
                                 'user_id' => $parent->id,
                                 'bv_points' => $points,
                                 'amount' => $usdValue,
-                                'status' => $eligibility,
+                                'paid' => 0,
+                                'status' => $isQualified ? 'pending' : 'expired'
                             ]);
 
-                            if ($reward->status === 'claimed') {
-                                // Issue USD reward to the parent's wallet
-                                $wallet->increment("balance", $usdValue);
-                            }
+                            $usdValue_left = $isQualified ? 0 : $usdValue;
 
                             // Decrement the left and right BV points
                             $parent->decrement('left_points_balance', $points);
                             $parent->decrement('right_points_balance', $points);
 
+                            if ($isQualified) {
+
+                                $BvUserActivePackages = $parent->activePackages;
+                                foreach ($BvUserActivePackages as $activePackage) {
+                                    $already_earned_percentage = $activePackage->earned_profit;
+
+                                    $total_already_earned_income = ($activePackage->invested_amount / 100) * $already_earned_percentage;
+                                    $total_allowed_income = ($activePackage->invested_amount / 100) * $activePackage->total_profit_percentage;
+
+                                    // TODO: BUG $total_allowed_income is not accurate, use commission amount instead and fix
+                                    $remaining_income = $total_allowed_income - $total_already_earned_income;
+                                    if ($usdValue > $remaining_income) {
+                                        $activePackage->update(['status' => 'EXPIRED']);
+                                        Log::channel('daily')->info(
+                                            "Package {$activePackage->id} | " .
+                                            "COMPLETED {$total_already_earned_income}. | " .
+                                            "Purchased Date: {$activePackage->created_at} | " .
+                                            "User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+                                        $can_paid_bv_reward_amount = $remaining_income;
+                                        if ($can_paid_bv_reward_amount <= 0) {
+                                            continue;
+                                        }
+                                        $usdValue_left = $usdValue - $can_paid_bv_reward_amount;
+                                        $usdValue = $can_paid_bv_reward_amount;
+                                    } else {
+                                        $usdValue_left = 0;
+                                    }
+
+                                    $reward->increment('paid', $usdValue);
+
+                                    $total_already_earned_income = $activePackage->total_earned_profit + $usdValue;
+                                    $total_already_earned_income_percentage = ($total_already_earned_income / $activePackage->total_profit) * 100;
+                                    $total_already_earned_income_percentage_from_profit_percentage = ($total_already_earned_income_percentage / 100) * $activePackage->total_profit_percentage;
+
+                                    $activePackage->update(['earned_profit' => $total_already_earned_income_percentage_from_profit_percentage]);
+
+                                    if ($activePackage->total_profit <= ($total_already_earned_income)) {
+                                        $activePackage->update(['status' => 'EXPIRED']);
+                                        Log::channel('daily')->info(
+                                            "Package {$activePackage->id} | " .
+                                            "COMPLETED {$total_already_earned_income}. | " .
+                                            "Purchased Date: {$activePackage->created_at} | " .
+                                            "User: {$activePackage->user->username} - {$activePackage->user_id}");
+                                    }
+                                    if ($usdValue_left <= 0) {
+                                        break;
+                                    }
+                                    $usdValue = $usdValue_left;
+                                }
+
+                                $reward->update(['status' => $eligibility]);
+                                $reward->refresh();
+                                if ($reward->status === 'claimed') {
+                                    // Issue USD reward to the parent's wallet
+                                    $wallet->increment("balance", $reward->paid);
+                                }
+                            }
+
+                            if (!$isQualified || $usdValue_left > 0) {
+                                if ($usdValue_left !== $reward->amount) { // only add new record if reward qualified and left due to insufficient package-profit limit
+                                    BvPointReward::forceCreate([
+                                        'parent_id' => $reward->id,
+                                        'user_id' => $parent->id,
+                                        'bv_points' => $points,
+                                        'amount' => $usdValue_left,
+                                        'paid' => 0,
+                                        'status' => 'expired'
+                                    ]);
+                                }
+                            }
                             // Break the loop after issuing the highest possible reward
                             continue; // TODO: use continue or break after discussed the client requirement. for now assumed the all possible rewards are issued if criteria met
                         }

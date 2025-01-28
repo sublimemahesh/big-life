@@ -148,13 +148,13 @@ class BVPointCalculationTest extends TestCase
         $left_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
         $right_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
         $eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
-
+        $isQualified = $left_parent->is_active;
         // Check reward record
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $left_parent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => $eligibility,
+            'status' => $isQualified ? $eligibility : 'expired',
         ]);
 
         if ($eligibility === 'claimed') {
@@ -259,13 +259,13 @@ class BVPointCalculationTest extends TestCase
         $left_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
         $right_children_count = $left_parent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
         $left_parent_eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
-
+        $isQualified = $left_parent->is_active;
         // Check reward record for parent
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $left_parent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => $left_parent_eligibility,
+            'status' => $isQualified ? $left_parent_eligibility : 'expired',
         ]);
 
         // No reward should be issued for grandparent
@@ -341,13 +341,14 @@ class BVPointCalculationTest extends TestCase
         $left_children_count = $superParent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
         $right_children_count = $superParent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
         $superParent_eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
+        $isQualified = $superParent->is_active;
 
         // Check reward record for parent
         $this->assertDatabaseHas('bv_point_rewards', [
             'user_id' => $superParent->id,
             'bv_points' => 20,
             'amount' => 7, // USD value for 20 BV points
-            'status' => $superParent_eligibility,
+            'status' => $isQualified ? $superParent_eligibility : 'expired',
         ]);
 
         // No reward should be issued

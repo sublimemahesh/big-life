@@ -73,7 +73,7 @@
                                     <p class="mb-1">BV EARNINGS </p>
                                     <h4 class="text-white user-dashboard-card-font-size-change"> USDT {{ $earned_usdt }}</h4>
                                     <br>
-                                    <small> </small>
+                                    <small>EXPIRED: USDT {{ $expired_usdt }}</small>
                                 </div>
                             </div>
                         </div>

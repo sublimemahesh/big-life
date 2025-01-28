@@ -66,8 +66,6 @@ class SaleLevelCommissionJob implements ShouldQueue
             "USER : {$this->purchasedUser->username} - {$this->purchasedUser->id}"
         );
 
-        DispatchPendingBvPointsJob::dispatch();
-        CalculateBvPointsJob::dispatch($this->purchasedUser,$this->package);
 
         \DB::transaction(function () {
             $purchasedUser = $this->purchasedUser;
@@ -315,6 +313,10 @@ class SaleLevelCommissionJob implements ShouldQueue
             $package->update(['commission_issued_at' => now()]);
         });
 
+
+        CalculateBvPointsJob::dispatch($this->purchasedUser, $this->package)->chain([
+            DispatchPendingBvPointsJob::dispatch()
+        ]);
 
         Log::channel('daily')->info(
             "SaleLevelCommissionJob Exited | PURCHASE PACKAGE: {$this->package->id} | " .

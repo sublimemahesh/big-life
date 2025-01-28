@@ -22,7 +22,9 @@ $(function () {
             {data: "points", searchable: false, orderable: false},
             {data: "status", searchable: false, orderable: false},
             {data: "date", name: "created_at", searchable: false},
+            {data: "lost", searchable: false, orderable: false},
             {data: "amount", searchable: false, orderable: false},
+            {data: "paid", searchable: false, orderable: false},
         ],
         columnDefs: [
             {
@@ -33,7 +35,7 @@ $(function () {
             {
                 render: function (amount, type, full, meta) {
                     return `<div style="min-width:100px" class="text-right"> ${amount} </div>`;
-                }, targets: [3],
+                }, targets: [3,4,5],
             }
         ]
     });

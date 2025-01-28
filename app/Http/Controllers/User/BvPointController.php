@@ -36,24 +36,50 @@ class BvPointController extends Controller
 //        $right_point = BvPointEarning::where('user_id', Auth::user()->id)->sum('right_point');
         $left_point = Auth::user()->left_points_balance;
         $right_point = Auth::user()->right_points_balance;
-        $balanced_point = BvPointReward::where('user_id', Auth::user()->id)->sum('bv_points');
-        $earned_usdt = BvPointReward::where('user_id', Auth::user()->id)->where('status', 'claimed')->sum('amount');
-        $pending_usdt = BvPointReward::where('user_id', Auth::user()->id)->where('status', 'pending')->sum('amount');
+        $balanced_point = BvPointReward::where('user_id', Auth::user()->id)
+            ->whereNull('parent_id')
+            ->sum('bv_points');
+
+        $earned_usdt = BvPointReward::where('user_id', Auth::user()->id)
+            ->where('status', 'claimed')
+            ->whereNull('parent_id')
+            ->sum('paid');
+
+        $pending_usdt = BvPointReward::where('user_id', Auth::user()->id)
+            ->where('status', 'pending')
+            ->whereNull('parent_id')
+            ->sum('paid');
+
+        $expired_usdt = BvPointReward::where('user_id', Auth::user()->id)
+            ->whereNotNull('parent_id')
+            ->where('status', 'expired')
+            ->sum('amount');
 
         $left_direct_sales = Auth::user()->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
         $right_direct_sales = Auth::user()->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
 
-        return view('backend.user.bv-points.bvpoints-report', compact('left_point', 'right_point', 'balanced_point', 'earned_usdt', 'pending_usdt', 'left_direct_sales', 'right_direct_sales'));
+        return view('backend.user.bv-points.bvpoints-report', compact(
+            'left_point',
+            'right_point',
+            'balanced_point',
+            'earned_usdt',
+            'pending_usdt',
+            'expired_usdt',
+            'left_direct_sales',
+            'right_direct_sales'
+        ));
     }
 
     public function rewards(Request $request)
     {
         if ($request->wantsJson()) {
             $earnings = BvPointReward::with('user')
+                ->whereNull('parent_id')
                 ->where('user_id', Auth::user()->id);
 
             return DataTables::of($earnings)
                 ->addColumn('points', fn($point) => $point->bv_points)
+                ->addColumn('lost', fn($point) => $point->lost_amount)
                 ->addColumn('date', fn($point) => $point->created_at->format('Y-m-d H:i:s'))
                 ->make();
         }

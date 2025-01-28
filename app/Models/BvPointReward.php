@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,11 @@ class BvPointReward extends Model
         'amount',
         'status',
     ];
+
+    protected function getLostAmountAttribute(): float
+    {
+        return $this->amount - $this->paid;
+    }
 
     public function user(): BelongsTo
     {

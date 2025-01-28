@@ -37,6 +37,7 @@ class DispatchPendingBvPointsJob implements ShouldQueue
     public function handle()
     {
         BvPointReward::where('status', 'pending')
+            ->whereNull('parent_id')
             ->with('user')
             // ->withCount([
             //     'user.directSales as left_direct_sales_count' => function (Builder $query) {
@@ -73,7 +74,7 @@ class DispatchPendingBvPointsJob implements ShouldQueue
 
                         // Check if the user still has sufficient direct sales
                         if ($eligibility === 'claimed') {
-                            $reward_user_wallet->increment('balance', $reward->amount);
+                            $reward_user_wallet->increment('balance', $reward->paid);
                             // Update the reward status to 'claimed'
                             $reward->update(['status' => 'claimed']);
                         }
