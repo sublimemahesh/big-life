@@ -39,7 +39,7 @@ class CalculateBvPointsJob implements ShouldQueue
      */
     public function handle()
     {
-        $bv_points = config('genealogy.bv_points.balance_rewards', []);
+        // $bv_points = config('genealogy.bv_points.balance_rewards', []);
 
         // Fetch the package and user
         $package = $this->package;
@@ -47,13 +47,15 @@ class CalculateBvPointsJob implements ShouldQueue
 
         $package->refresh();
         if ($package->bvPointEarning()->exists()) {
-            logger()->warning("Purchased Package Already BV Points earned! (" . date('Y-m-d') . "). | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
+            Log::channel('bv-points')->warning("Purchased Package Already BV Points earned! (" . date('Y-m-d') . "). | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
             return;
         }
         try {
-            logger()->notice("Calculate Bv Points Job started. | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
+            Log::channel('bv-points')->notice("Calculate Bv Points Job started. | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
 
-            \DB::transaction(function () use ($bv_points, $package, $purchasedUser) {
+            \DB::transaction(function () use ($package, $purchasedUser) {
+                $step = 20; // Pattern increment step (20, 40, 60, ...)
+                $usdValueIncrement = 7; // USD increment for each step
 
                 // Traverse the genealogy tree and issue BV points
                 $currentUser = $purchasedUser;
@@ -91,15 +93,32 @@ class CalculateBvPointsJob implements ShouldQueue
 
                     $eligibility = $left_children_count > 0 && $right_children_count > 0 ? 'claimed' : 'pending';
 
-                    foreach (array_reverse($bv_points, true) as $points => $usdValue) {
-                        if ($parent->left_points_balance >= $points && $parent->right_points_balance >= $points) {
+                    // Get the maximum usable points that fit the pattern
+                    $usablePoints = min(
+                        floor($parent->left_points_balance / $step) * $step,
+                        floor($parent->right_points_balance / $step) * $step
+                    );
+
+                    // Remaining points
+                    $remainingLeft = $parent->left_points_balance % $step;
+                    $remainingRight = $parent->right_points_balance % $step;
+
+                    // Calculate USD value for the usable points
+                    $usdValue = ($usablePoints / $step) * $usdValueIncrement;
+
+                    Log::channel('bv-points')->info("User: {$parent->id} Balanced Points = $usablePoints, USD Value = $usdValue");
+                    Log::channel('bv-points')->info("User: {$parent->id} Remaining Left Points = $remainingLeft, Remaining Right Points = $remainingRight");
+
+                    if ($usablePoints >= $step && $usdValue >= $usdValueIncrement) {
+                        //foreach (array_reverse($bv_points, true) as $usablePoints => $usdValue) {
+                        if ($parent->left_points_balance >= $usablePoints && $parent->right_points_balance >= $usablePoints) {
 
                             $isQualified = $parent->is_active;
 
                             // Create a reward record
                             $reward = BvPointReward::create([
                                 'user_id' => $parent->id,
-                                'bv_points' => $points,
+                                'bv_points' => $usablePoints,
                                 'amount' => $usdValue,
                                 'paid' => 0,
                                 'status' => $isQualified ? 'pending' : 'expired'
@@ -108,8 +127,8 @@ class CalculateBvPointsJob implements ShouldQueue
                             $usdValue_left = $isQualified ? 0 : $usdValue;
 
                             // Decrement the left and right BV points
-                            $parent->decrement('left_points_balance', $points);
-                            $parent->decrement('right_points_balance', $points);
+                            $parent->decrement('left_points_balance', $usablePoints);
+                            $parent->decrement('right_points_balance', $usablePoints);
 
                             if ($isQualified) {
 
@@ -124,7 +143,7 @@ class CalculateBvPointsJob implements ShouldQueue
                                     $remaining_income = $total_allowed_income - $total_already_earned_income;
                                     if ($usdValue > $remaining_income) {
                                         $activePackage->update(['status' => 'EXPIRED']);
-                                        Log::channel('daily')->info(
+                                        Log::channel('bv-points')->info(
                                             "Package {$activePackage->id} | " .
                                             "COMPLETED {$total_already_earned_income}. | " .
                                             "Purchased Date: {$activePackage->created_at} | " .
@@ -150,7 +169,7 @@ class CalculateBvPointsJob implements ShouldQueue
 
                                     if ($activePackage->total_profit <= ($total_already_earned_income)) {
                                         $activePackage->update(['status' => 'EXPIRED']);
-                                        Log::channel('daily')->info(
+                                        Log::channel('bv-points')->info(
                                             "Package {$activePackage->id} | " .
                                             "COMPLETED {$total_already_earned_income}. | " .
                                             "Purchased Date: {$activePackage->created_at} | " .
@@ -175,7 +194,7 @@ class CalculateBvPointsJob implements ShouldQueue
                                     BvPointReward::forceCreate([
                                         'parent_id' => $reward->id,
                                         'user_id' => $parent->id,
-                                        'bv_points' => $points,
+                                        'bv_points' => $usablePoints,
                                         'amount' => $usdValue_left,
                                         'paid' => 0,
                                         'status' => 'expired'
@@ -183,14 +202,15 @@ class CalculateBvPointsJob implements ShouldQueue
                                 }
                             }
                             // Break the loop after issuing the highest possible reward
-                            continue; // TODO: use continue or break after discussed the client requirement. for now assumed the all possible rewards are issued if criteria met
+                            // continue; // TODO: use continue or break after discussed the client requirement. for now assumed the all possible rewards are issued if criteria met
+                        } else {
+                            // Log that no reward was issued for this parent
+                            Log::channel('bv-points')->info("No reward issued for user {$parent->id} due to insufficient balanced points.", [
+                                $parent->left_points_balance,
+                                $parent->right_points_balance
+                            ]);
                         }
-
-                        // Log that no reward was issued for this parent
-                        Log::info("No reward issued for user {$parent->id} due to insufficient balanced points.", [
-                            $parent->left_points_balance,
-                            $parent->right_points_balance
-                        ]);
+                        //}
                     }
 
                     // Move to the next parent
@@ -198,7 +218,7 @@ class CalculateBvPointsJob implements ShouldQueue
                 }
             });
         } catch (\Throwable|\Exception|\Error $e) {
-            logger()->error($e->getMessage() . " | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
+            Log::channel('bv-points')->error($e->getMessage() . " | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
         }
     }
 }

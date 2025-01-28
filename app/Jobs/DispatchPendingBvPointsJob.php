@@ -65,7 +65,7 @@ class DispatchPendingBvPointsJob implements ShouldQueue
                         // $left_children_count = $reward->left_direct_sales_count;
                         // $right_children_count = $reward->right_direct_sales_count;
 
-                        Log::info("Reward {$user->id} user {$reward->id} direct sales count: ", [
+                        Log::channel('bv-points')->info("Reward {$user->id} user {$reward->id} direct sales count: ", [
                             'left_children_count' => $left_children_count,
                             'right_children_count' => $right_children_count,
                         ]);
@@ -79,7 +79,7 @@ class DispatchPendingBvPointsJob implements ShouldQueue
                             $reward->update(['status' => 'claimed']);
                         }
                     } catch (\Exception $e) {
-                        Log::error("Failed to process reward for user {$reward->user_id}: " . $e->getMessage());
+                        Log::channel('bv-points')->error("Failed to process reward for user {$reward->user_id}: " . $e->getMessage());
                     }
                 }
             });
