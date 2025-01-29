@@ -51,7 +51,7 @@ class BvPointController extends Controller
             ->sum('paid');
 
         $expired_usdt = BvPointReward::where('user_id', Auth::user()->id)
-            ->whereNotNull('parent_id')
+            //->whereNotNull('parent_id')
             ->where('status', 'expired')
             ->sum('amount');
 
