@@ -110,6 +110,7 @@ class WalletTopupHistoryController extends Controller
                 'amount' => $validated['amount'],
                 'proof_documentation' => $proof_documentation,
                 'remark' => $validated['remark'],
+                'status' => 'SUCCESS',
             ]);
 
             $topup->earnings()->save(Earning::forceCreate([
