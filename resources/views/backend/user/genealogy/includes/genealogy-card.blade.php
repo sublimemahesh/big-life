@@ -26,17 +26,17 @@
             </div>
 
 
-            <div class="col-sm-12 col-12" title="Members : {{ $user->descendants->count() }}">
+            <div class="col-sm-12 col-12" title="Members : {{ $user->descendants->whereNotNull('parent_id')->count() }}">
                 <label style="background: #1fcde8;width:50px;;border-radius:10%;">
                     <div style="text-align:left; padding: 4px 6px 4px 6px" class="d-flex flex-row align-items-center justify-content-evenly">
                         <i class="fa fa-street-view" aria-hidden="true" style="font-size:10px"></i>
                         &nbsp;
                         <span style="font-size: 12px;">
-                            {{ $user->descendants->where('position', \App\Enums\BinaryPlaceEnum::LEFT->value)->count() }}
+                            {{ $user->descendants->whereNotNull('parent_id')->where('position', \App\Enums\BinaryPlaceEnum::LEFT->value)->count() }}
                         </span>
                         &nbsp;&boxv;&nbsp;
                         <span style="font-size: 12px;">
-                            {{ $user->descendants->where('position', \App\Enums\BinaryPlaceEnum::RIGHT->value)->count() }}
+                            {{ $user->descendants->whereNotNull('parent_id')->where('position', \App\Enums\BinaryPlaceEnum::RIGHT->value)->count() }}
                         </span>
                     </div>
                 </label>
