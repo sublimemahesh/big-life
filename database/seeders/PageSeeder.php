@@ -80,7 +80,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id' => null,
-                'title' => 'FAQ  KYC APPROVAL',
+                'title' => 'FAQ KYC APPROVAL',
                 'slug' => 'faq-kyc-approval',
                 'image' => null,
                 'content' => null,
@@ -89,7 +89,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id' => null,
-                'title' => 'FAQ  BUY PACKAGES',
+                'title' => 'FAQ BUY PACKAGES',
                 'slug' => 'faq-buy-packages',
                 'image' => null,
                 'content' => null,
@@ -98,7 +98,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id' => null,
-                'title' => 'FAQ  INVITE MEMBERS',
+                'title' => 'FAQ INVITE MEMBERS',
                 'slug' => 'faq-invite-members',
                 'image' => null,
                 'content' => null,
@@ -162,7 +162,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 8,
-                'title' => 'Kyc Approval  Question 01 ?',
+                'title' => 'Kyc Approval Question 01 ?',
                 'slug' => 'kyc-approval-question-01',
                 'image' => null,
                 'content' => null,
@@ -171,7 +171,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 8,
-                'title' => 'Kyc Approval  Question 02 ?',
+                'title' => 'Kyc Approval Question 02 ?',
                 'slug' => 'kyc-approval-question-02',
                 'image' => null,
                 'content' => null,
@@ -180,7 +180,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 8,
-                'title' => 'Kyc Approval  Question 03 ?',
+                'title' => 'Kyc Approval Question 03 ?',
                 'slug' => 'kyc-approval-question-03',
                 'image' => null,
                 'content' => null,
@@ -189,7 +189,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 8,
-                'title' => 'Kyc Approval  Question 04 ?',
+                'title' => 'Kyc Approval Question 04 ?',
                 'slug' => 'kyc-approval-question-04',
                 'image' => null,
                 'content' => null,
@@ -198,7 +198,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 9,
-                'title' => 'Faq Buy Packages  Question 01 ?',
+                'title' => 'Faq Buy Packages Question 01 ?',
                 'slug' => 'faq-buy-packages-question-01',
                 'image' => null,
                 'content' => null,
@@ -207,7 +207,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 9,
-                'title' => 'Faq Buy Packages  Question 02 ?',
+                'title' => 'Faq Buy Packages Question 02 ?',
                 'slug' => 'faq-buy-packages-question-02',
                 'image' => null,
                 'content' => null,
@@ -216,7 +216,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 9,
-                'title' => 'Faq Buy Packages  Question 03 ?',
+                'title' => 'Faq Buy Packages Question 03 ?',
                 'slug' => 'faq-buy-packages-question-03',
                 'image' => null,
                 'content' => null,
@@ -225,7 +225,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 9,
-                'title' => 'Faq Buy Packages  Question 04 ?',
+                'title' => 'Faq Buy Packages Question 04 ?',
                 'slug' => 'faq-buy-packages-question-04',
                 'image' => null,
                 'content' => null,
@@ -234,7 +234,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 10,
-                'title' => 'Faq Invite Members Question  01 ?',
+                'title' => 'Faq Invite Members Question 01 ?',
                 'slug' => 'faq-invite-members-question-01',
                 'image' => null,
                 'content' => null,
@@ -243,7 +243,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 10,
-                'title' => 'Faq Invite Members Question  02 ?',
+                'title' => 'Faq Invite Members Question 02 ?',
                 'slug' => 'faq-invite-members-question-02',
                 'image' => null,
                 'content' => null,
@@ -252,7 +252,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'parent_id ' => 10,
-                'title' => 'Faq Invite Members  Question  03 ?',
+                'title' => 'Faq Invite Members Question 03 ?',
                 'slug' => 'faq-invite-members-question-03',
                 'image' => null,
                 'content' => null,
@@ -262,7 +262,7 @@ class PageSeeder extends Seeder
 
             [
                 'parent_id ' => 10,
-                'title' => 'Faq Invite Members  Question 04 ?',
+                'title' => 'Faq Invite Members Question 04 ?',
                 'slug' => 'faq-invite-members-question-04',
                 'image' => null,
                 'content' => null,
@@ -360,7 +360,7 @@ class PageSeeder extends Seeder
             ],
 
 
-           
+
 
         ]);
     }

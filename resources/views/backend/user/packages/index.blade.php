@@ -168,7 +168,7 @@
                                             <div class="mb-3"></div>
                                             <img class="w-100 img-thumbnail" src="{{ asset('assets/images/binance-qr.jpg') }}" alt="wallet-address">
                                             <div class="mt-4">
-                                                <span class="fs-17">TLbnK7HxaasQKN67RqtAZ7t59NJ3JupmQh</span>
+                                                <span class="fs-17">TCnvwSL6pshsspKJSkkYXgFp9AUBotthNq</span>
                                             </div>
                                         </div>
                                     </a>
