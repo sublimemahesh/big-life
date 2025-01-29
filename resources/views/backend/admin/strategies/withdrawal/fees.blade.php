@@ -18,12 +18,12 @@
                             <input class="form-control" value="{{ $staking_withdrawal_fee->value }}" id="staking_withdrawal_fee" name="staking_withdrawal_fee" placeholder="Payout transfer fee" type="text">
                         </div>
                     </div>
-                    <div class="form-group row mb-2">
+                    {{-- <div class="form-group row mb-2">
                         <label class="col-sm-3 col-form-label" for="p2p_transfer_fee">P2P transfer fee (USD)</label>
                         <div class="col-sm-9">
                             <input class="form-control" value="{{ $p2p_transfer_fee->value }}" id="p2p_transfer_fee" name="p2p_transfer_fee" placeholder="P2P transfer fee" type="text">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <button type="submit" id="save-transaction-strategies" class="btn btn-primary">Save</button>
