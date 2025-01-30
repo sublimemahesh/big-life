@@ -55,7 +55,7 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <img src="https://www.owara3m.com/assets/frontend/images/email-logo.png" alt="{{ config('app.name','Owara3m') }}" style="height: 70px;">
+                                        <img src="https://www.wintogetherplan.com/assets/frontend/images/email-logo.png" alt="{{ config('app.name','Owara3m') }}" style="height: 70px;">
                                     </td>
                                     <td style="text-align: right; color:#999">
                                         <span>{{ config('app.name','Owara3m') }}</span>
