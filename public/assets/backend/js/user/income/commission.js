@@ -43,7 +43,7 @@ $(function () {
             $(api.column(5).footer()).html(`${amountTotal}`);
 
             let paidTotal8 = new Intl.NumberFormat().format(sumVal(6));
-            $(api.column(6).footer()).append(`${paidTotal8}`);
+            $(api.column(6).footer()).html(`${paidTotal8}`);
         },
         columnDefs: [
             {
