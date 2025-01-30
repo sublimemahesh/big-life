@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Email check 
+// Route::get('/thank-you', function () {
+//     return view('email.thank');
+// });
+
+
+
+
+
 Route::get('/', 'FrontendController@index')->name('/');
 Route::get('about-us', 'FrontendController@about')->name('about');
 Route::get('existing-projects', 'FrontendController@project')->name('project');
