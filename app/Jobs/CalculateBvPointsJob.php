@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Enums\BinaryPlaceEnum;
 use App\Models\BvPointEarning;
 use App\Models\BvPointReward;
+use App\Models\Earning;
 use App\Models\PurchasedPackage;
 use App\Models\User;
 use App\Models\Wallet;
@@ -74,7 +75,7 @@ class CalculateBvPointsJob implements ShouldQueue
                     }
 
                     // Create a point earning record
-                    BVPointEarning::create([
+                    $pointEarning = BVPointEarning::create([
                         "user_id" => $parent->id,
                         "purchased_package_id" => $package->id,
                         "purchaser_id" => $purchasedUser->id,
@@ -117,7 +118,10 @@ class CalculateBvPointsJob implements ShouldQueue
 
                             // Create a reward record
                             $reward = BvPointReward::create([
+                                'bv_point_earning_id' => $pointEarning->id,
                                 'user_id' => $parent->id,
+                                'purchased_package_id' => $package->id,
+                                'level_user_id' => $purchasedUser->id,
                                 'bv_points' => $usablePoints,
                                 'amount' => $usdValue,
                                 'paid' => 0,
@@ -159,6 +163,17 @@ class CalculateBvPointsJob implements ShouldQueue
                                         $usdValue_left = 0;
                                     }
 
+                                    $earning = $reward->earnings()->save(Earning::forceCreate([
+                                        'user_id' => $reward->user_id,
+                                        'level_user_id' => $purchasedUser->id,
+                                        // 'income_level' => null,
+                                        'purchased_package_id' => $activePackage->id,
+                                        'amount' => $usdValue,
+                                        // 'payed_percentage' => null,
+                                        'type' => "BV",
+                                        'status' => 'HOLD',
+                                    ]));
+
                                     $reward->increment('paid', $usdValue);
 
                                     $total_already_earned_income = $activePackage->total_earned_profit + $usdValue;
@@ -185,6 +200,7 @@ class CalculateBvPointsJob implements ShouldQueue
                                 $reward->refresh();
                                 if ($reward->status === 'claimed') {
                                     // Issue USD reward to the parent's wallet
+                                    $reward->earnings()->where('status', 'HOLD')->update(['status' => 'RECEIVED']);
                                     $wallet->increment("balance", $reward->paid);
                                 }
                             }

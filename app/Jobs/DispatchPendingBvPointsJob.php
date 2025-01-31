@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Enums\BinaryPlaceEnum;
 use App\Models\BvPointReward;
+use App\Models\Earning;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Bus\Queueable;
@@ -75,6 +76,8 @@ class DispatchPendingBvPointsJob implements ShouldQueue
 
                         // Check if the user still has sufficient direct sales
                         if ($eligibility === 'claimed') {
+                            $reward->earnings()->where('status', 'HOLD')->update(['status' => 'RECEIVED']);
+
                             $reward_user_wallet->increment('balance', $reward->paid);
                             // Update the reward status to 'claimed'
                             $reward->update(['status' => 'claimed']);

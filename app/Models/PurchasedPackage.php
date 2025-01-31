@@ -77,7 +77,7 @@ class PurchasedPackage extends Model
      */
     public function getPackageInfoJsonAttribute()
     {
-        return json_decode($this->package_info ?? '[]', false, 512, JSON_THROW_ON_ERROR);
+        return json_decode($this->package_info ?? '{"id": null, "name": "-", "slug": "-"}', false, 512, JSON_THROW_ON_ERROR);
     }
 
     public function getExpiryStatusChangedAtAttribute($date)

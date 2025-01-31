@@ -8,10 +8,19 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PackagePolicy
 {
-    use HandlesAuthorization; 
+    use HandlesAuthorization;
 
     public function purchase($user, Package $package, $max_amount)
     {
+        if ($package->amount >= 1000) {
+            return true;
+        }
+        if ($package->amount < 1000) {
+            $count = $user->purchasedPackages()->where('invested_amount', $package->amount)->count();
+            if ($count >= 2) {
+                return false;
+            }
+        }
         return $max_amount <= $package->amount;
     }
 
