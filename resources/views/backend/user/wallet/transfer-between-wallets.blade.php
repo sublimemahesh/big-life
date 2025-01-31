@@ -29,7 +29,7 @@
                             &emsp; Payout limit: <code>USDT {{ $wallet->withdraw_limit }}</code>
                         </p>
 
-                        <p>
+                        <p class="d-none">
                             EXTERNAL WALLET <br>
                             {{-- TOPUP WALLET <br> --}}
                             &emsp; Balance: <code>USDT {{ $wallet->topup_balance }}</code>
@@ -45,7 +45,7 @@
                                         Internal Wallet
                                     </div>
                                 </div>
-                                <div class="mb-3 mt-2">
+                                <div class="mb-3 mt-2 d-none">
                                     <label for="to-wallet">Send To</label>
                                     <select class="single-select-placeholder js-states select2-hidden-accessible" id="to-wallet">
                                         <option value="topup">External Wallet</option>
