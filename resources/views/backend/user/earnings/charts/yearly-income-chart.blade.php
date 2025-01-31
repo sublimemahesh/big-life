@@ -1,6 +1,6 @@
 <x-backend.layouts.app>
     @section('title', 'Income Chart | Summery')
-    @section('header-title', 'Yearly Income Chart ' )
+    @section('header-title', 'Yearly Income Chart' )
     @section('plugin-styles')
         <!-- Datatable -->
         <link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
