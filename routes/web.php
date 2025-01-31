@@ -161,9 +161,9 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         // STAKING END
 
         // topup
-        Route::get('wallet/topup', 'Admin\WalletTopupHistoryController@index')->name('wallet.topup');
+        // Route::get('wallet/topup', 'Admin\WalletTopupHistoryController@index')->name('wallet.topup');
         Route::get('wallet/topup/history', 'Admin\WalletTopupHistoryController@history')->name('wallet.topup.history');
-        Route::post('topup/wallet', 'Admin\WalletTopupHistoryController@topup');
+        // Route::post('topup/wallet', 'Admin\WalletTopupHistoryController@topup');
         Route::match(['get', 'post'], 'wallet/topup/{topupHistory}/confirm-requests', 'Admin\WalletTopupHistoryController@confirmTopupRequest')->name('wallet.topup.confirm-requests');
         Route::post('filter/users/{search_text}', 'Admin\WalletTopupHistoryController@findUsers');
 
@@ -329,10 +329,10 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         // Route::get('ranks/gifts', 'User\RankGiftController@index')->name('ranks.gifts');
         // Route::match(['get', 'post'], 'ranks/gifts/{gift}/shipping-info', 'User\RankGiftController@shippingInfo')->name('ranks.gifts.shipping-info');
 
-        Route::get('ranks/summery', 'User\RankController@RankSummary')->name('ranks.summery');
-        Route::get('ranks/benefits/summery', 'User\RankBenefitSummeryController@index')->name('ranks.benefits.summery');
-        Route::get('ranks/benefits/requirements', 'User\RankBenefitSummeryController@requirements')->name('ranks.benefits.requirements');
-        Route::get('ranks/team/rankers', 'User\RankController@teamRankers')->name('ranks.team-rankers');
+        // Route::get('ranks/summery', 'User\RankController@RankSummary')->name('ranks.summery');
+        // Route::get('ranks/benefits/summery', 'User\RankBenefitSummeryController@index')->name('ranks.benefits.summery');
+        // Route::get('ranks/benefits/requirements', 'User\RankBenefitSummeryController@requirements')->name('ranks.benefits.requirements');
+        // Route::get('ranks/team/rankers', 'User\RankController@teamRankers')->name('ranks.team-rankers');
 
         // My Genealogy
         // Route::get('genealogy/new-registration', 'User\GenealogyController@registerForm')->name('genealogy.position.register');
@@ -350,7 +350,7 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::get('transactions/invoice/steam/{transaction}', 'Payment\InvoiceController@streamPurchaseInvoice')->name('transactions.invoice.stream')->middleware('signed');
 
         Route::get('incomes/commission', 'User\EarningController@commission')->name('incomes.commission');
-        Route::get('incomes/rewards', 'User\EarningController@rewards')->name('incomes.rewards');
+        // Route::get('incomes/rewards', 'User\EarningController@rewards')->name('incomes.rewards');
         Route::get('earnings', 'User\EarningController@index')->name('earnings.index');
         Route::get('earnings/summary-report', 'User\EarningController@earningSummary')->name('earnings.summary-report');
 
@@ -367,11 +367,11 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::post('filter/users/{search_text}', 'User\WithdrawController@findUsers');
 
         Route::get('wallet', 'User\WalletController@index')->name('wallet.index');
-        Route::match(['get', 'post'], 'wallet/transfer/to-wallet', 'User\WalletTransferController@transfer')->name('wallet.transfer.to-wallet');
-        Route::get('wallet/transfer', 'User\WithdrawController@p2pTransfer')->name('wallet.transfer');
-        Route::post('wallet/transfer/p2p/2ft-verify', 'Payment\PayoutController@twoftVerifyP2P');
-        Route::post('wallet/transfer/p2p', 'Payment\PayoutController@p2pTransfer');
-        Route::match(['get', 'post'], 'wallet/transfer/p2p/{p2p}/confirmation', 'User\WithdrawController@p2pConfirm')->name('withdraw.confirm-p2p');
+        // Route::match(['get', 'post'], 'wallet/transfer/to-wallet', 'User\WalletTransferController@transfer')->name('wallet.transfer.to-wallet');
+        // Route::get('wallet/transfer', 'User\WithdrawController@p2pTransfer')->name('wallet.transfer');
+        // Route::post('wallet/transfer/p2p/2ft-verify', 'Payment\PayoutController@twoftVerifyP2P');
+        // Route::post('wallet/transfer/p2p', 'Payment\PayoutController@p2pTransfer');
+        // Route::match(['get', 'post'], 'wallet/transfer/p2p/{p2p}/confirmation', 'User\WithdrawController@p2pConfirm')->name('withdraw.confirm-p2p');
 
         Route::get('wallet/withdraw', 'User\WithdrawController@withdraw')->name('wallet.withdraw');
         Route::get('wallet/withdraws/{withdraw}/summery', 'User\WithdrawController@show')->name('wallet.withdraw.view');
@@ -379,16 +379,16 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::post('wallet/withdraw/binance', 'Payment\PayoutController@withdraw');
         Route::match(['get', 'post'], 'wallet/withdraws/{withdraw}/cancel-request', 'User\WithdrawController@cancelWithdraw')->name('wallet.withdraw.cancel');
 
-        Route::get('wallet/transfers/p2p/history', 'User\WithdrawController@p2pHistory')->name('transfers.p2p');
+        // Route::get('wallet/transfers/p2p/history', 'User\WithdrawController@p2pHistory')->name('transfers.p2p');
         Route::get('wallet/transfers/withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('transfers.withdrawals');
-        Route::get('wallet/transfers/staking-withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('staking.transfers.withdrawals');
+        // Route::get('wallet/transfers/staking-withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('staking.transfers.withdrawals');
 
         Route::get('wallet/transfer/invoice/{withdraw}', 'Payment\InvoiceController@showPayoutInvoice')->name('wallet.transfer.invoice')->middleware('signed');
         Route::get('wallet/transfer/invoice/steam/{withdraw}', 'Payment\InvoiceController@streamPayoutInvoice')->name('wallet.transfer.invoice.stream')->middleware('signed');
 
         // Topup Request
-        Route::match(['get', 'post'], 'wallet/request-topup-balance', 'User\WalletTopupHistoryController@index')->name('wallet.request-topup-balance');
-        Route::get('wallet/topup-requests/history', 'User\WalletTopupHistoryController@history')->name('wallet.topup-request.history');
+        // Route::match(['get', 'post'], 'wallet/request-topup-balance', 'User\WalletTopupHistoryController@index')->name('wallet.request-topup-balance');
+        // Route::get('wallet/topup-requests/history', 'User\WalletTopupHistoryController@history')->name('wallet.topup-request.history');
 
 
         // Tutorial Request

@@ -31,7 +31,7 @@ class BinancePayController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'package' => ['required', 'exists:packages,slug'],
-            'method' => ['required', 'in:binance,main,topup,manual'],/**/
+            'method' => ['required', 'in:manual'],/*binance,main,topup,*/
             'proof_document' => ['required_if:method,manual', 'nullable', 'file:pdf,jpg,jpeg,png'],
             'purchase_for' => [
                 'nullable',
@@ -47,13 +47,19 @@ class BinancePayController extends Controller
             ],
         ])->validate();
 
-        if (!empty($validated['purchase_for'])) {
-            $user = User::findOrFail($validated['purchase_for']);
-            $purchased_by = Auth::user();
-        } else {
-            $user = Auth::user();
-            $purchased_by = $user;
-        }
+        // TODO: Uncomment this if purchase_for enabled in future
+        //        if (!empty($validated['purchase_for'])) {
+        //            $user = User::findOrFail($validated['purchase_for']);
+        //            $purchased_by = Auth::user();
+        //        } else {
+        //            $user = Auth::user();
+        //            $purchased_by = $user;
+        //        }
+
+
+        // TODO: comment this if purchase_for enabled in future
+        $user = Auth::user();
+        $purchased_by = $user;
 
         $user->loadMax('purchasedPackages', 'invested_amount');
 

@@ -51,7 +51,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('user.ranks.summery') }}" class="rounded-1" aria-expanded="false">
+                <a href="{{ route('user.team.income-levels') }}" class="rounded-1" aria-expanded="false">
                     <i class="bi bi-trophy-fill"></i>
                     <span class="nav-text"> Chart & Summery </span>
                 </a>
