@@ -19,7 +19,7 @@ class StrategySeeder extends Seeder
                 'name' => 'payout_transfer_fee',
                 'data_type' => 'double',
                 'value' => 5,
-                'comment' => 'Transaction fee for payout to binance wallet',
+                'comment' => 'Transaction fee for withdrawal in percentage',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -66,7 +66,7 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'commission_level_count',
                 'data_type' => 'int',
-                'value' => 7,
+                'value' => 3,
                 'comment' => 'How many levels are allowed to give commission',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -74,11 +74,19 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'commissions',
                 'data_type' => 'json',
-                'value' => '{"1":25,"2":20,"3":15,"4":10,"5":5,"6":5,"7":5}',
+                'value' => '{"1":"8","2":"2","3":"1"}',
                 'comment' => 'Commission percentages for each commission allowed levels',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            /*[
+                'name' => 'trade_income',
+                'data_type' => 'json',
+                'value' => '{"1":"50","2":"25","3":"12.50","4":"6.25"}',
+                'comment' => 'Trade Income percentages for each level',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],*/
             [
                 'name' => 'rank_level_count',
                 'data_type' => 'int',
@@ -98,7 +106,7 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'rank_bonus',
                 'data_type' => 'int',
-                'value' => 10,
+                'value' => 0,
                 'comment' => 'Rank bonus percentage for selected rank level users',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -114,7 +122,7 @@ class StrategySeeder extends Seeder
             [
                 'name' => 'rank_gift',
                 'data_type' => 'int',
-                'value' => '5',
+                'value' => 0,
                 'comment' => 'Rank gift percentage for selected rank level users',
                 'created_at' => now(),
                 'updated_at' => now(),

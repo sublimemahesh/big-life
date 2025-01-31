@@ -8,6 +8,7 @@ use Exception;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -25,6 +26,11 @@ class Earning extends Model
     public function earnable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function purchasedPackage(): BelongsTo
+    {
+        return $this->belongsTo(PurchasedPackage::class)->withDefault();
     }
 
     /**
@@ -46,7 +52,7 @@ class Earning extends Model
                     return;
                 }
             })
-            ->when(!empty(request()->input('earning-type')) && in_array(request()->input('earning-type'), ['package', 'direct', 'indirect', 'rank_bonus', 'rank_gift', 'p2p', 'staking']),
+            ->when(!empty(request()->input('earning-type')) && in_array(request()->input('earning-type'), ['package', 'direct', 'indirect', 'bv'/*, 'rank_gift', 'p2p', 'staking'*/]),
                 static function ($query) {
                     $query->where('type', request()->input('earning-type'));
                 })

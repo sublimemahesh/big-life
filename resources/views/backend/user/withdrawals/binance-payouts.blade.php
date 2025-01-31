@@ -25,7 +25,7 @@
                         <h4 class="card-title">Binance Payout</h4>
                         <p>
                             Just so you know, transaction fees will be added to every withdrawal request based on your wallet type. <br>
-                            For wallets with type <code>"INTERNAL" & "EXTERNAL"</code>, he transaction fee is <code>USDT {{ $payout_transfer_fee->value }}</code>.<br>
+                            For wallets with type <code>"INTERNAL" </code>, The transaction fee is <code>USDT {{ $payout_transfer_fee->value }}%</code>.<br>
                             {{--For wallets with type <code>"STAKING"</code>, the transaction fee is <code>USDT {{ $staking_withdrawal_fee->value }}</code>.--}}
                         </p>
                         <p>
@@ -44,7 +44,7 @@
                             &emsp; Payout limit: <code>USDT {{ $wallet->withdraw_limit }}</code>
                         </p>
 
-                        <p>
+                        <p class="d-none">
                             EXTERNAL WALLET <br>
                             {{-- TOPUP WALLET <br> --}}
                             &emsp; Balance: <code>USDT {{ $wallet->topup_balance }}</code>
@@ -111,7 +111,7 @@
                                             </div>
                                         </label>
 
-                                        <label class="plan complete-plan col-sm-4" for="topup">
+                                        <label class="plan complete-plan col-sm-4 d-none" for="topup">
                                             <input type="radio" id="topup" name="wallet_type" value="topup"/>
                                             <div class="plan-content">
                                                 <img loading="lazy" src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/potted-plant-img.svg" alt=""/>

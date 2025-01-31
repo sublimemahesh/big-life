@@ -258,7 +258,14 @@ class PayoutController extends Controller
 
         $validated = Validator::make($request->all(), [
             'minimum_payout_limit' => 'required',
-            'amount' => ['required', 'numeric', 'min:' . $request->minimum_payout_limit],
+            'amount' => [
+                'required', 'numeric', 'min:' . $request->minimum_payout_limit,
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                },
+            ],
             'password' => 'required',
             'code' => 'nullable',
             'wallet_type' => 'required|in:main,topup,staking',
@@ -291,7 +298,7 @@ class PayoutController extends Controller
         $user_wallet = $user?->wallet;
 
         $strategies = Strategy::whereIn('name', ['payout_transfer_fee', 'minimum_payout_limit', 'staking_withdrawal_fee', 'daily_max_withdrawal_limits', 'withdrawal_days_of_week'])->get();
-        $minimum_payout_limit = $strategies->where('name', 'minimum_payout_limit')->first(null, fn() => new Strategy(['value' => 10]));
+        $minimum_payout_limit = $strategies->where('name', 'minimum_payout_limit')->first(null, fn() => new Strategy(['value' => 25]));
         $max_withdraw_limit = $user_wallet->withdraw_limit;
 
         if (!$this->checkTodayWithdrawalEligibility($strategies, $request->input('amount', 0))) {
@@ -302,7 +309,13 @@ class PayoutController extends Controller
         }
 
         $validated = Validator::make($request->all(), [
-            'amount' => ['required', 'numeric', 'min:' . $minimum_payout_limit->value],
+            'amount' => ['required', 'numeric', 'min:' . $minimum_payout_limit->value,
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }
+            ],
             'wallet_type' => ['required', 'in:main,topup'], //,staking
             'password' => 'required',
             'otp' => 'required|digits:6',
@@ -356,8 +369,8 @@ class PayoutController extends Controller
             $total_amount = $validated['amount'] + $staking_withdrawal_fee->value;
             $transaction_fee = $staking_withdrawal_fee->value;
         } else {
-            $total_amount = $validated['amount'] + $payout_transfer_fee->value;
-            $transaction_fee = $payout_transfer_fee->value;
+            $transaction_fee = ($validated['amount'] * $payout_transfer_fee->value) / 100;
+            $total_amount = $validated['amount'] + $transaction_fee;
         }
 
 

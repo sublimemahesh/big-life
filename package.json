@@ -22,7 +22,7 @@
         "moment": "^2.29.4",
         "npm": "^9.7.1",
         "or": "^0.2.0",
-        "sweetalert2": "^11.6.15",
+        "sweetalert2": "^11.15.10",
         "tailwindcss-dark-mode": "^1.1.7"
     }
 }

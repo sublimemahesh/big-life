@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\EnsureEmailIsVerified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,7 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         //'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class, // SL EMAIL IGNORE
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'verified' => EnsureEmailIsVerified::class,
         'mobile_verified' => \App\Http\Middleware\EnsureMobileIsVerified::class,
         'active_user' => \App\Http\Middleware\EnsureUserIsNotSuspended::class,
         'has_any_role' => \App\Http\Middleware\EnsureUserHasAnyRole::class,

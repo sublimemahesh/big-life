@@ -54,7 +54,7 @@
                 <li>
                     <a href="{{ route('admin.admin-wallet-transaction.index') }}">History</a>
                 </li>
-            @endcan 
+            @endcan
             @can('admin_wallet_withdrawal.viewAny')
                 <li>
                     <a href="{{ route('admin.admin-wallet-withdrawal.index') }}">Withdrawal</a>
@@ -114,8 +114,7 @@
         </ul>
     </li>
 @endcan--}}
-
-@can('wallet.topup')
+{{--@can('wallet.topup')
     <li>
         <a href="{{ route('admin.wallet.topup') }}" class="" aria-expanded="false">
             <i class="bi bi-send-plus"></i>
@@ -131,7 +130,7 @@
             <span class="nav-text">Topup History</span>
         </a>
     </li>
-@endcan
+@endcan--}}
 
 @can('users.genealogy')
     <li>
@@ -147,7 +146,16 @@
         <a href="{{ route('admin.transactions.index', ['date-range' => Carbon::now()->firstOfMonth()->format('Y-m-d') .' to '.Carbon::now()->endOfMonth()->format('Y-m-d')]) }}"
            class="" aria-expanded="false">
             <i class="bi fa-chain-broken"></i>
-            <span class="nav-text"> User Payments </span>
+            <span class="nav-text"> User Transactions </span>
+        </a>
+    </li>
+@endcan
+
+@can('withdrawals.viewAny')
+    <li>
+        <a href="{{ route('admin.transfers.withdrawals', ['status' => 'pending']) }}" class="" aria-expanded="false">
+            <i class="bi fa-arrow-turn-up"></i>
+            <span class="nav-text"> Withdrawals </span>
         </a>
     </li>
 @endcan
@@ -172,7 +180,21 @@
     </li>
 @endcan
 
-@can('withdraw.p2p.viewAny')
+@can('bv-reports.viewAny')
+    <li>
+        <a href="{{ route('admin.bv_points.earnings') }}" class="" aria-expanded="false">
+            <i class="bi bi-send-plus"></i>
+            <span class="nav-text">BV Points</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.bv_points.rewards') }}" class="" aria-expanded="false">
+            <i class="bi bi-send-plus"></i>
+            <span class="nav-text">BV Rewards</span>
+        </a>
+    </li>
+@endcan
+{{--@can('withdraw.p2p.viewAny')
     <li>
         <a href="{{ route('admin.transfers.p2p', ['status' => 'success','date-range' => Carbon::now()->firstOfMonth()->format('Y-m-d') .' to '.Carbon::now()->endOfMonth()->format('Y-m-d')]) }}"
            class="" aria-expanded="false">
@@ -180,27 +202,27 @@
             <span class="nav-text"> P2P Transactions </span>
         </a>
     </li>
-@endcan
+@endcan--}}
 
-@can('wallet.transfers-history.viewAny')
+{{--@can('wallet.transfers-history.viewAny')
     <li>
         <a href="{{ route('admin.transfers.wallets') }}" class="" aria-expanded="false">
             <i class="bi bi-arrow-clockwise"></i>
             <span class="nav-text"> Wallet Transactions </span>
         </a>
     </li>
-@endcan
+@endcan--}}
 
-@can('withdrawals.viewAny')
+@can('commissions.viewAny')
     <li>
-        <a href="{{ route('admin.transfers.withdrawals', ['status' => 'pending']) }}" class="" aria-expanded="false">
-            <i class="bi fa-arrow-turn-up"></i>
-            <span class="nav-text"> Withdrawals </span>
+        <a href="{{ route('admin.incomes.commission', ['status' => 'qualified']) }}" class="" aria-expanded="false">
+            <i class="bi bi-currency-exchange"></i>
+            <span class="nav-text"> Commissions </span>
         </a>
     </li>
 @endcan
 
-@canany(['commissions.viewAny', 'rank_bonus.viewAny'])
+{{--@canany(['commissions.viewAny', 'rank_bonus.viewAny'])
     <li>
         <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
             <i class="bi bi-currency-exchange"></i>
@@ -225,9 +247,9 @@
             @endcan
         </ul>
     </li>
-@endcan
+@endcan--}}
 
-@can('rank.viewAny')
+{{--@can('rank.viewAny')
     <li>
         <a href="{{ route('admin.ranks') }}" class="" aria-expanded="false">
             <i class="bi bi-star-fill"></i>
@@ -264,7 +286,7 @@
             <span class="nav-text"> Rank Gifts </span>
         </a>
     </li>
-@endcan
+@endcan--}}
 
 @can('package.viewAny')
     <li>
@@ -326,12 +348,12 @@
             <li>
                 <a href="{{ route('admin.strategies.withdrawal.index') }}">Withdrawal</a>
             </li>
-            <li>
+            {{--<li>
                 <a href="{{ route('admin.strategies.rank-level.index') }}">Rank Bonus</a>
             </li>
             <li>
                 <a href="{{ route('admin.strategies.rank-gift-level.index') }}">Rank Gift</a>
-            </li>
+            </li>--}}
             {{-- <li>
                 <a href="{{ route('admin.strategies.rank-level.index') }}">P2P Restrictions</a>
             </li>--}}

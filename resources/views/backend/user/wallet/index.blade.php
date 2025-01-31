@@ -35,13 +35,13 @@
                                 <circle cx="28" cy="28" r="28" fill="#FF5B5B"/>
                                 <circle cx="60" cy="28" r="28" fill="#F79F19"/>
                             </svg>--}}
-                            <span class="text-white d-block mt-1">owara3m</span>
+                            <span class="text-white d-block mt-1">win together</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-4">
+        <div class="col-xl-4 col-lg-4 d-none">
             <div class="rounded-1 card prim-card">
                 <div class="card-body py-3 d-flex flex-column justify-content-evenly">
                     <img src="{{ asset('assets/images/topup-wallet.png') }}" alt="logo" width="64"/>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="master-card">
                             <img src="{{ asset('assets/backend/images/logo/logo.png') }}" alt="logo" width="50"/>
-                            <span class="text-white d-block mt-1">owara3m</span>
+                            <span class="text-white d-block mt-1">win together</span>
                         </div>
                     </div>
                 </div>

@@ -148,6 +148,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'popup-notice.update', 'guard_name' => 'web'],
             ['name' => 'popup-notice.delete', 'guard_name' => 'web'],
 
+            ['name' => 'bv-reports.viewAny', 'guard_name' => 'web'],
+
         ];
 
         Permission::upsert($permissions, 'name');

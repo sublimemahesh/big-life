@@ -30,6 +30,7 @@ class RegisterSteps extends Component
         "email" => null,
         "password" => null,
         "super_parent_id" => null,
+        "position" => null,
         "sponsor" => null,
         "username" => null,
         "terms" => null,
@@ -39,13 +40,14 @@ class RegisterSteps extends Component
 
     public function mount()
     {
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
-        $this->state['sponsor'] = optional($this->sponsor)->username;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
+        $this->state['sponsor'] = $this->sponsor?->username;
         $this->disable_sponsor_modify = $this->sponsor->id !== null;
     }
 
     protected function rules(): array
     {
+        $genealogy_children = config('genealogy.children', 2);
         return [
             'state.first_name' => ['required', 'string', 'max:255'],
             'state.last_name' => ['required', 'string', 'max:255'],
@@ -60,6 +62,7 @@ class RegisterSteps extends Component
                         $q->whereNotNull('position')->whereNotNull('parent_id');
                     })
             ],
+            'state.position' => ['required', "lte:{$genealogy_children}", 'gte:1',],
             'state.sponsor' => [
                 'nullable',
                 Rule::exists('users', 'username')
@@ -94,11 +97,12 @@ class RegisterSteps extends Component
     public function updatedStateSponsor($value): void
     {
         $this->sponsor = User::where('username', $value)
+            ->whereRelation('roles', 'name', 'user')
             ->when(config('fortify.super_parent_username') !== $value, function ($q) {
                 $q->whereNotNull('position')->whereNotNull('parent_id');
             })
             ->firstOrNew();
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
 
         $this->validateOnly('state.sponsor');
     }
@@ -111,7 +115,7 @@ class RegisterSteps extends Component
                 $q->whereNotNull('position')->whereNotNull('parent_id');
             })
             ->findOrNew($value);
-        $this->state['super_parent_id'] = optional($this->sponsor)->id;
+        $this->state['super_parent_id'] = $this->sponsor?->id;
         $this->validateOnly('state.sponsor');
     }
 

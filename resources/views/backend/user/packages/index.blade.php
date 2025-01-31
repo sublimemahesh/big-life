@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12 mb-4">
+                            <div class="col-sm-12 mb-4 d-none">
                                 <div class="mb-3 mt-2">
                                     <label for="purchase_for">Purchase For</label>
                                     <select class="single-select-placeholder js-states select2-hidden-accessible" id="purchase_for">
@@ -94,7 +94,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                           {{-- <div class="col-sm-6 d-none">
                                 <div class="card bg-secondary pay-method-wallet cursor-pointer" id="wallet">
                                     <a class="card-body card-link">
                                         <div class="text-center">
@@ -105,19 +105,19 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 d-none">
                                 <div class="card bg-secondary pay-method-topup-wallet cursor-pointer" id="topup-wallet">
                                     <a class="card-body card-link">
                                         <div class="text-center">
                                             <img src="{{ asset('assets/images/topup-wallet.png') }}" alt="logo" />
                                             <div class="mb-3"></div>
-                                            {{-- <h6>TOPUP WALLET</h6> --}}
+                                            --}}{{-- <h6>TOPUP WALLET</h6> --}}{{--
                                             <h6> EXTERNAL WALLET</h6>
                                         </div>
                                     </a>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
+                            </div>--}}
+                            {{--<div class="col-sm-6">
                                 <div class="card bg-secondary pay-method-binance-pay cursor-pointer" id="binance-pay">
                                     <div class="card-body card-link">
                                         <div class="text-center">
@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="col-sm-6">
                                 <div class="card bg-secondary pay-method-manual-pay cursor-pointer" id="manual-pay">
                                     <div class="card-body card-link">
@@ -168,7 +168,7 @@
                                             <div class="mb-3"></div>
                                             <img class="w-100 img-thumbnail" src="{{ asset('assets/images/binance-qr.jpg') }}" alt="wallet-address">
                                             <div class="mt-4">
-                                                <span class="fs-17">TLbnK7HxaasQKN67RqtAZ7t59NJ3JupmQh</span>
+                                                <span class="fs-17">TCnvwSL6pshsspKJSkkYXgFp9AUBotthNq</span>
                                             </div>
                                         </div>
                                     </a>

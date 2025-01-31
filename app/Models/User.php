@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\BinaryPlaceEnum;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +21,6 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
-use Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 use Throwable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -47,7 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'phone_verified_at', 'super_parent_id', 'parent_id', 'username', 'position', 'suspended_at'
+        'name', 'email', 'password', 'phone', 'phone_verified_at', 'super_parent_id', 'parent_id', 'username', 'position', 'suspended_at',
+        'left_points_balance','right_points_balance'
     ];
 
     /**
@@ -137,12 +139,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->purchasedPackages()->activePackages()->count() >= 1;
     }
 
-    public function sponsor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function sponsor(): BelongsTo
     {
         return $this->belongsTo(self::class, 'super_parent_id', 'id')->withDefault();
     }
 
-    public function directSales(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function directSales(): HasMany
+    {
+        return $this->hasMany(self::class, 'super_parent_id', 'id')->whereNotNull('parent_id');
+    }
+
+    public function directSalesWithInactive(): HasMany
     {
         return $this->hasMany(self::class, 'super_parent_id', 'id');
     }
@@ -152,17 +159,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Wallet::class, 'user_id')->withDefault(new Wallet);
     }
 
-    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class, 'user_id', 'id')->withDefault(new Profile);
     }
 
-    public function purchasedPackages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function purchasedPackages(): HasMany
     {
         return $this->hasMany(PurchasedPackage::class, 'user_id', 'id');
     }
 
-    public function activePackages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function activePackages(): HasMany
     {
         return $this->purchasedPackages()->activePackages();
 
@@ -178,12 +185,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->descendantPackages()->activePackages();
     }
 
-    public function earnings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function earnings(): HasMany
     {
         return $this->hasMany(Earning::class, 'user_id');
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'user_id', 'id');
     }
@@ -191,6 +198,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function totalInvestment(): HasMany
     {
         return $this->purchasedPackages()->totalInvestment($this);
+    }
+
+    public function bvPointEarnings(): HasMany
+    {
+        return $this->hasMany(BvPointEarning::class, 'user_id');
+    }
+
+    public function bvPointRewards(): HasMany
+    {
+        return $this->hasMany(BvPointReward::class, 'user_id');
     }
 
     public function getDepthAttribute()
@@ -239,6 +256,44 @@ class User extends Authenticatable implements MustVerifyEmail
                     cte_an.`parent_id` ASC ,
                     cte_an.`position` ASC  LIMIT 1",
             ['node_id' => $nodeId]);
+    }
+
+    public static function findAvailableBinaryPlacement($nodeId, BinaryPlaceEnum $position)
+    {
+        return DB::selectOne("
+                WITH RECURSIVE ancestor_nodes AS
+                (
+                    SELECT  *, 1 AS path  FROM  users  WHERE  id = :selected_super_parent
+                    UNION ALL
+                    SELECT  n.*,  an.path + 1 AS path FROM users n INNER JOIN ancestor_nodes an ON an.id = n.parent_id WHERE n.position = :prioritize_position
+                )
+
+                SELECT
+                    cte_an.id,
+                    cte_an.path,
+                    cte_an.parent_id,
+                    (SELECT `position` FROM users WHERE id = cte_an.parent_id) AS parent_node_position,
+                    cte_an.`position`,
+                    (SELECT COUNT(*) FROM users WHERE parent_id = cte_an.id) AS children_count,
+                    :available_position AS available_position -- Dynamic selected position (1 for left, 2 for right)
+                FROM
+                    ancestor_nodes cte_an
+                WHERE
+                    -- Ensure the parent has fewer than 2 children (binary tree constraint)
+                    (SELECT COUNT(*) FROM users WHERE parent_id = cte_an.id) < :genealogy_children
+                     -- Ensure the selected position is available for the parent
+                    AND (SELECT COUNT(*) FROM users WHERE parent_id = cte_an.id AND position = :selected_position) = 0
+                ORDER BY
+                    -- Prioritize parents with the shortest path (closest to the super parent)
+                    path ASC
+                LIMIT 1;",
+            [
+                'selected_super_parent' => $nodeId,
+                'prioritize_position' => $position->value,
+                'available_position' => $position->value,
+                'genealogy_children' => config('genealogy.children', 2),
+                'selected_position' => $position->value,
+            ]);
     }
 
     public function ranks(): HasMany

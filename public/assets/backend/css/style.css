@@ -12736,7 +12736,7 @@ label {
 
 .nav-header {
     height: 5rem;
-    width: 18.75rem;
+    width: 19.5rem;
     display: inline-block;
     text-align: left;
     position: absolute;
@@ -12818,8 +12818,8 @@ label {
 @media only screen and (max-width: 47.9375rem) {
     .nav-header .logo-color {
         display: block;
-        height: 45px;
-        width: 45px;
+        height: auto;
+        width: 55px;
     }
 }
 
@@ -17808,7 +17808,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 .deznav {
-    width: 18.75rem;
+    width: 19.5rem;
     padding-bottom: 10px;
     height: calc(100% - 5rem);
     position: absolute;
@@ -41340,6 +41340,10 @@ table.dataTable thead .sorting_asc {
 
 [data-theme-version="dark"] .list-table .list-row span:first-child {
     color: #43c903;
+}
+[data-theme-version="dark"] #nav-direct-sale .list-table .list-row span:nth-child(3),
+[data-theme-version="dark"] #nav-indirect-sale .list-table .list-row span:nth-child(3) {
+    color: #8F3939;
 }
 
 @media only screen and (max-width: 61.9375rem) {

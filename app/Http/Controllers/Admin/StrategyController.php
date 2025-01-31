@@ -154,10 +154,27 @@ class StrategyController extends Controller
         $validated = Validator::make($request->all(), [
             'withdrawal_limits_package' => ['required', 'integer'],
             'withdrawal_limits_commission' => 'required|integer',
-            'max_withdraw_limit' => 'required|integer',
-            'minimum_payout_limit' => 'required|integer',
+            'max_withdraw_limit' => ['required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }],
+            'minimum_payout_limit' => [
+                'required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }
+            ],
             'minimum_p2p_transfer_limit' => 'required|integer',
-            'daily_max_withdrawal_limits' => 'required|integer',
+            'daily_max_withdrawal_limits' => ['required', 'integer', 'min:25',
+                function ($attribute, $value, $fail) {
+                    if ($value % 25 !== 0) {
+                        $fail("The {$attribute} must be a multiple of 25.");
+                    }
+                }],
             'withdrawal_days_of_week' => 'required|array|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
         ])->validate();
 
@@ -231,7 +248,7 @@ class StrategyController extends Controller
 
         $validated = Validator::make($request->all(), [
             'staking_withdrawal_fee' => ['required', 'numeric'],
-            'payout_transfer_fee' => ['required', 'numeric'],
+            'payout_transfer_fee' => ['required', 'numeric', 'gte:0', 'lte:100'],
             'p2p_transfer_fee' => 'required|numeric',
         ])->validate();
 
@@ -322,14 +339,18 @@ class StrategyController extends Controller
         $this->authorize('update', Strategy::class);
 
         $validated = Validator::make($request->all(), [
-            'commission_level_count' => ['required', 'integer', 'gte:2'],
-            'commissions' => ['required', 'array', 'size:' . $request->get('commission_level_count')],
-            'commissions.*' => ['required', 'integer'],
-            'rank_gift' => ['required', 'integer'],
-            'rank_bonus' => ['required', 'integer'],
+            'commission_level_count' => ['required', 'integer', 'gte:1'],
+            'commissions' => ['nullable', Rule::requiredIf($request->get('commission_level_count') > 0), 'array', 'size:' . $request->get('commission_level_count')],
+            'commissions.*' => ['required', 'numeric'],
+            'rank_gift' => ['required', 'numeric'],
+            'rank_bonus' => ['required', 'numeric'],
         ])->validate();
 
-        unset($validated['commissions'][0]); // Make sure does not contain 0th index
+        if (isset($validated['commissions']) && is_array($validated['commissions'])) {
+            unset($validated['commissions'][0]); // Make sure does not contain 0th index
+        } else {
+            $validated['commissions'] = [];
+        }
 
         $total_percentage = array_sum($validated['commissions']) + $validated['rank_gift'] + $validated['rank_bonus'];
 
@@ -338,7 +359,11 @@ class StrategyController extends Controller
         }
 
         $commission_level_count = count($validated['commissions']);
-        $commissions = json_encode($validated['commissions'], JSON_THROW_ON_ERROR);
+        if (!isset($validated['commissions']) || count($validated['commissions']) <= 0) {
+            $commissions = '{}';
+        } else {
+            $commissions = json_encode($validated['commissions'], JSON_THROW_ON_ERROR);
+        }
 
         if ((int)$request->get('commission_level_count') !== $commission_level_count) {
             throw new RuntimeException('Something does not seem to be ok with commission level count');
@@ -487,7 +512,8 @@ class StrategyController extends Controller
             'package' => 'required|numeric',
             'rank_bonus' => 'nullable|numeric',
         ])->validate();
-
+        $validated['direct'] = 100;
+        $validated['indirect'] = 100;
         $payable_percentages = json_encode($validated, JSON_THROW_ON_ERROR);
         DB::transaction(function () use ($payable_percentages) {
             Strategy::updateOrCreate(

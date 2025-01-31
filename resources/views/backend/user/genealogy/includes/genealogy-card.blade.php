@@ -7,30 +7,44 @@
         </div>
 
         <div class="row text-nowrap g-icon mbo-g-icon new-stl">
-            <div class="col-sm-12 col-12" title="Rank : {{ $user->currentRank->rank }} Total Rankers Count">
+            <div class="col-sm-12 col-12" title="Left BV: {{ $user->left_points_balance }}">
                 <label style="background: #1fcde8 ;width: 50px;border-radius: 10%;">
                     <div style="text-align:left;padding: 4px 6px 4px 6px;">
-                        <i class="fa fa-trophy" aria-hidden="true" style="font-size:10px"></i>
-                        <span style="font-size:12px">{{ $user->currentRank->total_rankers }}</span>
+                        <i class="fa fa-chevron-left" aria-hidden="true" style="font-size:10px"></i>
+                        <span style="font-size:12px">{{ $user->left_points_balance }}</span>
                     </div>
                 </label>
             </div>
 
-            <div class="col-sm-12 col-12" title="Highest Rank : {{ $user->currentRank->rank }}">
+            <div class="col-sm-12 col-12" title="Right BV: {{ $user->right_points_balance }}">
                 <label style="background: #1fcde8;width: 50px;border-radius:10%;">
                     <div style="text-align:left; padding: 4px 6px 4px 6px;">
-                        <i class="fa fa-certificate" aria-hidden="true" style="font-size:10px"></i>
-                        <span style="font-size: 12px ;">{{ $user->currentRank->rank }}</span>
+                        <i class="fa fa-chevron-right" aria-hidden="true" style="font-size:10px"></i>
+                        <span style="font-size: 12px ;">{{ $user->right_points_balance }}</span>
                     </div>
                 </label>
             </div>
 
 
             <div class="col-sm-12 col-12" title="Members : {{ $user->descendants->count() }}">
+                @php
+                    $leftChild = $user->children()->where('position', \App\Enums\BinaryPlaceEnum::LEFT->value)->first();
+                    $rightChild = $user->children()->where('position', \App\Enums\BinaryPlaceEnum::RIGHT->value)->first();
+
+                    $leftDescendantCount = $leftChild ? $leftChild->descendantsAndSelf()->count() : 0;
+                    $rightDescendantCount = $rightChild ? $rightChild->descendantsAndSelf()->count() : 0;
+                @endphp
                 <label style="background: #1fcde8;width:50px;;border-radius:10%;">
-                    <div style="text-align:left; padding: 4px 6px 4px 6px">
+                    <div style="text-align:left; padding: 4px 6px 4px 6px" class="d-flex flex-row align-items-center justify-content-evenly">
                         <i class="fa fa-street-view" aria-hidden="true" style="font-size:10px"></i>
-                        <span style="font-size: 12px;">{{ $user->descendants->count() }}</span>
+                        &nbsp;
+                        <span style="font-size: 12px;">
+                            {{ $leftDescendantCount }}
+                        </span>
+                        &nbsp;&boxv;&nbsp;
+                        <span style="font-size: 12px;">
+                            {{ $rightDescendantCount }}
+                        </span>
                     </div>
                 </label>
             </div>

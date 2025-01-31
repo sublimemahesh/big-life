@@ -120,7 +120,7 @@
                                             {{--<div class="mb-3"></div>--}}
                                             {{--<img class="w-100" src="{{ asset('assets/backend/images/wallets/safe.png') }}" alt="wallet-address">--}}
                                             <div class="my-2">
-                                                <span class="fs-17">TLbnK7HxaasQKN67RqtAZ7t59NJ3JupmQh</span>
+                                                <span class="fs-17">TCnvwSL6pshsspKJSkkYXgFp9AUBotthNq</span>
                                             </div>
                                         </div>
                                     </a>

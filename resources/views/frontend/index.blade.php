@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'Home Page | Owara3m ')
+    @section('title', 'Home Page | Win Together ')
     @section('header-title', 'Welcome ')
 
     @section('header')
@@ -139,7 +139,7 @@
                 <!-- TITLE START-->
                 <div class="section-head text-center">
                     <span class="wt-title-subline font-16 text-gray-dark m-b15">Our Benefit</span>
-                    <h2 class="text-uppercase">Why Choose Owara3m</h2>
+                    <h2 class="text-uppercase">Why Choose Win Together</h2>
                     <div class="wt-separator-outer">
                         <div class="wt-separator bg-primary"></div>
                     </div>
@@ -220,7 +220,7 @@
                 <div class="container ">
                     <!-- TITLE START-->
                     <div class="section-head text-center">
-                        <span class="wt-title-subline font-16 text-gray-dark m-b15">Three steps Owara3m</span>
+                        <span class="wt-title-subline font-16 text-gray-dark m-b15">Three steps Win Together</span>
                         <h2 class="text-uppercase">How It Work</h2>
                         <div class="wt-separator-outer">
                             <div class="wt-separator bg-primary"></div>
@@ -294,7 +294,7 @@
                                 <div class="text-center p-t60">
                                     <h3 class="text-uppercase font-weight-500 text-white">Any Query?</h3>
                                     <div class="text-white">{!! $any_query->content !!}</div>
-                                    <h4 class="text-primary">support@owara3m.com</h4>
+                                    <h4 class="text-primary">support@wintogetherplan.com</h4>
                                 </div>
                             </div>
                         </div>
@@ -306,7 +306,7 @@
                                 <div class="text-center p-t60">
                                     <h3 class="text-uppercase font-weight-500 text-white">Contact Us</h3>
                                     <p class="text-white"><div class="text-white">{!! $contact_us->content !!}</div></p>
-                                    <h4 class="text-secondry">support@owara3m.com</h4>
+                                    <h4 class="text-secondry">support@wintogetherplan.com</h4>
                                 </div>
                             </div>
                         </div>

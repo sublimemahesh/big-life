@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'Contact Us | Owara3m ')
+    @section('title', 'Contact Us | Win Together ')
     @section('header-title', 'Welcome ')
 
     @section('header')
@@ -66,7 +66,7 @@
                             </div>
                             <div class="icon-content text-black">
                                 <h5 class="wt-tilte text-uppercase">Email</h5>
-                                <p>support@owara3m.com</p>
+                                <p>support@wintogetherplan.com</p>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     </div> --}}
-{{-- 
+{{--
                     <div class="m-b30">
                         <div class="wt-icon-box-wraper bx-style-1 p-a15 left clearfix themecolor-1">
                             <div class="icon-sm">

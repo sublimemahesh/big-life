@@ -23,7 +23,6 @@
                     <form class="theme-form" enctype="multipart/form-data" id="commissions-form">
 
                         @include('backend.admin.strategies.commissions.commission-payment-percentages')
-                        <hr>
                         @include('backend.admin.strategies.commissions.rank-payment-percentages')
 
                         <hr>

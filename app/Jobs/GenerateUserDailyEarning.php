@@ -14,17 +14,20 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
+use Log;
 
 class GenerateUserDailyEarning implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private PurchasedPackage $purchase;
-    private ?Carbon $execution_time;
+    private Carbon|null $execution_time;
+    private string $date;
 
-    public function __construct(PurchasedPackage $purchase, $execution_time = null)
+    public function __construct(PurchasedPackage $purchase, string $date, $execution_time = null)
     {
         $this->purchase = $purchase;
+        $this->date = $date;
         $this->execution_time = $execution_time ?? now();
     }
 
@@ -48,53 +51,74 @@ class GenerateUserDailyEarning implements ShouldQueue
 
         try {
             DB::transaction(function () use ($purchase) {
-                $earned = $purchase->earnings()->whereDate('created_at', date('Y-m-d'))->doesntExist();
-                // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', date('Y-m-d'))->doesntExist();
+                $date = $this->date;
+                 $earned = $purchase->earnings()->whereDate('created_at', $date)->where('type', 'PACKAGE')->doesntExist();
+                // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', $date)->doesntExist();
                 if ($earned) {
 
-                    $strategies = Strategy::whereIn('name', [
-                        'withdrawal_limits',
-                        'payable_percentages'
-                    ])->get();
+                    $purchase->loadSum(['earnings' => fn($q) => $q->where('type', 'PACKAGE')], 'amount');
 
-                    $payable_percentages = $strategies
-                        ->where('name', 'payable_percentages')
-                        ->first(null, fn() => new Strategy(['value' => '{"direct":0.332,"indirect":0.332,"package":1}']));
+                    $payable_percentages = Strategy::where('name', 'payable_percentages')->firstOr(fn() => new Strategy(['value' => '{"direct":0.332,"indirect":0.332,"package":1}']));
                     $payable_percentages = json_decode($payable_percentages->value, false, 512, JSON_THROW_ON_ERROR);
                     $payable_percentage = $payable_percentages->package ?? $purchase->payable_percentage;
 
-                    $purchase->loadSum('earnings', 'amount');
-                    $already_earned_amount = $purchase->earnings_sum_amount;
+//                    $already_earned_percentage = $purchase->earned_profit;
+//                    $total_already_earned_income = ($purchase->invested_amount / 100) * $already_earned_percentage;
+                    $total_already_earned_income = $purchase->earnings_sum_amount;
+                    $total_allowed_income = ($purchase->invested_amount / 100) * $purchase->investment_profit;
+
+
+                    $remaining_income = $total_allowed_income - $total_already_earned_income;
 
                     $earned_amount = $purchase->invested_amount * ((float)$payable_percentage / 100);
 
-                    //$withdrawal_limits = Strategy::whereIn('name', 'withdrawal_limits')->firstOrNew(fn() => new Strategy(['value' => '{"package":"300","commission":"100"}']));
-                    $withdrawal_limits = $strategies
-                        ->where('name', 'withdrawal_limits')
-                        ->first(null, fn() => new Strategy(['value' => '{"package": 300, "commission": 100}']));
-                    $package_withdrawal_limits = json_decode($withdrawal_limits->value, false, 512, JSON_THROW_ON_ERROR);
-                    $package_withdrawal_limits = $package_withdrawal_limits->package ?? 300;
 
-                    $allowed_amount = ($purchase->invested_amount * $package_withdrawal_limits) / 100; // TODO: IF this need to be work with withdrawal_limits->package amount change this 300 to $package_withdrawal_limits
-
-                    if ($allowed_amount < ($already_earned_amount + $earned_amount)) {
-                        $earned_amount = $allowed_amount - $already_earned_amount;
+                    if ($total_allowed_income < ($total_already_earned_income + $earned_amount)) {
+                        $earned_amount = $total_allowed_income - $total_already_earned_income;
                         $purchase->update(['status' => 'EXPIRED']);
-                        logger()->info("Package {$purchase->id} | COMPLETED {$earned_amount}. | Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+                        Log::channel('daily')->info(
+                            "Package {$purchase->id} | " .
+                            "COMPLETED {$total_already_earned_income}. | " .
+                            "Purchased Date: {$purchase->created_at} | " .
+                            "User: {$purchase->user->username} - {$purchase->user_id}");
+                    }
+
+                    if ($purchase->investment_profit <= $purchase->package_earned_profit) {
+                        $earned_amount = 0;
+                        $purchase->update(['status' => 'EXPIRED']);
+                        Log::channel('daily')->warning(
+                            "Package {$purchase->id} | " .
+                            "PACKAGE FILLED | investment_profit <= earned_profit | {$purchase->investment_profit} <= {$purchase->earned_profit} | " .
+                            "COMPLETED {$total_already_earned_income}. | " .
+                            "Purchased Date: {$purchase->created_at} | " .
+                            "User: {$purchase->user->username} - {$purchase->user_id}");
                     }
 
                     if ($earned_amount > 0) {
                         $purchase->earnings()->save(Earning::forceCreate([
                             'user_id' => $purchase->user_id,
+                            'purchased_package_id' => $purchase->id,
                             'amount' => $earned_amount,
                             'payed_percentage' => $payable_percentage,
                             'type' => 'PACKAGE',
-                            'status' => 'RECEIVED', // TODO: check eligibility for the gain profit
+                            'status' => 'RECEIVED',
                             'created_at' => $this->execution_time,
                             'updated_at' => $this->execution_time
                         ]));
 
-                        $purchase->update(['last_earned_at' => $this->execution_time]);
+                        $package_earned_income = $total_already_earned_income + $earned_amount;
+                        $package_earned_income_percentage = ($package_earned_income / $purchase->total_package_profit) * 100;
+                        $package_earned_income_percentage_from_profit_percentage = ($package_earned_income_percentage / 100) * $purchase->investment_profit;
+
+                        $total_already_earned_income = $purchase->total_earned_profit + $earned_amount;
+                        $total_already_earned_income_percentage = ($total_already_earned_income / $purchase->total_profit) * 100;
+                        $total_already_earned_income_percentage_from_profit_percentage = ($total_already_earned_income_percentage / 100) * $purchase->total_profit_percentage;
+
+                        $purchase->update([
+                            'package_earned_profit' => $package_earned_income_percentage_from_profit_percentage,
+                            'earned_profit' => $total_already_earned_income_percentage_from_profit_percentage,
+                            'last_earned_at' => $this->execution_time
+                        ]);
 
                         $wallet = Wallet::firstOrCreate(
                             ['user_id' => $purchase->user_id],
@@ -105,13 +129,13 @@ class GenerateUserDailyEarning implements ShouldQueue
 
                     }
                     //Wallet::updateOrCreate(['user_id' => $purchase->user_id]);
-                    logger()->notice("Purchased Package Earning saved (" . date('Y-m-d') . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+                    Log::channel('daily')->notice("Purchased Package Earning saved (" . $date . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
                 } else {
-                    logger()->warning("Purchased Package Already earned! (" . date('Y-m-d') . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+                    Log::channel('daily')->warning("Purchased Package Already earned! (" . $date . "). | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
                 }
             });
         } catch (\Throwable $e) {
-            logger()->error($e->getMessage() . " | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
+            Log::channel('daily')->error($e->getMessage() . " | Package: " . $purchase->id . " Purchased Date: " . $purchase->created_at . " | User: " . $purchase->user->username . "-" . $purchase->user_id);
         }
 
     }

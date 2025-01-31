@@ -29,18 +29,18 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label class="col-sm-3 col-form-label" for="direct">Direct (1/100)%</label>
+                                <label class="col-sm-3 col-form-label" for="direct">Direct 100%</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" value="{{ $payable_percentages->direct }}" id="direct" name="direct" placeholder="Direct commission daily leverage" type="text">
+                                    <input class="form-control" readonly value="100" id="direct" name="direct" placeholder="Direct commission daily leverage" type="text">
                                 </div>
                             </div>
                             <div class="form-group row mb-2">
-                                <label class="col-sm-3 col-form-label" for="indirect">Indirect (1/100)%</label>
+                                <label class="col-sm-3 col-form-label" for="indirect">Indirect 100%</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" value="{{ $payable_percentages->indirect }}" id="indirect" name="indirect" placeholder="Indirect commission daily leverage" type="text">
+                                    <input class="form-control" readonly value="100" id="indirect" name="indirect" placeholder="Indirect commission daily leverage" type="text">
                                 </div>
                             </div>
-                            <div class="form-group row mb-2">
+                            <div class="form-group row mb-2 d-none">
                                 <label class="col-sm-3 col-form-label" for="rank_bonus">Rank bonus (1/100)%</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" disabled value="{{ $payable_percentages->rank_bonus ?? 0.332 }}" id="rank_bonus" name="rank_bonus" placeholder="Rank bonus daily leverage" type="text">

@@ -22,7 +22,7 @@
                     <ul>
                         <div class="swiper swiper-container">
                             <div class="swiper-wrapper add-tree-3">
-                                @for ($i = 1; $i <= 5; $i++)
+                                @for ($i = 1; $i <= config('genealogy.children', 2); $i++)
                                     <li class="position-{{ $i }}">
                                         @if (isset($descendants[$i]))
                                             @php
@@ -34,7 +34,7 @@
                                                 </a>
                                             </div>
                                         @else
-                                                <a href="{{ URL::signedRoute('user.genealogy.position.manage', ['parent' => $user, 'position' => $i]) }}">
+                                                <a href="javascript:void(0)">
                                                     <div class="genealogy item">
                                                         <div class="card">
                                                             <div class="card-img-empty"><img class="card-img2  card-img2-mob" src="{{ asset('assets/backend/images/user-icon.jpg') }}"  alt=""></div>

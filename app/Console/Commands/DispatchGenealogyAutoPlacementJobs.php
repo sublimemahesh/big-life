@@ -35,7 +35,7 @@ class DispatchGenealogyAutoPlacementJobs extends Command
         logger()->notice("genealogy:assign started...");
 
         try {
-            $users = User::whereNull('position')
+            $users = User::whereNull('parent_id')
                 ->whereNotNull('super_parent_id')
                 ->whereHas('activePackages', function ($query){
                     $query->whereRaw('`created_at` <= NOW() - INTERVAL 1 DAY');
@@ -43,9 +43,9 @@ class DispatchGenealogyAutoPlacementJobs extends Command
                 //TODO: If joined user purchased package after a one day, may parent user cannot be able to place this user in desired position.
                 // if that parent user need time even after the package is purchased check one day after with purchased_package table
                 ->whereRaw('`created_at` <= NOW() - INTERVAL 1 DAY')
-                ->chunk(100, function ($users) {
+                ->chunkById(100, function ($users) {
                     foreach ($users as $user) {
-                        if ($user->position !== null) {
+                        if ($user->parent_id !== null) {
                             logger()->warning("NewUserGenealogyAutoPlacement::class : Position is already assigned");
                             continue;
                         }

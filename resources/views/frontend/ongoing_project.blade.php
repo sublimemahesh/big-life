@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'Existing Projects | Owara3m')
+    @section('title', 'Existing Projects | Win Together')
     @section('header-title', 'Welcome ')
 
     @section('header')

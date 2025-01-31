@@ -27,15 +27,21 @@
                 </div>
             </div>
             <div class="form-group row mb-2">
-                <label class="col-sm-3 col-form-label" for="month_of_period">MONTH OF PERIOD</label>
+                <label class="col-sm-3 col-form-label" for="bv_points">BV Points</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="month_of_period" name="month_of_period" placeholder="Month of period" type="text" value="{{ $package->month_of_period ?? null }}">
+                    <input class="form-control" id="bv_points" name="bv_points" placeholder="BV Points" type="number" value="{{ $package->bv_points ?? null }}">
                 </div>
             </div>
-            <div class="form-group row mb-2">
+            <div class="form-group row mb-2 d-none">
+                <label class="col-sm-3 col-form-label" for="month_of_period">MONTH OF PERIOD</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="month_of_period" name="month_of_period" placeholder="Month of period" type="text" value="{{ $package->month_of_period ?? 15 }}">
+                </div>
+            </div>
+            <div class="form-group row mb-2 d-none">
                 <label class="col-sm-3 col-form-label" for="daily_leverage">DAILY LEVERAGE</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="daily_leverage" name="daily_leverage" placeholder="Daily leverage" type="text" value="{{ $package->daily_leverage ?? null }}">
+                    <input class="form-control" id="daily_leverage" name="daily_leverage" placeholder="Daily leverage" type="text" value="{{ $package->daily_leverage ?? 1 }}">
                 </div>
             </div>
             <div class="form-group row mb-2">

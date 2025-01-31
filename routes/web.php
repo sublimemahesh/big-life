@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\PurchasedPackage;
+use App\Models\Strategy;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Email check
+// Route::get('/thank-you', function () {
+//     return view('email.thank');
+// });
+
 
 Route::get('/', 'FrontendController@index')->name('/');
 Route::get('about-us', 'FrontendController@about')->name('about');
@@ -58,7 +66,7 @@ Route::get('test', function () {
 Route::get('payments/binancepay/response', 'Payment\BinancePayController@response');
 Route::get('payments/binancepay/fallback', 'Payment\BinancePayController@fallback');
 
-Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified','active_user', 'has_any_role']], function () {
+Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified', 'active_user', 'has_any_role']], function () {
 
     Route::withoutMiddleware('mobile_verified')->group(static function () {
         Route::get('verify/mobile', 'MobileVerifyController@index')->name('mobile.verification.notice');
@@ -150,9 +158,9 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         // STAKING END
 
         // topup
-        Route::get('wallet/topup', 'Admin\WalletTopupHistoryController@index')->name('wallet.topup');
+        // Route::get('wallet/topup', 'Admin\WalletTopupHistoryController@index')->name('wallet.topup');
         Route::get('wallet/topup/history', 'Admin\WalletTopupHistoryController@history')->name('wallet.topup.history');
-        Route::post('topup/wallet', 'Admin\WalletTopupHistoryController@topup');
+        // Route::post('topup/wallet', 'Admin\WalletTopupHistoryController@topup');
         Route::match(['get', 'post'], 'wallet/topup/{topupHistory}/confirm-requests', 'Admin\WalletTopupHistoryController@confirmTopupRequest')->name('wallet.topup.confirm-requests');
         Route::post('filter/users/{search_text}', 'Admin\WalletTopupHistoryController@findUsers');
 
@@ -194,23 +202,28 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
             // Earnings
             Route::get('users/earnings', 'Admin\EarningController@index')->name('earnings.index');
             Route::post('users/earnings/calculate-profit', 'Admin\EarningController@calculateProfit');
+            Route::post('users/earnings/get-pending-earnings', 'Admin\EarningController@getPendingEarnings');
             Route::post('users/rewards/calculate-bonus', 'Admin\EarningController@issueMonthlyRankBonuses');
             Route::post('users/earnings/calculate-commission', 'Admin\EarningController@calculateCommission');
             Route::post('users/earnings/release-staking-interest', 'Admin\EarningController@releaseStakingInterest');
+
+            // BV Points
+            Route::get('bv-points/earnings', 'Admin\BvPointController@earnings')->name('bv_points.earnings');
+            Route::get('bv-points/rewards', 'Admin\BvPointController@rewards')->name('bv_points.rewards');
 
             // Transactions
             Route::get('users/purchased-packages', 'Admin\PurchasedPackageController@index')->name('purchased-packages');
 
             // STAKING
-            Route::get('users/staking-purchased-packages', 'Admin\Staking\PurchasedStakingPlanController@index')->name('staking-purchased-packages');
-            Route::get('users/staking/transactions', 'Admin\TransactionController@index')->name('staking.transactions.index');
-            Route::get('users/staking/earnings', 'Admin\EarningController@index')->name('staking.earnings.index');
-            Route::get('users/staking/transfers/withdrawals', 'Admin\WithdrawController@withdrawals')->name('staking.transfers.withdrawals');
-
-            Route::get('users/staking-purchased-packages/{purchase}/cancellations', 'Admin\Staking\StakingCancelRequestController@index')->name('staking-cancel-request.index');
-            Route::post('users/staking-purchased-packages/cancellations/{cancelRequest}/process', 'Admin\Staking\StakingCancelRequestController@process')->name('staking-cancel-request.process');
-            Route::match(['get', 'post'], 'users/staking-purchased-packages/cancellations/{cancelRequest}/approve', 'Admin\Staking\StakingCancelRequestController@approve')->name('staking-cancel-request.approve');
-            Route::match(['get', 'post'], 'users/staking-purchased-packages/cancellations/{cancelRequest}/reject', 'Admin\Staking\StakingCancelRequestController@reject')->name('staking-cancel-request.reject');
+//            Route::get('users/staking-purchased-packages', 'Admin\Staking\PurchasedStakingPlanController@index')->name('staking-purchased-packages');
+//            Route::get('users/staking/transactions', 'Admin\TransactionController@index')->name('staking.transactions.index');
+//            Route::get('users/staking/earnings', 'Admin\EarningController@index')->name('staking.earnings.index');
+//            Route::get('users/staking/transfers/withdrawals', 'Admin\WithdrawController@withdrawals')->name('staking.transfers.withdrawals');
+//
+//            Route::get('users/staking-purchased-packages/{purchase}/cancellations', 'Admin\Staking\StakingCancelRequestController@index')->name('staking-cancel-request.index');
+//            Route::post('users/staking-purchased-packages/cancellations/{cancelRequest}/process', 'Admin\Staking\StakingCancelRequestController@process')->name('staking-cancel-request.process');
+//            Route::match(['get', 'post'], 'users/staking-purchased-packages/cancellations/{cancelRequest}/approve', 'Admin\Staking\StakingCancelRequestController@approve')->name('staking-cancel-request.approve');
+//            Route::match(['get', 'post'], 'users/staking-purchased-packages/cancellations/{cancelRequest}/reject', 'Admin\Staking\StakingCancelRequestController@reject')->name('staking-cancel-request.reject');
             // STAKING END
 
             Route::get('users/transactions', 'Admin\TransactionController@index')->name('transactions.index');
@@ -279,7 +292,7 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
     });
 
     // USER ROUTES
-    Route::group(["prefix" => "user", 'middleware' => ['role:user', 'mobile_verified'], "as" => 'user.'], function () {
+    Route::group(["prefix" => "user", 'middleware' => ['role:user', /*'mobile_verified'*/], "as" => 'user.'], function () {
         Route::get('dashboard', 'User\DashboardController@index')->name('dashboard');
 
         // KYC
@@ -317,18 +330,18 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         // Route::get('ranks/gifts', 'User\RankGiftController@index')->name('ranks.gifts');
         // Route::match(['get', 'post'], 'ranks/gifts/{gift}/shipping-info', 'User\RankGiftController@shippingInfo')->name('ranks.gifts.shipping-info');
 
-        Route::get('ranks/summery', 'User\RankController@RankSummary')->name('ranks.summery');
-        Route::get('ranks/benefits/summery', 'User\RankBenefitSummeryController@index')->name('ranks.benefits.summery');
-        Route::get('ranks/benefits/requirements', 'User\RankBenefitSummeryController@requirements')->name('ranks.benefits.requirements');
-        Route::get('ranks/team/rankers', 'User\RankController@teamRankers')->name('ranks.team-rankers');
+        // Route::get('ranks/summery', 'User\RankController@RankSummary')->name('ranks.summery');
+        // Route::get('ranks/benefits/summery', 'User\RankBenefitSummeryController@index')->name('ranks.benefits.summery');
+        // Route::get('ranks/benefits/requirements', 'User\RankBenefitSummeryController@requirements')->name('ranks.benefits.requirements');
+        // Route::get('ranks/team/rankers', 'User\RankController@teamRankers')->name('ranks.team-rankers');
 
         // My Genealogy
-        Route::get('genealogy/new-registration', 'User\GenealogyController@registerForm')->name('genealogy.position.register');
+        // Route::get('genealogy/new-registration', 'User\GenealogyController@registerForm')->name('genealogy.position.register');
         Route::match(['get', 'post'], 'genealogy/{user:username?}', 'User\GenealogyController@index')->name('genealogy');
 
         Route::group(['prefix' => 'genealogy/{parent:username}/position-{position}'], function () {
-            Route::get('', 'User\GenealogyController@managePosition')->name('genealogy.position.manage')->middleware('signed');
-            Route::post('', 'User\GenealogyController@assignPosition')->middleware('signed');
+            // Route::get('', 'User\GenealogyController@managePosition')->name('genealogy.position.manage')->middleware('signed');
+            // Route::post('', 'User\GenealogyController@assignPosition')->middleware('signed');
         });
 
         Route::get('transactions', 'User\TransactionController@index')->name('transactions.index');
@@ -338,9 +351,12 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::get('transactions/invoice/steam/{transaction}', 'Payment\InvoiceController@streamPurchaseInvoice')->name('transactions.invoice.stream')->middleware('signed');
 
         Route::get('incomes/commission', 'User\EarningController@commission')->name('incomes.commission');
-        Route::get('incomes/rewards', 'User\EarningController@rewards')->name('incomes.rewards');
+        // Route::get('incomes/rewards', 'User\EarningController@rewards')->name('incomes.rewards');
         Route::get('earnings', 'User\EarningController@index')->name('earnings.index');
         Route::get('earnings/summary-report', 'User\EarningController@earningSummary')->name('earnings.summary-report');
+
+        Route::get('bv-points/earnings', 'User\BvPointController@earnings')->name('bv_points.earnings');
+        Route::get('bv-points/rewards', 'User\BvPointController@rewards')->name('bv_points.rewards');
 
         Route::get('team/users-list', 'User\GenealogyController@teamList')->name('team.users-list');
         Route::get('team/income-levels', 'User\GenealogyController@IncomeLevels')->name('team.income-levels');
@@ -352,11 +368,11 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::post('filter/users/{search_text}', 'User\WithdrawController@findUsers');
 
         Route::get('wallet', 'User\WalletController@index')->name('wallet.index');
-        Route::match(['get', 'post'], 'wallet/transfer/to-wallet', 'User\WalletTransferController@transfer')->name('wallet.transfer.to-wallet');
-        Route::get('wallet/transfer', 'User\WithdrawController@p2pTransfer')->name('wallet.transfer');
-        Route::post('wallet/transfer/p2p/2ft-verify', 'Payment\PayoutController@twoftVerifyP2P');
-        Route::post('wallet/transfer/p2p', 'Payment\PayoutController@p2pTransfer');
-        Route::match(['get', 'post'], 'wallet/transfer/p2p/{p2p}/confirmation', 'User\WithdrawController@p2pConfirm')->name('withdraw.confirm-p2p');
+        // Route::match(['get', 'post'], 'wallet/transfer/to-wallet', 'User\WalletTransferController@transfer')->name('wallet.transfer.to-wallet');
+        // Route::get('wallet/transfer', 'User\WithdrawController@p2pTransfer')->name('wallet.transfer');
+        // Route::post('wallet/transfer/p2p/2ft-verify', 'Payment\PayoutController@twoftVerifyP2P');
+        // Route::post('wallet/transfer/p2p', 'Payment\PayoutController@p2pTransfer');
+        // Route::match(['get', 'post'], 'wallet/transfer/p2p/{p2p}/confirmation', 'User\WithdrawController@p2pConfirm')->name('withdraw.confirm-p2p');
 
         Route::get('wallet/withdraw', 'User\WithdrawController@withdraw')->name('wallet.withdraw');
         Route::get('wallet/withdraws/{withdraw}/summery', 'User\WithdrawController@show')->name('wallet.withdraw.view');
@@ -364,21 +380,20 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::post('wallet/withdraw/binance', 'Payment\PayoutController@withdraw');
         Route::match(['get', 'post'], 'wallet/withdraws/{withdraw}/cancel-request', 'User\WithdrawController@cancelWithdraw')->name('wallet.withdraw.cancel');
 
-        Route::get('wallet/transfers/p2p/history', 'User\WithdrawController@p2pHistory')->name('transfers.p2p');
+        // Route::get('wallet/transfers/p2p/history', 'User\WithdrawController@p2pHistory')->name('transfers.p2p');
         Route::get('wallet/transfers/withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('transfers.withdrawals');
-        Route::get('wallet/transfers/staking-withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('staking.transfers.withdrawals');
+        // Route::get('wallet/transfers/staking-withdrawals/history', 'User\WithdrawController@withdrawalsHistory')->name('staking.transfers.withdrawals');
 
         Route::get('wallet/transfer/invoice/{withdraw}', 'Payment\InvoiceController@showPayoutInvoice')->name('wallet.transfer.invoice')->middleware('signed');
         Route::get('wallet/transfer/invoice/steam/{withdraw}', 'Payment\InvoiceController@streamPayoutInvoice')->name('wallet.transfer.invoice.stream')->middleware('signed');
 
         // Topup Request
-        Route::match(['get', 'post'], 'wallet/request-topup-balance', 'User\WalletTopupHistoryController@index')->name('wallet.request-topup-balance');
-        Route::get('wallet/topup-requests/history', 'User\WalletTopupHistoryController@history')->name('wallet.topup-request.history');
+        // Route::match(['get', 'post'], 'wallet/request-topup-balance', 'User\WalletTopupHistoryController@index')->name('wallet.request-topup-balance');
+        // Route::get('wallet/topup-requests/history', 'User\WalletTopupHistoryController@history')->name('wallet.topup-request.history');
 
 
         // Tutorial Request
         Route::get('tutorials', 'User\TutorialController@index')->name('tutorials.index');
-
 
 
         // support tickets

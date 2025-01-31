@@ -51,11 +51,11 @@
                                         <img class="w-25 img-thumbnail" src="{{ asset('assets/images/binance-qr.jpg') }}" alt="wallet-address">
                                     </div>
                                     <div id="payout_info" disabled rows="3" placeholder="Remark" class="form-control h-auto my-2">
-                                        <span class="fs-17">TLbnK7HxaasQKN67RqtAZ7t59NJ3JupmQh</span>
+                                        <span class="fs-17">TCnvwSL6pshsspKJSkkYXgFp9AUBotthNq</span>
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="mb-3 mt-2">
+                                <div class="mb-3 mt-2 d-none">
                                     <label for="purchase_for">Purchase For</label>
                                     <select data-input='payout' class="single-select-placeholder js-states select2-hidden-accessible" id="purchase_for">
                                         <option disabled>Start typing username</option>

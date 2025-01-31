@@ -44,22 +44,26 @@ $(function () {
                     }, 0);
             }
 
-            let amount = new Intl.NumberFormat().format(sumVal(8));
-            $(api.column(10).footer()).html(`Current page total amount: USDT ${amount}`);
+            let numberFormatOptions = {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }
+            let amount = new Intl.NumberFormat('en-US', numberFormatOptions).format(sumVal(8));
+            $(api.column(8).footer()).html(`${amount}`);
 
-            let transaction_fee = new Intl.NumberFormat().format(sumVal(9));
-            $(api.column(10).footer()).append(`<br><br>Current Page Trx fees: USDT ${transaction_fee}`);
+            let transaction_fee = new Intl.NumberFormat('en-US', numberFormatOptions).format(sumVal(9));
+            $(api.column(9).footer()).html(`${transaction_fee}`);
 
-            let total = new Intl.NumberFormat().format(sumVal(10));
-            $(api.column(10).footer()).append(`<br><br>Current Page Total: USDT ${total}`);
+            let total = new Intl.NumberFormat('en-US', numberFormatOptions).format(sumVal(10));
+            $(api.column(10).footer()).html(`${total}`);
         },
         columnDefs: [{
             render: function (date, type, full, meta) {
-                return `<div style='font-size: 0.76rem !important;'> ${date} </div>`;
+                return `<div style="font-size: 0.76rem !important;"> ${date} </div>`;
             }, targets: [2, 3, 4, 5, 6, 7],
         }, {
             render: function (amount, type, full, meta) {
-                return `<div style='min-width:100px' class="text-right"> ${amount} </div>`;
+                return `<div style="min-width:100px" class="text-right"> ${amount} </div>`;
             }, targets: [8, 9, 10],
         },],
     });

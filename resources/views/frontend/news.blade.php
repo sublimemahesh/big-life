@@ -1,5 +1,5 @@
 <x-frontend.layouts.app>
-    @section('title', 'News | Owara3m ')
+    @section('title', 'News | Win Together ')
     @section('header-title', 'Welcome ')
 
     @section('header')
@@ -60,7 +60,7 @@
                         </div>
                         <div class="clearfix">
                             <div class="wt-post-readmore pull-left">
-                                <a href="{{ route('news.show','news') }}" title="READ MORE" rel="bookmark" class="site-button-link">Read More</a>
+                                <a href="{{ route('news.show', $news) }}" title="READ MORE" rel="bookmark" class="site-button-link">Read More</a>
                             </div>
                             <div class="widget_social_inks pull-right">
                                 <ul class="social-icons social-radius social-dark m-b0">

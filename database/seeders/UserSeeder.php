@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,30 +19,39 @@ class UserSeeder extends Seeder
             [
                 //Super Admin
                 [
-                    'name' => 'Navod Hansajith',
+                    'super_parent_id' => null,
+                    'name' => 'Super Admin',
                     'username' => 'super_admin',
-                    'email' => 'hansajith.synotec@gmail.com',
+                    'email' => 'noreply@wintogetherplan.com',
+                    'email_verified_at' => now(),
+                    'phone_verified_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
-                    'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                    'password' => Hash::make('Xl&6!O#8@m%$9M'), // password
                 ],
                 //Admin
-                [ 
+                [
+                    'super_parent_id' => null,
                     'name' => 'James caron',
                     'username' => 'admin',
-                    'email' => 'hansajithsynotec@gmail.com',
+                    'email' => 'noreply@wintogetherplan.com',
+                    'email_verified_at' => null,
+                    'phone_verified_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
-                    'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                    'password' => Hash::make('Xl&6!O#8@m%$9M'), // password
                 ],
                 //User
                 [
-                    'name' => 'john smith',
-                    'username' => 'user',
-                    'email' => 'hansajith18@gmail.com',
+                    'super_parent_id' => null,
+                    'name' => 'Alex John',
+                    'username' => 'Alex',
+                    'email' => 'noreply@wintogetherplan.com',
+                    'email_verified_at' => now(),
+                    'phone_verified_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
-                    'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                    'password' => Hash::make('Xl&6!O#8@m%$9M'), // password
                 ],
             ]
         );

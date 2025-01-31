@@ -65,7 +65,7 @@
                     @enderror
 
                 </div>
-                <div class="col-lg-12 mt-3">
+                <div class="col-lg-6 mt-3">
                     <label class="mb-1" for="email"><strong class="main-register-form-text">{{ __('Email') }}
                             <sup class="main-required">*</sup></strong></label>
                     <x-jet-input id="email" wire:model.lazy="state.email" class="block mt-1 w-full form-control" type="email" name="email" :value="old('email')" required/>
@@ -73,6 +73,20 @@
                     {{-- <div class="text-sm text-red-600">{{ $message }}</div> --}}
                     <div class="main-register-from-error-alert">
                         <strong>Required! </strong> {{ $message }}.
+                    </div>
+                    @enderror
+                </div>
+                <div class="col-lg-6 mt-3">
+                    <label class="mb-1" for="username">
+                        <strong class="main-register-form-text">{{ __('Username') }}
+                            <sup class="main-required">*</sup>
+                        </strong>
+                    </label>
+                    <x-jet-input id="username" wire:model.lazy="state.username" class="block mt-1 w-full  form-control" type="text" name="username" required autocomplete="off"/>
+                    @error('state.username')
+                    {{-- <div class="text-sm text-red-600">{{ $message }}</div> --}}
+                    <div class="main-register-from-error-alert">
+                        <strong>required!</strong> {{ $message }}.
                     </div>
                     @enderror
                 </div>
@@ -109,16 +123,18 @@
                     @enderror
                 </div>
                 <div class="col-lg-6 mt-3">
-                    <label class="mb-1" for="username">
-                        <strong class="main-register-form-text">{{ __('Username') }}
-                            <sup class="main-required">*</sup>
-                        </strong>
+                    <label class="mb-1" for="position"><strong class="main-register-form-text">{{ __('Placement') }}
+                            <sup class="main-required">*</sup></strong>
                     </label>
-                    <x-jet-input id="username" wire:model.lazy="state.username" class="block mt-1 w-full  form-control" type="text" name="username" required autocomplete="off"/>
-                    @error('state.username')
+                    <select id="gender" wire:model.lazy="state.position" class="block mt-1 w-full  form-control">
+                        <option value="">Select Placement</option>
+                        <option value="{{ \App\Enums\BinaryPlaceEnum::LEFT->value }}">Left</option>
+                        <option value="{{ \App\Enums\BinaryPlaceEnum::RIGHT->value }}">Right</option>
+                    </select>
+                    @error('state.position')
                     {{-- <div class="text-sm text-red-600">{{ $message }}</div> --}}
                     <div class="main-register-from-error-alert">
-                        <strong>required!</strong> {{ $message }}.
+                        <strong>Required! </strong> {{ $message }}.
                     </div>
                     @enderror
                 </div>
@@ -171,8 +187,14 @@
                         </x-jet-label>
                     </div>
                 @endif
-                <div class="col-lg-12 mb-4">
+                <div class="col-lg-12 mb-4" wire:loading.remove>
                     @include('auth.components.button', ['attribute' => 'wire:click.prevent=register', 'slot' => 'Register'])
+                </div>
+
+                <div wire:loading wire:target="register">
+                    <div class="d-flex justify-content-center position-relative">
+                        <div class="loader"></div>
+                    </div>
                 </div>
                 <x-jet-validation-errors class="col-lg-12 mb-4 text-danger"/>
             </div>

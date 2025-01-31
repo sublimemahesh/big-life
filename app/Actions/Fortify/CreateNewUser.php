@@ -23,11 +23,13 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        $genealogy_children = config('genealogy.children', 2);
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'super_parent_id' => ['nullable', 'exists:users,id'],
+            'position' => ['required', "lte:{$genealogy_children}", 'gte:1',],
             'username' => ['required', 'unique:users,username', 'string', 'max:255', 'regex:/^[a-z0-9A-Z-_]+$/'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
@@ -41,6 +43,7 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'phone' => $input['phone'],
                 'super_parent_id' => $input['super_parent_id'] ?? config('fortify.super_parent_id'),
+                'position' => $input['position'],
                 'username' => $input['username'],
                 'password' => Hash::make($input['password']),
             ]), function (User $user) use ($input) {
