@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-sm-8">
                     <div class="form-group row mb-2">
-                        <label class="col-sm-3 col-form-label" for="payout_transfer_fee">Withdrawal fee (USD)</label>
+                        <label class="col-sm-3 col-form-label" for="payout_transfer_fee">Withdrawal fee (%)</label>
                         <div class="col-sm-9">
                             <input class="form-control" value="{{ $payout_transfer_fee->value }}" id="payout_transfer_fee" name="payout_transfer_fee" placeholder="Payout transfer fee" type="text">
                         </div>
