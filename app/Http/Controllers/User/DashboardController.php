@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\BinaryPlaceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\YealyIncomeBarChartResource;
 use App\Models\Commission;
@@ -69,7 +70,10 @@ class DashboardController extends Controller
             ->whereStatus('DISQUALIFIED')
             ->sum('amount'), 2);
 
-        Auth::user()->loadCount(['directSalesWithInactive as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')]);
+        Auth::user()->loadCount([
+            'directSales',
+            'directSalesWithInactive as pending_direct_sales_count' => fn($query) => $query->whereNull('parent_id')->whereHas('activePackages')
+        ]);
         $wallet = Auth::user()->wallet;
 
         // records
@@ -132,6 +136,11 @@ class DashboardController extends Controller
         $banners = Page::where(['slug' => 'banner'])->firstOrNew();
         $banners = $banners?->children;
 
+        $leftChild = Auth::user()->children()->where('position', BinaryPlaceEnum::LEFT->value)->first();
+        $rightChild = Auth::user()->children()->where('position', BinaryPlaceEnum::RIGHT->value)->first();
+
+        $leftDescendantCount = $leftChild ? $leftChild->descendantsAndSelf()->count() : 0;
+        $rightDescendantCount = $rightChild ? $rightChild->descendantsAndSelf()->count() : 0;
 
         return view('backend.user.dashboard',
             compact(
@@ -161,6 +170,9 @@ class DashboardController extends Controller
                 'top_rankers',
                 'yearlyIncomeChartData',
                 'popup',
+
+                'leftDescendantCount',
+                'rightDescendantCount',
             )
         );
 

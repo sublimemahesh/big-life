@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-sm-12">
                             <div class="widget-stat card rounded-3 bg-info-dark">
                                 <div class="card-body  p-4">
                                     <div class="media">
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-sm-12">
                             <div class="widget-stat card rounded-3 bg-warning-dark ">
                                 <div class="card-body  p-4">
                                     <div class="media">
@@ -92,8 +92,28 @@
                                         <div class="media-body text-white">
                                             <p class="mb-1">PAYOUT BALANCE</p>
                                             <h4 class="text-white user-dashboard-card-font-size-change">
+                                                @if(auth()->user()->direct_sales_count <= 0)
+                                                    USDT {{number_format(($wallet->withdraw_limit/400)*300,2) }}
+                                                @else
                                                 USDT {{number_format($wallet->withdraw_limit,2) }}
+                                                @endif
                                             </h4>
+                                            <small> </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-sm-12">
+                            <div class="widget-stat card rounded-3">
+                                <div class="card-body  p-4">
+                                    <div class="media">
+                                        <span class="me-3"><i class="la la-users"></i></span>
+                                        <div class="media-body text-white">
+                                            <p class="mb-1">Members</p>
+                                            <h4 class="text-white user-dashboard-card-font-size-change me-4"> LEFT {{ $leftDescendantCount }}</h4>
+                                            <h4 class="text-white user-dashboard-card-font-size-change"> RIGHT {{ $rightDescendantCount }}</h4>
+                                            <br>
                                             <small> </small>
                                         </div>
                                     </div>
