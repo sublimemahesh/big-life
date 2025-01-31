@@ -123,9 +123,9 @@
                                 <tr>
                                     <th>FROM</th>
                                     <th>PACKAGE</th>
-                                    <th>LEFT</th>
-                                    <th>RIGHT</th>
-                                    <th>DATE</th>
+                                    <th class="text-right">LEFT</th>
+                                    <th class="text-right">RIGHT</th>
+                                    <th class="text-right">DATE</th>
                                 </tr>
                             </thead>
                         </table>

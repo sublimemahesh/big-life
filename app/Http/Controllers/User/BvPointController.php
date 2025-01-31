@@ -79,7 +79,9 @@ class BvPointController extends Controller
 
             return DataTables::of($earnings)
                 ->addColumn('points', fn($point) => $point->bv_points)
-                ->addColumn('lost', fn($point) => $point->lost_amount)
+                ->addColumn('amount', fn($point) => number_format($point->amount, 2))
+                ->addColumn('paid', fn($point) => number_format($point->paid, 2))
+                ->addColumn('lost', fn($point) => number_format($point->lost_amount, 2))
                 ->addColumn('date', fn($point) => $point->created_at->format('Y-m-d H:i:s'))
                 ->make();
         }

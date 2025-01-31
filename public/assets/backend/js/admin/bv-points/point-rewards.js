@@ -17,8 +17,9 @@ $(function () {
         serverSide: true,
         //stateSave: true,
         ajax: location.href,
-        order: [[2, 'desc']],
+        order: [[3, 'desc']],
         columns: [
+            {data: "user", name: 'user.username', searchable: true, orderable: false},
             {data: "points", searchable: false, orderable: false},
             {data: "status", searchable: false, orderable: false},
             {data: "date", name: "created_at", searchable: false},
@@ -30,14 +31,28 @@ $(function () {
             {
                 render: function (date, type, full, meta) {
                     return `<div style="font-size: 0.76rem !important;"> ${date} </div>`;
-                }, targets: 2,
+                }, targets: 3,
             },
             {
                 render: function (amount, type, full, meta) {
                     return `<div style="min-width:100px" class="text-right"> ${amount} </div>`;
-                }, targets: [3,4,5],
+                }, targets: [4, 5, 6],
             }
         ]
     });
 
+    flatpickr("#rewards-date-range", {
+        mode: "range", dateFormat: "Y-m-d", defaultDate: date_range && date_range.split("to"),
+    });
+
+    $(document).on("click", "#rewards-search", function (e) {
+        e.preventDefault();
+        urlParams.set("date-range", $("#rewards-date-range").val());
+        urlParams.set("status", $("#rewards-status").val());
+        urlParams.set("user_id", $("#user_id").val());
+        // urlParams.set("type", $("#type").val());
+        let url = location.href.split(/\?|\#/)[0] + "?" + urlParams.toString();
+        history.replaceState({}, "", url);
+        table.ajax.url(url).load();
+    });
 })

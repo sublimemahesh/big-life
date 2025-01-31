@@ -114,7 +114,20 @@
         </ul>
     </li>
 @endcan--}}
-
+@can('bv-reports.viewAny')
+    <li>
+        <a href="{{ route('admin.bv_points.earnings') }}" class="" aria-expanded="false">
+            <i class="bi bi-send-plus"></i>
+            <span class="nav-text">BV Points</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.bv_points.rewards') }}" class="" aria-expanded="false">
+            <i class="bi bi-send-plus"></i>
+            <span class="nav-text">BV Rewards</span>
+        </a>
+    </li>
+@endcan
 {{--@can('wallet.topup')
     <li>
         <a href="{{ route('admin.wallet.topup') }}" class="" aria-expanded="false">

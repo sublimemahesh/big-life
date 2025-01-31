@@ -21,9 +21,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-
-
-
 Route::get('/', 'FrontendController@index')->name('/');
 Route::get('about-us', 'FrontendController@about')->name('about');
 Route::get('existing-projects', 'FrontendController@project')->name('project');
@@ -209,6 +206,10 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
             Route::post('users/rewards/calculate-bonus', 'Admin\EarningController@issueMonthlyRankBonuses');
             Route::post('users/earnings/calculate-commission', 'Admin\EarningController@calculateCommission');
             Route::post('users/earnings/release-staking-interest', 'Admin\EarningController@releaseStakingInterest');
+
+            // BV Points
+            Route::get('bv-points/earnings', 'Admin\BvPointController@earnings')->name('bv_points.earnings');
+            Route::get('bv-points/rewards', 'Admin\BvPointController@rewards')->name('bv_points.rewards');
 
             // Transactions
             Route::get('users/purchased-packages', 'Admin\PurchasedPackageController@index')->name('purchased-packages');

@@ -27,9 +27,9 @@
                                     <th>POINTS</th>
                                     <th>STATUS</th>
                                     <th>DATE</th>
-                                    <th class="text-right">LOST $</th>
                                     <th class="text-right">AMOUNT $</th>
-                                    <th class="text-right">PAID $</th>
+                                    <th class="text-right text-success">PAID $</th>
+                                    <th class="text-right text-danger">LOST $</th>
                                 </tr>
                             </thead>
                         </table>
