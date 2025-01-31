@@ -1,5 +1,6 @@
-<div class="row">
+<div class="row d-none">
     <div class="col-sm-8">
+        <hr>
         <div class="form-group row mb-2">
             <label class="col-sm-3 col-form-label" for="rank_gift">Rank gift Amount (%)</label>
             <div class="col-sm-9">

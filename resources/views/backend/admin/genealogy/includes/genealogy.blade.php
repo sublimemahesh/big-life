@@ -27,7 +27,7 @@
                     <ul class="remove-mobile ">
                         <div class="swiper swiper-container">
                             <div class="swiper-wrapper add-tree-3">
-                                @for ($i = 1; $i <= 5; $i++)
+                                @for ($i = 1; $i <= config('genealogy.children', 2); $i++)
                                     <li class="position-{{ $i }} remove-mobile">
                                         @if (isset($descendants[$i]))
                                             @php

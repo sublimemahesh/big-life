@@ -512,7 +512,8 @@ class StrategyController extends Controller
             'package' => 'required|numeric',
             'rank_bonus' => 'nullable|numeric',
         ])->validate();
-
+        $validated['direct'] = 100;
+        $validated['indirect'] = 100;
         $payable_percentages = json_encode($validated, JSON_THROW_ON_ERROR);
         DB::transaction(function () use ($payable_percentages) {
             Strategy::updateOrCreate(
