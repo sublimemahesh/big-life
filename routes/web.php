@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Email check 
+// Email check
 // Route::get('/thank-you', function () {
 //     return view('email.thank');
 // });
@@ -291,7 +291,7 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
     });
 
     // USER ROUTES
-    Route::group(["prefix" => "user", 'middleware' => ['role:user', 'mobile_verified'], "as" => 'user.'], function () {
+    Route::group(["prefix" => "user", 'middleware' => ['role:user', /*'mobile_verified'*/], "as" => 'user.'], function () {
         Route::get('dashboard', 'User\DashboardController@index')->name('dashboard');
 
         // KYC
@@ -335,12 +335,12 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::get('ranks/team/rankers', 'User\RankController@teamRankers')->name('ranks.team-rankers');
 
         // My Genealogy
-        Route::get('genealogy/new-registration', 'User\GenealogyController@registerForm')->name('genealogy.position.register');
+        // Route::get('genealogy/new-registration', 'User\GenealogyController@registerForm')->name('genealogy.position.register');
         Route::match(['get', 'post'], 'genealogy/{user:username?}', 'User\GenealogyController@index')->name('genealogy');
 
         Route::group(['prefix' => 'genealogy/{parent:username}/position-{position}'], function () {
-            Route::get('', 'User\GenealogyController@managePosition')->name('genealogy.position.manage')->middleware('signed');
-            Route::post('', 'User\GenealogyController@assignPosition')->middleware('signed');
+            // Route::get('', 'User\GenealogyController@managePosition')->name('genealogy.position.manage')->middleware('signed');
+            // Route::post('', 'User\GenealogyController@assignPosition')->middleware('signed');
         });
 
         Route::get('transactions', 'User\TransactionController@index')->name('transactions.index');

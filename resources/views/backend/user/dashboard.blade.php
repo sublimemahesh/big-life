@@ -29,12 +29,12 @@
                                                     Loss sale count: USDT {{ $lost_commissions }}
                                                 </label>
                                             </div>
-                                            @if (Auth::user()->id === config('fortify.super_parent_id') || (Auth::user()->parent_id !== null && Auth::user()->position !== null))
+                                            @if (config('app.env') === 'local')
                                                 <div class="btn-genealogy btn-genealogy mt-2">
-                                                    <a href="{{ route('user.genealogy.position.register') }}" class="btn btn-info rounded-3 profile-card-btn">
+                                                    {{--<a href="{{ route('user.genealogy.position.register') }}" class="btn btn-info rounded-3 profile-card-btn">
                                                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                                                         Registration new user
-                                                    </a>
+                                                    </a>--}}
 
                                                     <a href="{{ route('user.genealogy') }}" class="btn btn-info rounded-3 profile-card-btn">
                                                         <i class="fa fa-sitemap" aria-hidden="true"></i>
@@ -367,36 +367,36 @@
                             <div class="table-responsive">
                                 <table class="table table-responsive-md">
                                     <thead>
-                                    <tr>
-                                        <th><strong>User ID.</strong></th>
-                                        <th><strong>NAME</strong></th>
-                                        <th><strong>SPONSOR</strong></th>
-                                        <th><strong>ACTIVATED</strong></th>
-                                        <th><strong>Rank</strong></th>
-                                        <th class="text-center"><strong>TOTAL RANKERS</strong></th>
-                                    </tr>
+                                        <tr>
+                                            <th><strong>User ID.</strong></th>
+                                            <th><strong>NAME</strong></th>
+                                            <th><strong>SPONSOR</strong></th>
+                                            <th><strong>ACTIVATED</strong></th>
+                                            <th><strong>Rank</strong></th>
+                                            <th class="text-center"><strong>TOTAL RANKERS</strong></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($top_rankers as $ranker)
-                                        <tr>
-                                            <td class="py-1">{{ $ranker->user_id }}</td>
-                                            <td class="py-1 text-info text-truncate" style="max-width:130px">
-                                                {{--{{ $ranker->user->name }}<br>--}}
-                                                {{ $ranker->user->username }}
-                                            </td>
-                                            <td class="py-1 text-truncate" style="max-width:130px">
-                                                {{--{{ $ranker->user->sponsor->name }}<br>--}}
-                                                {{ $ranker->user->sponsor->username }}
-                                            </td>
-                                            <td class="py-1">{{ Carbon::parse($ranker->activated_at)->format('Y-m-d h:i A') }}</td>
-                                            <td class="py-1 text-info">Rank 0{{ $ranker->rank }}</td>
-                                            <td class="py-1 text-center">{{ $ranker->total_rankers }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center"> No Rankers</td>
-                                        </tr>
-                                    @endforelse
+                                        @forelse($top_rankers as $ranker)
+                                            <tr>
+                                                <td class="py-1">{{ $ranker->user_id }}</td>
+                                                <td class="py-1 text-info text-truncate" style="max-width:130px">
+                                                    {{--{{ $ranker->user->name }}<br>--}}
+                                                    {{ $ranker->user->username }}
+                                                </td>
+                                                <td class="py-1 text-truncate" style="max-width:130px">
+                                                    {{--{{ $ranker->user->sponsor->name }}<br>--}}
+                                                    {{ $ranker->user->sponsor->username }}
+                                                </td>
+                                                <td class="py-1">{{ Carbon::parse($ranker->activated_at)->format('Y-m-d h:i A') }}</td>
+                                                <td class="py-1 text-info">Rank 0{{ $ranker->rank }}</td>
+                                                <td class="py-1 text-center">{{ $ranker->total_rankers }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center"> No Rankers</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

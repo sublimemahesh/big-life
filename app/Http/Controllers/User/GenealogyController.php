@@ -21,6 +21,10 @@ class GenealogyController extends Controller
 {
     public function index(Request $request, User|null $user)
     {
+        if (config('app.env') !== 'local') {
+            return redirect()->route('user.team.users-list');
+        }
+
         $genealogy_children = config('genealogy.children', 2);
         if ($user?->id === null) {
             $user = Auth::user();
@@ -110,7 +114,7 @@ class GenealogyController extends Controller
     public function IncomeLevels(Request $request)
     {
         $user = Auth::user();
-         $genealogy_children = config('genealogy.children', 2);
+        $genealogy_children = config('genealogy.children', 2);
         $income_levels = DB::select("WITH RECURSIVE member_levels AS (
                                 SELECT id, parent_id, 1 AS level
                                 FROM users
