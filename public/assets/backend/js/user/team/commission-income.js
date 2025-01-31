@@ -38,10 +38,16 @@ $(function () {
                     }, 0);
             }
 
-            let amountTotal = new Intl.NumberFormat().format(sumVal(5));
+            let amountTotal =new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2, // Ensures 100 becomes "100.00"
+                maximumFractionDigits: 2
+            }).format(sumVal(5));
             $(api.column(6).footer()).html(`Current Page Amount Total: USDT ${amountTotal}`);
 
-            let paidTotal8 = new Intl.NumberFormat().format(sumVal(6));
+            let paidTotal8 = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2, // Ensures 100 becomes "100.00"
+                maximumFractionDigits: 2
+            }).format(sumVal(6));
             $(api.column(6).footer()).append(`<br><br>Current Paid Total: USDT ${paidTotal8}`);
         },
         columnDefs: [
