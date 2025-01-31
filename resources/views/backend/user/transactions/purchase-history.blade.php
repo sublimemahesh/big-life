@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="w-full my-3 dark:bg-gray-800">
                         <div class="rounded-sm">
-                           
+
                             <div class="border-l border-b border-r border-gray-200 dark:border-gray-600 px-2 py-4 dark:border-0  dark:bg-secondary-dark">
                                 <div>
                                     <div class="md:flex md:flex-wrap">
@@ -102,7 +102,7 @@
                                                         <select id="product-type" class="power_grid appearance-none block mt-1 mb-1 bg-gray-50 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full active dark:bg-gray-500 dark:text-gray-200 dark:placeholder-gray-200 dark:border-gray-500">
                                                             <option value="">ALL</option>
                                                             <option value="package" {{ request()->input('product-type') === 'package' ? 'selected' : '' }}>PACKAGE</option>
-                                                            <option value="staking" {{ request()->input('product-type') === 'staking' ? 'selected' : '' }}>STAKING</option>
+                                                            <option value="staking" {{ request()->input('product-type') === 'staking' ? 'selected' : '' }} class="d-none"STAKING</option>
                                                         </select>
                                                         <div class="pointer-events-none rounded absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:bg-gray-500 dark:text-gray-200 dark:placeholder-gray-200 dark:border-gray-500">
                                                             <svg class="pointer-events-none w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

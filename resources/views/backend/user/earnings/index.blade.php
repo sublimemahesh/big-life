@@ -36,7 +36,7 @@
                                                             <option value="package">PACKAGE</option>
                                                             <option value="direct">DIRECT SALE</option>
                                                             <option value="indirect">INDIRECT SALE</option>
-                                                            <option value="rank_bonus">RANK BONUS</option>
+                                                            <option value="rank_bonus" class="d-none">RANK BONUS</option>
                                                             {{--<option value="rank_gift">RANK GIFT</option>--}}
                                                             <option value="p2p" class="d-none">P2P</option>
                                                             {{--<option value="staking">STAKING</option>--}}

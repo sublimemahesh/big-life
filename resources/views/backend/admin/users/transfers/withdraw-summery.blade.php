@@ -35,7 +35,7 @@
                             TOPUP WALLET <br>
                             &emsp; Balance: <code>USDT {{ $withdraw->user->wallet->topup_balance }}</code>
                         </p>
-                        <p>
+                        <p class="d-none">
                             STAKING WALLET <br>
                             &emsp; Balance: <code>USDT {{ $withdraw->user->wallet->staking_balance }}</code>
                         </p>
