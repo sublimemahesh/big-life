@@ -69,15 +69,15 @@ class DispatchDailyEarningJobs extends Command
 
             $activePackages = PurchasedPackage::with('user')
                 ->where('status', 'active')
-                ->where(function (Builder $query) {
+                ->where(function (Builder $query) use ($date) {
                     $query->whereRaw(
-                        "(WEEKDAY(`created_at`) IN (1,2,3,4) AND DATE(`created_at`) + INTERVAL 6 DAY <= DATE('" . Carbon::now() . "')) OR
-                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 5 DAY <= DATE('" . Carbon::now() . "')) OR
-	                        (WEEKDAY(`created_at`) IN (0,6) AND DATE(`created_at`) + INTERVAL 4 DAY <= DATE('" . Carbon::now() . "'))"
+                        "(WEEKDAY(`created_at`) IN (0,1,2,6) AND DATE(`created_at`) + INTERVAL 9 DAY <= DATE('" . $date . "')) OR
+                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 10 DAY <= DATE('" . $date . "')) OR
+	                        (WEEKDAY(`created_at`) IN (3,4) AND DATE(`created_at`) + INTERVAL 11 DAY <= DATE('" . $date . "'))"
                     );
                 })
                 //->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$date}'") // after 5 days from package purchase
-                ->where('expired_at', '>=', Carbon::now())
+                ->where('expired_at', '>=', $date)
                 ->whereDoesntHave('earnings', fn($query) => $query->whereDate('created_at', $date)->where('type', 'PACKAGE'))
                 ->chunk(100, function ($activePackages) use ($date) {
                     // Loop over each  active packages and calculate their profit

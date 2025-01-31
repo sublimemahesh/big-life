@@ -12,12 +12,12 @@ trait NextPaymentDate
 
         $day = strtolower(Carbon::parse($this->created_at)->format('l'));
 
-        if (in_array($day, ['tuesday', 'wednesday', 'thursday', 'friday'])) {
-            $firstPayDate = $this->created_at->addDays(6);
+        if (in_array($day, ['monday', 'tuesday', 'wednesday', 'sunday'])) {
+            $firstPayDate = $this->created_at->addDays(9);
         } elseif ($day === 'saturday') {
-            $firstPayDate = $this->created_at->addDays(5);
-        } elseif (in_array($day, ['sunday', 'monday'])) {
-            $firstPayDate = $this->created_at->addDays(4);
+            $firstPayDate = $this->created_at->addDays(10);
+        } elseif (in_array($day, ['thursday', 'friday'])) {
+            $firstPayDate = $this->created_at->addDays(11);
         }
 
         $nextPayDay = $firstPayDate;
