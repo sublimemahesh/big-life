@@ -37,7 +37,10 @@ $(function () {
                     }, 0);
             }
 
-            let amount = new Intl.NumberFormat().format(sumVal(4));
+            let amount = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2, // Ensures 100 becomes "100.00"
+                maximumFractionDigits: 2
+            }).format(sumVal(4));
             $(api.column(4).footer()).html(`Current page total amount: USDT ${amount}`);
 
         },
