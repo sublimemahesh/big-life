@@ -41341,6 +41341,10 @@ table.dataTable thead .sorting_asc {
 [data-theme-version="dark"] .list-table .list-row span:first-child {
     color: #43c903;
 }
+[data-theme-version="dark"] #nav-direct-sale .list-table .list-row span:nth-child(3),
+[data-theme-version="dark"] #nav-indirect-sale .list-table .list-row span:nth-child(3) {
+    color: #8F3939;
+}
 
 @media only screen and (max-width: 61.9375rem) {
     .list-table .list-row span {

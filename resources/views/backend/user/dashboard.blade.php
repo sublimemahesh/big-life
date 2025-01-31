@@ -21,13 +21,13 @@
                                             <div>
                                                 <label href="#" class="btn btn btn-user  profile-card-btn">
                                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                                    Pending User Count: {{ auth()->user()->pending_direct_sales_count }}
+                                                    Inactive Direct Sales: {{ auth()->user()->pending_direct_sales_count }}
                                                 </label>
 
-                                                <label href="#" class="btn btn btn-user profile-card-btn">
+                                                {{--<label href="#" class="btn btn btn-user profile-card-btn">
                                                     <i class="fa fa-balance-scale" aria-hidden="true"></i>
                                                     Loss sale count: USDT {{ $lost_commissions }}
-                                                </label>
+                                                </label>--}}
                                             </div>
                                             @if (config('app.env') === 'local')
                                                 <div class="btn-genealogy btn-genealogy mt-2">
@@ -203,7 +203,7 @@
                                                 <span class="me-3"><i class="la la-money-bill-wave"></i></span>
                                                 <div class="media-body text-white">
                                                     <p class="mb-1">TOTAL COMMISSIONS</p>
-                                                    <h4 class="text-white user-dashboard-card-font-size-change"> USDT {{$qualified_commissions }}</h4>
+                                                    <h4 class="text-white user-dashboard-card-font-size-change"> USDT {{$direct_comm_income + $indirect_comm_income }}</h4>
                                                     <br>
                                                     <small> </small>
                                                 </div>
@@ -217,8 +217,8 @@
                                             <div class="media">
                                                 <span class="me-3"><i class="la bi-hourglass-split"></i></span>
                                                 <div class="media-body text-white">
-                                                    <p class="mb-1">PENDING COMMISSIONS</p>
-                                                    <h4 class="text-white user-dashboard-card-font-size-change"> USDT {{$pending_commissions }}</h4>
+                                                    <p class="mb-1">LOST COMMISSIONS</p>
+                                                    <h4 class="text-white user-dashboard-card-font-size-change"> USDT {{$lost_commissions }}</h4>
                                                     <br>
                                                     <small> </small>
                                                 </div>
@@ -324,17 +324,19 @@
                                         <div class="tab-pane fade" id="nav-direct-sale" role="tabpanel" aria-labelledby="nav-direct-sale-tab">
                                             <div class="list-row-head text-nowrap text-left px-3">
                                                 <span class="px-0">Received</span>
-                                                <span class="px-0">Already Paid</span>
+                                                <span class="px-0">Paid</span>
+                                                <span class="px-0">Lost</span>
                                                 <span class="px-0">User</span>
-                                                <span class="px-0">Next Pay</span>
+                                                {{--<span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
                                                 @foreach ($direct as $sale)
                                                     <div class="list-row px-3">
                                                         <span class="p-0">$ {{ number_format($sale->amount,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
+                                                        <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
                                                         <span class="p-0">{{ $sale->purchasedPackage->user->username }}</span>
-                                                        <span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>
+                                                        {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>
                                                 @endforeach
@@ -343,17 +345,19 @@
                                         <div class="tab-pane fade" id="nav-indirect-sale" role="tabpanel" aria-labelledby="nav-indirect-sale-tab">
                                             <div class="list-row-head text-nowrap text-left px-3">
                                                 <span class="px-0">Received</span>
-                                                <span class="px-0">Already Paid</span>
+                                                <span class="px-0">Paid</span>
+                                                <span class="px-0">Lost</span>
                                                 <span class="px-0">User</span>
-                                                <span class="px-0">Next Pay</span>
+                                               {{-- <span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
                                                 @foreach ($indirect as $sale)
                                                     <div class="list-row px-3">
                                                         <span class="p-0">$ {{ number_format($sale->amount,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
+                                                        <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
                                                         <span class="p-0">{{ $sale->purchasedPackage->user->username }}</span>
-                                                        <span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>
+                                                        {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>
                                                 @endforeach
@@ -381,36 +385,30 @@
                 <div class="col-lg-12">
                     <div class="card rounded-3">
                         <div class="card-header">
-                            <h4 class="card-title">Latest {{ count($top_rankers) }} Rankers</h4>
+                            <h4 class="card-title">BV Earnings</h4>
                         </div>
                         <div class="card-body py-1">
                             <div class="table-responsive">
                                 <table class="table table-responsive-md">
                                     <thead>
                                         <tr>
-                                            <th><strong>User ID.</strong></th>
-                                            <th><strong>NAME</strong></th>
-                                            <th><strong>SPONSOR</strong></th>
-                                            <th><strong>ACTIVATED</strong></th>
-                                            <th><strong>Rank</strong></th>
-                                            <th class="text-center"><strong>TOTAL RANKERS</strong></th>
+                                            <th><strong>POINTS</strong></th>
+                                            <th><strong>AMOUNT</strong></th>
+                                            <th><strong>PAID</strong></th>
+                                            <th><strong>LOST</strong></th>
+                                            <th><strong>STATUS</strong></th>
+                                            <th><strong>DATE</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($top_rankers as $ranker)
+                                        @forelse($bv_rewards as $bv)
                                             <tr>
-                                                <td class="py-1">{{ $ranker->user_id }}</td>
-                                                <td class="py-1 text-info text-truncate" style="max-width:130px">
-                                                    {{--{{ $ranker->user->name }}<br>--}}
-                                                    {{ $ranker->user->username }}
-                                                </td>
-                                                <td class="py-1 text-truncate" style="max-width:130px">
-                                                    {{--{{ $ranker->user->sponsor->name }}<br>--}}
-                                                    {{ $ranker->user->sponsor->username }}
-                                                </td>
-                                                <td class="py-1">{{ Carbon::parse($ranker->activated_at)->format('Y-m-d h:i A') }}</td>
-                                                <td class="py-1 text-info">Rank 0{{ $ranker->rank }}</td>
-                                                <td class="py-1 text-center">{{ $ranker->total_rankers }}</td>
+                                                <td class="py-1">{{ $bv->bv_points }}</td>
+                                                <td class="py-1">{{ number_format($bv->amount,2) }}</td>
+                                                <td class="py-1 text-success">{{ number_format($bv->paid,2) }}</td>
+                                                <td class="py-1 text-danger">{{ number_format($bv->lost_amount,2) }}</td>
+                                                <td class="py-1">{{ $bv->status }}</td>
+                                                <td class="py-1">{{ $bv->created_at->format('Y-m-d h:i A') }}</td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -552,20 +550,20 @@
             });
 
             @php
-                $pii_chart_data = [$invest_income,$direct_comm_income,$indirect_comm_income,$rank_bonus_income]
+                $pii_chart_data = [$invest_income,$direct_comm_income,$indirect_comm_income]
             @endphp
 
             new Chart(document.getElementById('earnings-pie-chart'), {
                 type: 'pie',
                 data: {
-                    labels: ['PACKAGE', 'DIRECT', 'INDIRECT', 'RANK BONUS'],
+                    labels: ['PACKAGE', 'DIRECT', 'INDIRECT'],
                     datasets: [
                         {
                             label: 'Total Earnings',
                             data: {!! json_encode($pii_chart_data, JSON_THROW_ON_ERROR) !!},
                             borderWidth: 0.5,
-                            borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86 )',],
-                            backgroundColor: ['rgb(255, 99, 132,0.5)', 'rgb(54, 162, 235,0.5)', 'rgb(75, 192, 192,0.5)', 'rgb(255, 205, 86,0.5)',],
+                            borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(75, 192, 192)',],
+                            backgroundColor: ['rgb(255, 99, 132,0.5)', 'rgb(54, 162, 235,0.5)', 'rgb(75, 192, 192,0.5)',],
                         }
                     ]
                 },

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Enums\BinaryPlaceEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\YealyIncomeBarChartResource;
+use App\Models\BvPointReward;
 use App\Models\Commission;
 use App\Models\Currency;
 use App\Models\Earning;
@@ -46,27 +47,30 @@ class DashboardController extends Controller
         $indirect_comm_income = Earning::where('user_id', Auth::user()->id)
             ->where('status', 'RECEIVED')
             ->where('type', 'INDIRECT')->sum('amount');
-        $rank_bonus_income = Earning::where('user_id', Auth::user()->id)
-            ->where('status', 'RECEIVED')
-            ->where('type', 'RANK_BONUS')->sum('amount');
+        //        $rank_bonus_income = Earning::where('user_id', Auth::user()->id)
+        //            ->where('status', 'RECEIVED')
+        //            ->where('type', 'RANK_BONUS')->sum('amount');
 
         //        $withdraw = number_format(Withdraw::where('user_id', Auth::user()->id)
         //            ->where('status', 'SUCCESS')
         //            ->sum(DB::raw('amount + transaction_fee')), 2);
 
-        $qualified_commissions = Commission::where('user_id', Auth::user()->id)
-            ->where('status', 'QUALIFIED')
-            ->sum('amount');
-
-        $paid_commissions = Commission::where('user_id', Auth::user()->id)
-            ->where('status', 'QUALIFIED')
-            ->sum('paid');
-
-        $pending_commissions = number_format($qualified_commissions - $paid_commissions, 2);
-        $qualified_commissions = number_format($qualified_commissions, 2);
-        $paid_commissions = number_format($paid_commissions, 2);
+        //        $qualified_commissions = Commission::where('user_id', Auth::user()->id)
+        //            ->whereNull('parent_id')
+        //            ->where('status', 'QUALIFIED')
+        //            ->sum('amount');
+        //
+        //        $paid_commissions = Commission::where('user_id', Auth::user()->id)
+        //            ->whereNull('parent_id')
+        //            ->where('status', 'QUALIFIED')
+        //            ->sum('paid');
+        //
+        //        $pending_commissions = number_format($qualified_commissions - $paid_commissions, 2);
+        //        $qualified_commissions = number_format($qualified_commissions, 2);
+        //        $paid_commissions = number_format($paid_commissions, 2);
 
         $lost_commissions = number_format(Commission::where('user_id', Auth::user()->id)
+            //->whereNotNull('parent_id')
             ->whereStatus('DISQUALIFIED')
             ->sum('amount'), 2);
 
@@ -78,6 +82,7 @@ class DashboardController extends Controller
 
         // records
         $direct = Commission::with('purchasedPackage.user')
+            ->whereNull('parent_id')
             ->where('user_id', Auth::user()->id)
             //->where('created_at', '<=', date('Y-m-d H:i:s'))
             ->where('type', 'DIRECT')
@@ -86,6 +91,7 @@ class DashboardController extends Controller
             ->get();
 
         $indirect = Commission::with('purchasedPackage.user')
+            ->whereNull('parent_id')
             ->where('user_id', Auth::user()->id)
             //->where('created_at', '<=', date('Y-m-d H:i:s'))
             ->where('type', 'INDIRECT')
@@ -106,13 +112,18 @@ class DashboardController extends Controller
         $descendants_count = count($descendants);
         $descendants[] = Auth::user()->id;
 
-        $top_rankers = Rank::with('user.sponsor')
-            ->whereNotNull('activated_at')
-            ->whereIn('user_id', $descendants)
-            //->orderBy('rank', 'desc')
-            //->orderBy('total_rankers', 'desc')
-            ->latest('activated_at')
-            ->limit(20)
+        //        $top_rankers = Rank::with('user.sponsor')
+        //            ->whereNotNull('activated_at')
+        //            ->whereIn('user_id', $descendants)
+        //            //->orderBy('rank', 'desc')
+        //            //->orderBy('total_rankers', 'desc')
+        //            ->latest('activated_at')
+        //            ->limit(20)
+        //            ->get();
+
+        $bv_rewards = BvPointReward::where('user_id', Auth::user()->id)
+            //->where('status', 'claimed')
+            ->whereNull('parent_id')
             ->get();
 
         $yearlyIncome = DB::table('earnings')
@@ -157,17 +168,17 @@ class DashboardController extends Controller
                 'today_income',
                 'direct_comm_income',
                 'indirect_comm_income',
-                'rank_bonus_income',
+//                'rank_bonus_income',
                 'invest_income',
 
 //                'withdraw',
-                'qualified_commissions',
-                'paid_commissions',
-                'pending_commissions',
+//                'qualified_commissions',
+//                'paid_commissions',
+//                'pending_commissions',
                 'lost_commissions',
                 'currency_carousel',
                 'descendants_count',
-                'top_rankers',
+                'bv_rewards',
                 'yearlyIncomeChartData',
                 'popup',
 

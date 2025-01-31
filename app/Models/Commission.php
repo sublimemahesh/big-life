@@ -31,6 +31,10 @@ class Commission extends Model
     {
         return $this->package_info_json = $this->purchasedPackage->package_info_json;
     }
+    protected function getLostAmountAttribute(): float
+    {
+        return $this->amount - $this->paid;
+    }
 
     public function earnings(): morphMany
     {
