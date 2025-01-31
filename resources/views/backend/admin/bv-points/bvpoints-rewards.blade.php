@@ -58,7 +58,7 @@
                                                 <option value="pending" {{ request()->input('status') === 'pending' ? 'selected' : '' }}>PENDING</option>
                                                 <option value="claimed" {{ request()->input('status') === 'claimed' ? 'selected' : '' }}>CLAIMED</option>
                                                 <option value="hold" {{ request()->input('status') === 'hold' ? 'selected' : '' }}>HOLD</option>
-                                                <option value="expire" {{ request()->input('status') === 'expire' ? 'selected' : '' }}>EXPIRE</option>
+                                                <option value="expired" {{ request()->input('status') === 'expired' ? 'selected' : '' }}>EXPIRED</option>
                                             </select>
                                             <div class="pointer-events-none rounded absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:bg-gray-500 dark:text-gray-200 dark:placeholder-gray-200 dark:border-gray-500">
                                                 <svg class="pointer-events-none w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
