@@ -32,7 +32,7 @@
                                                         <select id="type" class="power_grid appearance-none block mt-1 mb-1 bg-gray-50 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full active dark:bg-gray-500 dark:text-gray-200 dark:placeholder-gray-200 dark:border-gray-500">
                                                             <option value="">ALL</option>
                                                             @foreach($types as $type_val => $type)
-                                                                <option value="{{ $type_val }}" {{ request()->input('type') === $type_val ? 'selected' : '' }}>{{ $type }}</option>
+                                                                <option value="{{ $type_val }}" class="d-none" {{ request()->input('type') === $type_val ? 'selected' : '' }}>{{ $type }}</option>
                                                             @endforeach
                                                         </select>
                                                         <div class="pointer-events-none rounded absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:bg-gray-500 dark:text-gray-200 dark:placeholder-gray-200 dark:border-gray-500">
