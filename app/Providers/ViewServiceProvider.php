@@ -16,7 +16,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
 
-
 class ViewServiceProvider extends ServiceProvider
 {
     /**
@@ -69,7 +68,7 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer('backend.layouts.sidebar', function ($view) {
-            $pending_transactions = Transaction::where('status', 'PENDING')->count();
+            $pending_transactions = Transaction::where('status', 'PENDING')->where('pay_method', 'MANUAL')->count();
             $pending_kycs = User::whereHas('purchasedPackages')
                 ->whereHas('profile.kycs.documents', function ($q) {
                     $q->where('status', 'pending');
@@ -77,14 +76,19 @@ class ViewServiceProvider extends ServiceProvider
                 ->count();
             $pending_withdrawals = Withdraw::where('status', 'PENDING')->count();
             $processing_withdrawals = Withdraw::where('status', 'PROCESSING')->count();
+            $pending_n_processing_withdrawals = $pending_withdrawals + $processing_withdrawals;
             $open_support_tickets = SupportTicket::whereRelation('status', 'slug', 'open')->count();
+            $earningPendingActivePackagesDate = date('Y-m-d');
+            $earningPendingActivePackages = getPendingEarningsCount($earningPendingActivePackagesDate);
 
             $view->with('counts', compact(
                 'pending_transactions',
                 'pending_kycs',
                 'pending_withdrawals',
                 'processing_withdrawals',
-                'open_support_tickets'
+                'open_support_tickets',
+                'pending_n_processing_withdrawals',
+                'earningPendingActivePackages',
             ));
         });
 

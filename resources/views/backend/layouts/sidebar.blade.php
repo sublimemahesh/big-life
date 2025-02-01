@@ -169,8 +169,8 @@
         <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
             <i class="bi fa-arrow-turn-up"></i>
             <span class="nav-text"> Withdrawals </span>
-            @if($counts['pending_withdrawals'] > 0)
-                <span class="sidebar-pending-notification">{{ $counts['pending_withdrawals'] }}</span>
+            @if($counts['pending_n_processing_withdrawals'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['pending_n_processing_withdrawals'] }}</span>
             @endif
         </a>
         <ul aria-expanded="false">
@@ -193,6 +193,9 @@
                 <a href="{{ route('admin.transfers.withdrawals', ['status' => 'processing']) }}"
                    class="" aria-expanded="false">
                     Processing
+                    @if($counts['processing_withdrawals'] > 0)
+                        <span class="sidebar-pending-notification">{{ $counts['processing_withdrawals'] }}</span>
+                    @endif
                 </a>
             </li>
             <li>
@@ -223,10 +226,12 @@
 
 @can('earnings.viewAny')
     <li>
-        <a href="{{ route('admin.earnings.index', ['status' => 'received','date-range' => Carbon::now()->firstOfMonth()->format('Y-m-d') .' to '.Carbon::now()->endOfMonth()->format('Y-m-d')]) }}"
-           class="" aria-expanded="false">
+        <a href="{{ route('admin.earnings.index', ['status' => 'received']) }}" class="" aria-expanded="false">
             <i class="bi bi-cash-stack"></i>
             <span class="nav-text"> User Earnings </span>
+            @if($counts['earningPendingActivePackages'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['earningPendingActivePackages'] }}</span>
+            @endif
         </a>
     </li>
 @endcan
