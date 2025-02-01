@@ -10,7 +10,7 @@
     @endsection
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <div class="card">
                 <div class="card-body">
                     <form class="theme-form" enctype="multipart/form-data" id="approval-form">
@@ -35,8 +35,17 @@
                                 <hr>
                                 <div class="mb-3 mt-2">
                                     <div class="text-info">
-                                        <label for="proof_document">Proof: </label>
+                                        <label for="proof_document">Proof:</label>
                                         <a href="{{ asset('storage/user/manual-purchase/' . $transaction->proof_document) }}" target="_blank">View Proof</a>
+                                    </div>
+                                </div>
+                                <div class="mb-3 mt-1">
+                                    <div class="text-info">
+                                        <label for="proof_document">Payment Slip Receipt ID:</label>
+                                        <a href="javascript:void(0)" data-clipboard-text="{{ $transaction->transaction_id }}" id="copy-to-clipboard" class="copy-to-clipboard d-flex form-control justify-content-between" title="Copy to Clipboard">
+                                            {{$transaction->transaction_id }}
+                                            <i class="fa fa-clone my-auto" style="font-size: 17px;" data-devil="ml:5"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <hr>
@@ -51,7 +60,7 @@
                                 </div>
                                 @if(Auth::user()?->two_factor_secret && in_array( \Laravel\Fortify\TwoFactorAuthenticatable::class, class_uses_recursive(Auth::user()),true))
                                     <div class="mb-3 mt-2">
-                                        <label for="code">Two Factor code / Recovery Code </label>
+                                        <label for="code">Two Factor code / Recovery Code</label>
                                         <input id="code" name="code" type="password" data-input='payout' class="form-control" autocomplete="one-time-password" placeholder="2FA code OR Recovery Code">
                                     </div>
                                 @endif
@@ -61,6 +70,10 @@
                     </form>
                 </div>
             </div>
+        </div>
+
+        <div class="col-sm-5 m-auto text-center">
+            <img src="{{ storage('user/manual-purchase/' . $transaction->proof_document) }}" alt="" class="img-thumbnail mw-100" data-devil="mt:-92" data-dxs="mt:15">
         </div>
     </div>
 
