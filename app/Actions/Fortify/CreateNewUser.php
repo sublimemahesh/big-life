@@ -38,6 +38,8 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return DB::transaction(function () use ($input) {
+            $log_data = json_encode(collect($input)->except(['password', 'password_confirmation'])->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+            \Log::channel('registration')->debug("Creating new user {$input['username']} | super parent: {$input['super_parent_id']} | REQUEST: {$log_data}");
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
@@ -52,6 +54,9 @@ class CreateNewUser implements CreatesNewUsers
                 ]));
                 $user->assignRole('user');
                 $this->createTeam($user);
+
+                $log_data = json_encode($user->toArray(), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+                \Log::channel('registration')->info("New user created | username: {$input['username']} | super parent: {$input['super_parent_id']} | USER: " . $log_data);
             });
         });
     }

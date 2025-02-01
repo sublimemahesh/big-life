@@ -70,6 +70,13 @@ return [
             'days' => 14,
         ],
 
+        'registration' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/registration.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
+
         'n+1' => [
             'driver' => 'daily',
             'path' => storage_path('logs/query-detector.log'),
