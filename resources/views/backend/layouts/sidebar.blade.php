@@ -5,62 +5,25 @@
      </a>
  </li>--}}
 
+
+@can('kyc.viewAny')
+    <li>
+        <a href="{{ route('admin.users.pending.kycs') }}" class="" aria-expanded="false">
+            <i class="bi bi-bag-check"></i>
+            <span class="nav-text">Pending KYC</span>
+            @if($counts['pending_kycs'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['pending_kycs'] }}</span>
+            @endif
+        </a>
+    </li>
+@endcan
+
 @canany(['users.viewAny','kyc.viewAny'])
     <li>
         <a href="{{ route('admin.users.index') }}" class="" aria-expanded="false">
             <i class="bi bi-people-fill"></i>
             <span class="nav-text">Manage Users</span>
         </a>
-    </li>
-@endcan
-
-@canany(['users.manage-permissions','admin.users.viewAny'])
-    <li>
-        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-            <i class="material-icons fs-28" style="margin-right: 5px !important;">manage_accounts</i>
-            <span class="nav-text">User Roles</span>
-        </a>
-        <ul aria-expanded="false">
-            @can('permission.manage')
-                <li>
-                    <a href="{{ route('super_admin.permissions.index') }}">Permissions</a>
-                </li>
-            @endcan
-            @can('role.manage')
-                <li>
-                    <a href="{{ route('super_admin.roles.index') }}">Roles</a>
-                </li>
-            @endcan
-            <li>
-                <a href="{{ route('super_admin.users.index') }}">Users</a>
-            </li>
-        </ul>
-    </li>
-@endcan
-
-@canany(['admin_wallet.viewAny','admin_wallet_transactions.viewAny','admin_wallet_withdrawal.viewAny'])
-    <li>
-        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-            <i class="bi bi-wallet"></i>
-            <span class="nav-text">Admin Wallet</span>
-        </a>
-        <ul aria-expanded="false">
-            @can('admin_wallet.viewAny')
-                <li>
-                    <a href="{{ route('admin.admin-wallet-profits') }}">Wallets</a>
-                </li>
-            @endcan
-            @can('admin_wallet_transactions.viewAny')
-                <li>
-                    <a href="{{ route('admin.admin-wallet-transaction.index') }}">History</a>
-                </li>
-            @endcan
-            @can('admin_wallet_withdrawal.viewAny')
-                <li>
-                    <a href="{{ route('admin.admin-wallet-withdrawal.index') }}">Withdrawal</a>
-                </li>
-            @endcan
-        </ul>
     </li>
 @endcan
 
@@ -141,22 +104,110 @@
     </li>
 @endcan
 
-@can('transactions.viewAny')
+{{--@can('transactions.viewAny')
     <li>
         <a href="{{ route('admin.transactions.index', ['date-range' => Carbon::now()->firstOfMonth()->format('Y-m-d') .' to '.Carbon::now()->endOfMonth()->format('Y-m-d')]) }}"
            class="" aria-expanded="false">
             <i class="bi fa-chain-broken"></i>
             <span class="nav-text"> User Transactions </span>
+            @if($counts['pending_transactions'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['pending_transactions'] }}</span>
+            @endif
         </a>
+    </li>
+@endcan--}}
+@can('transactions.viewAny')
+    <li>
+        <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+            <i class="bi fa-chain-broken"></i>
+            <span class="nav-text"> User Transactions </span>
+            @if($counts['pending_transactions'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['pending_transactions'] }}</span>
+            @endif
+        </a>
+        <ul aria-expanded="false">
+            <li>
+                <a href="{{ route('admin.transactions.index') }}" class="" aria-expanded="false">
+                    All Payments
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transactions.index', ['status' => 'pending']) }}" class="" aria-expanded="false">
+                    Pending Payments
+                    @if($counts['pending_transactions'] > 0)
+                        <span class="sidebar-pending-notification">{{ $counts['pending_transactions'] }}</span>
+                    @endif
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transactions.index', ['status' => 'paid']) }}"
+                   class="" aria-expanded="false">
+                    Approved Payments
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transactions.index', ['status' => 'rejected']) }}"
+                   class="" aria-expanded="false">
+                    Rejected Payments
+                </a>
+            </li>
+        </ul>
     </li>
 @endcan
 
-@can('withdrawals.viewAny')
+{{--@can('withdrawals.viewAny')
     <li>
         <a href="{{ route('admin.transfers.withdrawals', ['status' => 'pending']) }}" class="" aria-expanded="false">
             <i class="bi fa-arrow-turn-up"></i>
             <span class="nav-text"> Withdrawals </span>
         </a>
+    </li>
+@endcan--}}
+
+@can('withdrawals.viewAny')
+    <li>
+        <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+            <i class="bi fa-arrow-turn-up"></i>
+            <span class="nav-text"> Withdrawals </span>
+            @if($counts['pending_withdrawals'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['pending_withdrawals'] }}</span>
+            @endif
+        </a>
+        <ul aria-expanded="false">
+            <li>
+                <a href="{{ route('admin.transfers.withdrawals') }}"
+                   class="" aria-expanded="false">
+                    All Withdrawals
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transfers.withdrawals', ['status' => 'pending']) }}"
+                   class="" aria-expanded="false">
+                    Pending
+                    @if($counts['pending_withdrawals'] > 0)
+                        <span class="sidebar-pending-notification">{{ $counts['pending_withdrawals'] }}</span>
+                    @endif
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transfers.withdrawals', ['status' => 'processing']) }}"
+                   class="" aria-expanded="false">
+                    Processing
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transfers.withdrawals', ['status' => 'success']) }}"
+                   class="" aria-expanded="false">
+                    Approved
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.transfers.withdrawals', ['status' => 'reject']) }}"
+                   class="" aria-expanded="false">
+                    Rejected
+                </a>
+            </li>
+        </ul>
     </li>
 @endcan
 
@@ -182,16 +233,18 @@
 
 @can('bv-reports.viewAny')
     <li>
-        <a href="{{ route('admin.bv_points.earnings') }}" class="" aria-expanded="false">
+        <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
             <i class="bi bi-send-plus"></i>
             <span class="nav-text">BV Points</span>
         </a>
-    </li>
-    <li>
-        <a href="{{ route('admin.bv_points.rewards') }}" class="" aria-expanded="false">
-            <i class="bi bi-send-plus"></i>
-            <span class="nav-text">BV Rewards</span>
-        </a>
+        <ul aria-expanded="false">
+            <li>
+                <a href="{{ route('admin.bv_points.earnings') }}">Point Earnings</a>
+            </li>
+            <li>
+                <a href="{{ route('admin.bv_points.rewards') }}">USDT Rewards</a>
+            </li>
+        </ul>
     </li>
 @endcan
 {{--@can('withdraw.p2p.viewAny')
@@ -219,6 +272,56 @@
             <i class="bi bi-currency-exchange"></i>
             <span class="nav-text"> Commissions </span>
         </a>
+    </li>
+@endcan
+
+@canany(['admin_wallet.viewAny','admin_wallet_transactions.viewAny','admin_wallet_withdrawal.viewAny'])
+    <li>
+        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+            <i class="bi bi-wallet"></i>
+            <span class="nav-text">Admin Wallet</span>
+        </a>
+        <ul aria-expanded="false">
+            @can('admin_wallet.viewAny')
+                <li>
+                    <a href="{{ route('admin.admin-wallet-profits') }}">Wallets</a>
+                </li>
+            @endcan
+            @can('admin_wallet_transactions.viewAny')
+                <li>
+                    <a href="{{ route('admin.admin-wallet-transaction.index') }}">History</a>
+                </li>
+            @endcan
+            @can('admin_wallet_withdrawal.viewAny')
+                <li>
+                    <a href="{{ route('admin.admin-wallet-withdrawal.index') }}">Withdrawal</a>
+                </li>
+            @endcan
+        </ul>
+    </li>
+@endcan
+
+@canany(['users.manage-permissions','admin.users.viewAny'])
+    <li>
+        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+            <i class="material-icons fs-28" style="margin-right: 5px !important;">manage_accounts</i>
+            <span class="nav-text">User Roles</span>
+        </a>
+        <ul aria-expanded="false">
+            @can('permission.manage')
+                <li>
+                    <a href="{{ route('super_admin.permissions.index') }}">Permissions</a>
+                </li>
+            @endcan
+            @can('role.manage')
+                <li>
+                    <a href="{{ route('super_admin.roles.index') }}">Roles</a>
+                </li>
+            @endcan
+            <li>
+                <a href="{{ route('super_admin.users.index') }}">Users</a>
+            </li>
+        </ul>
     </li>
 @endcan
 
@@ -373,11 +476,18 @@
         <a class="has-arrow" href="javascript:void(0)">
             <i class="bi bi-question-diamond"></i>
             <span class="nav-text"> Support Ticket </span>
+            @if($counts['open_support_tickets'] > 0)
+                <span class="sidebar-pending-notification">{{ $counts['open_support_tickets'] }}</span>
+            @endif
         </a>
         <ul>
             @can('support_ticket.viewAny')
                 <li>
-                    <a href="{{ route('admin.support.tickets.index') }}"> User Tickets</a>
+                    <a href="{{ route('admin.support.tickets.index') }}"> User Tickets
+                        @if($counts['open_support_tickets'] > 0)
+                            <span class="sidebar-pending-notification">{{ $counts['open_support_tickets'] }}</span>
+                        @endif
+                    </a>
                 </li>
             @endcan
             @can('support_ticket.category.viewAny')
