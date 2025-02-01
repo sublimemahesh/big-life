@@ -58,6 +58,17 @@
                 visibility: unset !important;
             }
 
+
+            .sidebar-pending-notification {
+                position: absolute !important;
+                text-align: center !important;
+                background-color: #c11515 !important;
+                border-radius: 50% !important;
+                width: 22px;
+                height: 22px;
+                top: -7px;
+                right: 0;
+            }
         </style>
 
         <!-- Styles -->

@@ -29,8 +29,12 @@ class UserController extends Controller
 
         abort_if(Gate::denies('users.viewAny'), Response::HTTP_FORBIDDEN);
 
+        if ($request->routeIs('admin.users.pending.kycs')) {
+            $request->merge(['kyc-status' => 'pending']);
+        }
+
         if ($request->wantsJson()) {
-            $users = User::with('sponsor')
+            $users = User::with('sponsor', 'profile.kycs.documents')
                 ->whereRelation('roles', 'name', 'user')
                 ->when($request->get('status') === 'suspend', function (Builder $q) {
                     $q->whereNotNull('suspended_at');
