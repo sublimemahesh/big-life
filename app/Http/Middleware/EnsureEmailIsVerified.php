@@ -24,13 +24,13 @@ class EnsureEmailIsVerified
     {
         if (config('app.env') !== 'local') {
             if (!$request->user() || ($request->user() instanceof MustVerifyEmail && !$request->user()->hasVerifiedEmail())) {
-                $sl_phone_match = preg_match('/^\+94/i', $request->user()->phone);
-                if (!$sl_phone_match) {
-                    if ($request->expectsJson()) {
-                        return abort(403, 'Your email address is not verified.');
-                    }
-                    return Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
+                //$sl_phone_match = preg_match('/^\+94/i', $request->user()->phone);
+                //if (!$sl_phone_match) {
+                if ($request->expectsJson()) {
+                    return abort(403, 'Your email address is not verified.');
                 }
+                return Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
+                //}
             }
         }
 
