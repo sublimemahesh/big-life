@@ -2,7 +2,6 @@
     @section('title', $user->username . ' | Admin | Super User Genealogy')
     @section('header-title', 'Users Genealogy')
     @section('plugin-styles')
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     @endsection
     @section('styles')
         <link rel="stylesheet" href="{{ asset('assets/backend/css/user/genealogy.css') }}">
@@ -62,8 +61,6 @@
             }
 
 
-
-
             window.addEventListener('DOMContentLoaded', () => {
                 const divs = document.getElementsByClassName('myDiv');
                 const fontSize = 20; // Initial font size
@@ -80,7 +77,7 @@
 
                             //div.style.fontSize = newFontSize + 'px';
                             $(".c-font").css({
-                                fontSize: newFontSize -6 + 'px'
+                                fontSize: newFontSize - 6 + 'px'
                             });
                             //alert('qq');
                         } else {
@@ -95,9 +92,6 @@
 
                 window.addEventListener('resize', resizeText);
             });
-
-
-
 
 
         </script>
