@@ -22,7 +22,7 @@ class GenealogyController extends Controller
         $user->load('descendants');
         $user->loadCount('activePackages');
         $descendants = $user->children()
-            ->with(['children'])
+            ->with(['children' => fn($q) => $q->withCount('activePackages')])
             ->withCount('activePackages')
             ->orderBy('position')
             ->get()

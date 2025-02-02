@@ -13,7 +13,10 @@
             @endphp
             @if (isset($descendant))
                 @php
-                    $params['user'] = $descendant
+                    if(!isset($descendant->active_packages_count)){
+                        $descendant->active_packages_count = $descendant->activePackages()->count(); // TODO: not an efficient way
+                    }
+                    $params['user'] = $descendant;
                 @endphp
                 <a href="{{ $level === 3 ? URL::signedRoute('admin.genealogy', $params) : 'javascript:void(0)' }}" @class(["next-genealogy" => $level === 3])>
                     @include('backend.user.genealogy.includes.genealogy-card', ['user' => $descendant])
