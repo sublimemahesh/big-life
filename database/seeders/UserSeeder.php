@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
                     'super_parent_id' => null,
                     'name' => 'Alex John',
                     'username' => 'Alex',
-                    'email' => 'noreply@wintogetherplan.com',
+                    'email' => 'nuwanprasad19780509@gmail.com',
                     'email_verified_at' => now(),
                     'phone_verified_at' => now(),
                     'created_at' => now(),

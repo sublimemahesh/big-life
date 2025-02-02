@@ -22,7 +22,7 @@ class EnsureEmailIsVerified
      */
     public function handle($request, Closure $next, $redirectToRoute = null)
     {
-        if (config('app.env') !== 'local') {
+        if (config('app.env') !== 'local' && config('settings.ensure_email_is_verified')) {
             if (!$request->user() || ($request->user() instanceof MustVerifyEmail && !$request->user()->hasVerifiedEmail())) {
                 //$sl_phone_match = preg_match('/^\+94/i', $request->user()->phone);
                 //if (!$sl_phone_match) {
