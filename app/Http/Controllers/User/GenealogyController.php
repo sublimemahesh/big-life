@@ -29,10 +29,10 @@ class GenealogyController extends Controller
         if ($user?->id === null) {
             $user = Auth::user();
         }
-        $user?->load('currentRank', 'descendants');
+        // $user?->load('currentRank', 'descendants');
         $user?->loadCount('activePackages');
         $descendants = $user?->children()
-            ->with('currentRank', 'descendants')
+            ->with(['children' => fn($q) => $q->withCount('activePackages')])
             ->withCount('activePackages')
             ->orderBy('position')
             ->get()

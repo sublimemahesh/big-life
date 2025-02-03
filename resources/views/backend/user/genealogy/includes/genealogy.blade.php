@@ -1,4 +1,6 @@
-
+@php
+    $level = 0;
+@endphp
 <div class="row">
     <div class="col-sm-12 ">
         @if (!empty($user->parent_id) && Auth::user()->id !== $user->id)
@@ -19,38 +21,7 @@
                     <a href="javascript:void(0)" class="add-tree-2">
                         @include('backend.user.genealogy.includes.genealogy-card', compact('user'))
                     </a>
-                    <ul>
-                        <div class="swiper swiper-container">
-                            <div class="swiper-wrapper add-tree-3">
-                                @for ($i = 1; $i <= config('genealogy.children', 2); $i++)
-                                    <li class="position-{{ $i }}">
-                                        @if (isset($descendants[$i]))
-                                            @php
-                                                $descendant = $descendants[$i];
-                                            @endphp
-                                            <div class="swiper-slide">
-                                                <a href="{{ route('user.genealogy', $descendant) }}" class="next-genealogy">
-                                                    @include('backend.user.genealogy.includes.genealogy-card', ['user' => $descendant])
-                                                </a>
-                                            </div>
-                                        @else
-                                                <a href="javascript:void(0)">
-                                                    <div class="genealogy item">
-                                                        <div class="card">
-                                                            <div class="card-img-empty"><img class="card-img2  card-img2-mob" src="{{ asset('assets/backend/images/user-icon.jpg') }}"  alt=""></div>
-                                                            <div class="card-info info-empty">
-                                                                <h5 class="text-title">Empty    </h5><br>
-                                                                <p class="text-body-name">Add your new member</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                        @endif
-                                    </li>
-                                @endfor
-                            </div>
-                        </div>
-                    </ul>
+                    @include('backend.user.genealogy.includes.genealogy-tree-ul', compact('descendants', 'level'))
                 </li>
             </ul>
         </div>

@@ -1,11 +1,8 @@
 <div class="genealogy">
     <div class="card  {{ $user->active_packages_count > 0 ? 'card-active' : 'inactive' }}   ">
-
-
         <div class="card-img">
             <img class="card-img2  card-img2-mob" src="{{ $user->profile_photo_url }}" alt="">
         </div>
-
         <div class="row text-nowrap g-icon mbo-g-icon new-stl">
             <div class="col-sm-12 col-12" title="Left BV: {{ $user->left_points_balance }}">
                 <label style="background: #1fcde8 ;width: 50px;border-radius: 10%;">
@@ -24,8 +21,6 @@
                     </div>
                 </label>
             </div>
-
-
             <div class="col-sm-12 col-12" title="Members : {{ $user->descendants->count() }}">
                 @php
                     $leftChild = $user->children()->where('position', \App\Enums\BinaryPlaceEnum::LEFT->value)->first();
@@ -49,8 +44,6 @@
                 </label>
             </div>
         </div>
-
-
         <div class="card-info">
             <h5 class="text-title">{{ $user->username }}</h5>
             <p class="text-body-name" title="{{ $user->name }}">{{ $user->name }}</p>
