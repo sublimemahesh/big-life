@@ -5,6 +5,7 @@
     @for ($i = 1; $i <= config('genealogy.children', 2); $i++)
         <li class="position-{{ $i }}">
             @php
+                unset($descendant);
                 if ($level > 1){
                     $descendant = $descendants->firstWhere('position', $i);
                 }elseif (isset($descendants[$i])){
