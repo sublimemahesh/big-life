@@ -49,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'phone_verified_at', 'super_parent_id', 'parent_id', 'username', 'position', 'suspended_at',
-        'left_points_balance','right_points_balance'
+        'left_points_balance', 'right_points_balance'
     ];
 
     /**
@@ -132,6 +132,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getReferralLinkAttribute(): string
     {
         return $this->referral_link = route('register', ['ref' => $this->username]);
+    }
+
+    public function getActiveDateAttribute(): string|null
+    {
+        $firstPackage = $this->purchasedPackages()->orderBy('created_at')->firstOrNew()->created_at;
+        if ($firstPackage) {
+            return $firstPackage->format('Y-m-d');
+        }
+        return null;
     }
 
     public function getIsActiveAttribute(): bool
