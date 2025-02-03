@@ -72,6 +72,7 @@ class PackageController extends Controller
             'name' => ['required', 'max:250', Rule::unique('packages', 'name')->ignore($package->id)],
             'amount' => 'required|numeric|min:0',
             'gas_fee' => 'nullable|numeric|min:0',
+            'bv_points' => 'nullable|numeric|min:0',
             'month_of_period' => 'required|integer',
             'daily_leverage' => 'required|integer|min:0|max:100',
             'is_active' => 'boolean',
