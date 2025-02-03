@@ -57,3 +57,17 @@ owl.owlCarousel({
     autoplayTimeout:1000,
     autoplayHoverPause:true
 });
+
+
+let copyText = document.querySelector(".copy-text");
+copyText.querySelector(".copy-el").addEventListener("click", function () {
+    // alert('ddd');
+    let input = copyText.querySelector("input");
+
+    navigator.clipboard.writeText(input.value).then(() => {
+        Toast.fire({
+            icon: "success", title: "Copied to your clipboard",
+        });
+    });
+
+});

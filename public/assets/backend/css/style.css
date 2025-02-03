@@ -49474,3 +49474,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:fo
     margin-left: 4px ;
 
 }
+
+.img-250{
+    width: 250px !important;
+}
