@@ -1,6 +1,6 @@
 /*Now the CSS*/
 .genealogy-scrooling {
-    min-height: 200vh;
+    min-height: 150vh;
     overflow: scroll;
     display: block;
 }
