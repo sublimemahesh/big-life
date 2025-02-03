@@ -67,6 +67,53 @@
                             </div>
                         </div>
                     </div>
+                    
+                    @if (Auth::user()->id === config('fortify.super_parent_id') ||(Auth::user()->parent_id !== null && Auth::user()->position !== null))
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="bg-secondary card d-flex email-susb">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 col-md-8">
+                                                <h3 class="fw-normal mb-0 text-secondary">Join Our Referral Program Today!</h3>
+                                                <h1 class="mb-4">Earn More with Our Referral Program</h1>
+                                                <div class="row align-items-center">
+                                                    <div class="col-12 col-md-11 col-xxl-11 mb-4">
+                                                        @php
+                                                            if (Auth::user()->active_date !== null) {
+                                                            $url_ref = Auth::user()->referral_link;
+                                                            } else {
+                                                            $url_ref = 'Please activate the package.';
+                                                            }
+                                                        @endphp
+                                                        <div class="input-group mb-3 input-primary copy-text">
+                                                            <input class="form-control border-end-0" readonly value="{{ $url_ref }}"
+                                                                   placeholder="Referral link">
+                                                            <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                        </div>
+                                                        <p>Join our referral program and start earning rewards effortlessly! Share your unique referral code with friends, and when they activate their package, you get exclusive benefits. Copy your code now and invite them to be part of our growing community!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <img src="{{ asset('assets/backend/images/ref.gif') }}" class="img-250">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-warning">
+                            Your genealogy position is still not available. Please contact your up link user,
+                            or you will automatically place after 1 day. Please note that genealogy placement required to have an
+                            active
+                            package.
+                            when you have purchased a package only you will be able to get position in genealogy.
+                        </div>
+                    @endif
+
                     <div class="row">
                         <div class="col-xl-4 col-lg-6 col-sm-12">
                             <div class="widget-stat card rounded-3 bg-info-dark">
@@ -95,7 +142,7 @@
                                                 @if(auth()->user()->direct_sales_count <= 0)
                                                     USDT {{number_format(($wallet->withdraw_limit/400)*300,2) }}
                                                 @else
-                                                USDT {{number_format($wallet->withdraw_limit,2) }}
+                                                    USDT {{number_format($wallet->withdraw_limit,2) }}
                                                 @endif
                                             </h4>
                                             <small> </small>
@@ -276,6 +323,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -348,7 +396,7 @@
                                                 <span class="px-0">Paid</span>
                                                 <span class="px-0">Lost</span>
                                                 <span class="px-0">User</span>
-                                               {{-- <span class="px-0">Next Pay</span>--}}
+                                                {{-- <span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
                                                 @foreach ($indirect as $sale)

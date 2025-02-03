@@ -19,7 +19,7 @@ class GenealogyController extends Controller
             $system_super_user = config('fortify.super_parent_id');
             $user = User::find($system_super_user);
         }
-        $user->load('descendants');
+        // $user->load('descendants');
         $user->loadCount('activePackages');
         $descendants = $user->children()
             ->with(['children' => fn($q) => $q->withCount('activePackages')])
