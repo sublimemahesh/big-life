@@ -32,6 +32,12 @@
                     <input class="form-control" id="bv_points" name="bv_points" placeholder="BV Points" type="number" value="{{ $package->bv_points ?? null }}">
                 </div>
             </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 col-form-label" for="daily_max_out_limit">Daily Max Out Limit</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="daily_max_out_limit" name="daily_max_out_limit" placeholder="Daily Max Out Limit" type="number" value="{{ $package->daily_max_out_limit ?? null }}">
+                </div>
+            </div>
             <div class="form-group row mb-2 d-none">
                 <label class="col-sm-3 col-form-label" for="month_of_period">MONTH OF PERIOD</label>
                 <div class="col-sm-9">
