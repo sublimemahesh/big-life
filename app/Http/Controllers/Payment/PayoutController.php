@@ -370,7 +370,8 @@ class PayoutController extends Controller
             $transaction_fee = $staking_withdrawal_fee->value;
         } else {
             $transaction_fee = ($validated['amount'] * $payout_transfer_fee->value) / 100;
-            $total_amount = $validated['amount'] + $transaction_fee;
+            $total_amount = $validated['amount'];
+            // $total_amount = $validated['amount'] + $transaction_fee;
         }
 
 
@@ -420,7 +421,7 @@ class PayoutController extends Controller
 
             $withdraw = Withdraw::create([
                 'user_id' => $user->id,
-                'amount' => $validated['amount'],
+                'amount' => $validated['amount'] - $transaction_fee,
                 'transaction_fee' => $transaction_fee,
                 'status' => 'PENDING',
                 'type' => 'MANUAL',
@@ -472,6 +473,7 @@ class PayoutController extends Controller
         $total_amount = $amount;
 
         $used_withdraw_amount_for_day = Withdraw::where('type', 'MANUAL')
+            ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
             ->where('user_id', Auth::user()->id)
             ->whereDate('created_at', Carbon::today())
             ->sum('amount');

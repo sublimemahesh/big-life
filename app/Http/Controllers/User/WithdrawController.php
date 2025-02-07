@@ -169,6 +169,7 @@ class WithdrawController extends Controller
         $withdrawal_days_of_week = json_decode($withdrawal_days_of_week->value, true, 512, JSON_THROW_ON_ERROR);
 
         $used_withdraw_amount_for_day = Withdraw::where('type', 'MANUAL')
+            ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
             ->where('user_id', Auth::user()->id)
             ->whereDate('created_at', Carbon::today())
             ->sum('amount');
