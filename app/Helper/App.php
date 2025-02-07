@@ -30,9 +30,9 @@ function getPendingEarningsCount(mixed $earningPendingActivePackagesDate): int
             ->where('status', 'ACTIVE')
             ->where(function (Builder $query) use ($earningPendingActivePackagesDate) {
                 $query->whereRaw(
-                    "(WEEKDAY(`created_at`) IN (1,2,3,4) AND DATE(`created_at`) + INTERVAL 6 DAY <= DATE('" . $earningPendingActivePackagesDate . "')) OR
-                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 5 DAY <= DATE('" . $earningPendingActivePackagesDate . "')) OR
-	                        (WEEKDAY(`created_at`) IN (0,6) AND DATE(`created_at`) + INTERVAL 4 DAY <= DATE('" . $earningPendingActivePackagesDate . "'))"
+                    "(WEEKDAY(`created_at`) IN (0,1,2,6) AND DATE(`created_at`) + INTERVAL 9 DAY <= DATE('" . $earningPendingActivePackagesDate . "')) OR
+                            (WEEKDAY(`created_at`) = 5 AND DATE(`created_at`) + INTERVAL 10 DAY <= DATE('" . $earningPendingActivePackagesDate . "')) OR
+	                        (WEEKDAY(`created_at`) IN (3,4) AND DATE(`created_at`) + INTERVAL 11 DAY <= DATE('" . $earningPendingActivePackagesDate . "'))"
                 );
             })
             //->whereRaw("DATE(`created_at`) + INTERVAL {$investment_start_at->value} DAY <= '{$earningPendingActivePackagesDate}'")
