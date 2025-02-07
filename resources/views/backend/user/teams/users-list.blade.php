@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="w-full my-3 dark:bg-gray-800">
                         <div class="rounded-sm">
-                          
+
                             <div class="border-l border-b border-r border-gray-200 dark:border-gray-600 px-2 py-4 dark:border-0  dark:bg-secondary-dark">
                                 <div>
                                     <div class="md:flex md:flex-wrap">
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="team-users" class="table-responsive display mb-1" style="table-layout: fixed">
+                        <table id="team-users" class="display mb-1 table-responsive-my" style="table-layout: fixed">
                             <thead>
                             <tr>
                                 <th>USER DETAILS</th>

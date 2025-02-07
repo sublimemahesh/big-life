@@ -1,12 +1,35 @@
 <x-frontend.layouts.app>
-    @section('title', 'About Us | Win Together ')
+    @section('title', 'About Us - Win Together | Empowering Smart Investments')
     @section('header-title', 'Welcome ')
+
+    @section('meta')
+
+        <meta name="description" content="Learn about Win Together's mission to make investing accessible to everyone. Join us to explore investment opportunities in stocks, crypto, and gold.">
+        <meta name="keywords" content="About Win Together, investment platform, crypto trading, stock market, gold investment, secure investing, financial growth">
+        <meta name="author" content="Win Together">
+        <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:title" content="About Us - Win Together | Empowering Smart Investments">
+        <meta property="og:description" content="Discover how Win Together is making investments accessible for all. Join us and grow your financial future.">
+        <meta property="og:url" content="https://www.wintogetherplan.com/about-us">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://www.wintogetherplan.com/images/about-us.jpg">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="About Us - Win Together | Empowering Smart Investments">
+        <meta name="twitter:description" content="Win Together is dedicated to helping individuals invest in stocks, crypto, and gold. Learn more about our mission.">
+        <meta name="twitter:image" content="https://www.wintogetherplan.com/images/about-us.jpg">
+
+    @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')
 
     <!-- CONTENT START -->
-    <div class="page-content"> 
+    <div class="page-content">
 
         <!-- INNER PAGE BANNER -->
         <div class="wt-bnr-inr overlay-wraper" style="background-image:url({{ asset('assets/frontend/images/banner/banner.png') }});">

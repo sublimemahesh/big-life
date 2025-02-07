@@ -135,7 +135,7 @@
             <tbody>
             <tr>
                 <td>
-                    <img src="{{ $invoice->logo }}" alt="logo" width="250">
+                    <img src="{{$invoice->logo}}" alt="logo">
                 </td>
                 <td>
                     <div style="width:100%; display:flex;justify-content: end;align-items: end">

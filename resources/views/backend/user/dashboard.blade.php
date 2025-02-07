@@ -36,7 +36,7 @@
                                                         Registration new user
                                                     </a>--}}
 
-                                                    <a href="{{ route('user.genealogy') }}" class="btn btn-info rounded-3 profile-card-btn">
+                                                    <a href="{{ route('user.genealogy') }}" class="btn btn-info rounded-3 profile-card-btn mt-4">
                                                         <i class="fa fa-sitemap" aria-hidden="true"></i>
                                                         My genealogy
                                                     </a>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @if (Auth::user()->id === config('fortify.super_parent_id') ||(Auth::user()->parent_id !== null && Auth::user()->position !== null))
                         <div class="row">
                             <div class="col-lg-12">
@@ -95,11 +95,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-4  d-flex justify-content-center">
                                                 <img src="{{ asset('assets/backend/images/ref.gif') }}" class="img-250">
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
