@@ -15,11 +15,11 @@ $(function () {
         }
         if (amount < MINIMUM_PAYOUT_LIMIT) {
             $('#withdraw-amount').val(MINIMUM_PAYOUT_LIMIT).change();
-            $('#show-receiving-amount').html('USDT ' + (MINIMUM_PAYOUT_LIMIT + trx_fee))
+            $('#show-receiving-amount').html('USDT ' + (MINIMUM_PAYOUT_LIMIT - trx_fee))
             return
         }
 
-        $('#show-receiving-amount').html('USDT ' + (amount + trx_fee))
+        $('#show-receiving-amount').html('USDT ' + (amount - trx_fee))
     })
 
     $(document).on('click', '#send-2ft-code', function (e) {
