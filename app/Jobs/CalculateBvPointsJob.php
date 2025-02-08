@@ -138,6 +138,31 @@ class CalculateBvPointsJob implements ShouldQueue
 
                                 $BvUserActivePackages = $parent->activePackages;
                                 foreach ($BvUserActivePackages as $activePackage) {
+                                    $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
+
+                                    $today_earnings_for_active_package = Earning::where('user_id', $reward->user_id)
+                                        ->where('purchased_package_id', $activePackage->id)
+                                        ->whereDate('created_at', date('Y-m-d'))
+                                        ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                        ->sum('amount');
+
+                                    Log::channel('max-out-log')->info(
+                                        "Package {$activePackage->id} | " .
+                                        "Max out limit: {$daily_max_out_limit}. | " .
+                                        "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                                        "Package Ref Max out Limit: {$activePackage->packageRef->daily_max_out_limit}. | " .
+                                        "Purchased Date: {$activePackage->created_at} | " .
+                                        "User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+
+                                    if ($today_earnings_for_active_package >= $daily_max_out_limit) {
+                                        Log::channel('max-out-log')->warning("No earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . date('Y-m-d') . ") max out limit {$today_earnings_for_active_package}. | " .
+                                            "Package {$activePackage->id} | " .
+                                            "User: {$activePackage->user->username} - {$activePackage->user_id} ");
+
+                                        continue;
+                                    }
+
                                     $already_earned_percentage = $activePackage->earned_profit;
 
                                     $total_already_earned_income = ($activePackage->invested_amount / 100) * $already_earned_percentage;
@@ -206,6 +231,7 @@ class CalculateBvPointsJob implements ShouldQueue
                             }
 
                             if (!$isQualified || $usdValue_left > 0) {
+                                $reward->refresh();
                                 if ($usdValue_left !== $reward->amount) { // only add new record if reward qualified and left due to insufficient package-profit limit
                                     BvPointReward::forceCreate([
                                         'parent_id' => $reward->id,
@@ -215,6 +241,10 @@ class CalculateBvPointsJob implements ShouldQueue
                                         'paid' => 0,
                                         'status' => 'expired'
                                     ]);
+                                }
+
+                                if ($reward->paid <= 0) {
+                                    $reward->update(['status' => 'DISQUALIFIED']);
                                 }
                             }
                             // Break the loop after issuing the highest possible reward
