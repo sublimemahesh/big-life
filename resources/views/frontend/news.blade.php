@@ -1,6 +1,26 @@
 <x-frontend.layouts.app>
-    @section('title', 'News | Win Together ')
+    @section('title', 'News - Win Together | Latest Investment Updates and Insights')
     @section('header-title', 'Welcome ')
+    @section('meta')
+        <meta name="description" content="Stay updated with the latest news, trends, and insights in the world of investments. Follow Win Together for timely updates on stocks, crypto, and gold.">
+        <meta name="keywords" content="news, Win Together, investment news, crypto trends, stock market news, gold investment, financial news, investment updates">
+        <meta name="author" content="Win Together">
+        <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:title" content="News - Win Together | Latest Investment Updates and Insights">
+        <meta property="og:description" content="Get the latest news and updates from Win Together on stocks, crypto, gold, and the investment market. Stay informed with expert insights.">
+        <meta property="og:url" content="https://www.wintogetherplan.com/news">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://www.wintogetherplan.com/images/news.jpg">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="News - Win Together | Latest Investment Updates and Insights">
+        <meta name="twitter:description" content="Read the latest investment news from Win Together, covering trends in stocks, crypto, gold, and the financial markets.">
+        <meta name="twitter:image" content="https://www.wintogetherplan.com/images/news.jpg">
+    @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')

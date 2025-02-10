@@ -1,10 +1,33 @@
 <x-frontend.layouts.app>
-    @section('title', 'Contact Us | Win Together ')
+    @section('title', 'Contact Us - Win Together | Get in Touch for Investment Inquiries')
     @section('header-title', 'Welcome ')
+    @section('meta')
+
+    <!-- Meta Tags for Contact Page -->
+    <meta name="description" content="Have questions or need support? Contact Win Together for more information about our investment opportunities in stocks, crypto, and gold.">
+    <meta name="keywords" content="contact, Win Together, contact us, investment inquiries, investment support, crypto trading, stock market, gold investment, customer service">
+    <meta name="author" content="Win Together">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Contact Us - Win Together | Get in Touch for Investment Inquiries">
+    <meta property="og:description" content="Contact Win Together for any inquiries about investments in stocks, crypto, and gold. We're here to assist you in your investment journey.">
+    <meta property="og:url" content="https://www.wintogetherplan.com/contact">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.wintogetherplan.com/images/contact.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Us - Win Together | Get in Touch for Investment Inquiries">
+    <meta name="twitter:description" content="Have questions or need help? Reach out to Win Together for assistance with your investment needs. We're ready to guide you.">
+    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/contact.jpg">
+
+    @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')
-
+    @endsection
 
     <!-- CONTENT START -->
     <div class="page-content">

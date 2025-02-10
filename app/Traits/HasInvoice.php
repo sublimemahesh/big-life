@@ -33,7 +33,8 @@ trait HasInvoice
 
     private function getLogo(): string
     {
-        $url = asset('assets/backend/images/logo/logo-full.png');
+        $url = asset('assets/backend/images/logo/invoice.png');
+        
         $type = pathinfo($url, PATHINFO_EXTENSION);
         $data = file_get_contents($url);
 

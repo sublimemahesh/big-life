@@ -1,6 +1,27 @@
 <x-frontend.layouts.app>
-    @section('title', 'How it work | Win Together ')
+    @section('title', 'How It Works - Win Together | Easy Steps to Start Investing')
     @section('header-title', 'Welcome ')
+
+    @section('meta')
+    <meta name="description" content="Learn how Win Together makes investing in stocks, crypto, and gold easy. Follow our simple steps to start your investment journey and grow your wealth.">
+    <meta name="keywords" content="how it works, Win Together, investment process, crypto trading, stock market, gold investment, secure investing, financial growth">
+    <meta name="author" content="Win Together">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="How It Works - Win Together | Easy Steps to Start Investing">
+    <meta property="og:description" content="Understand the simple steps of how Win Together works. Start investing in stocks, crypto, and gold with our user-friendly platform.">
+    <meta property="og:url" content="https://www.wintogetherplan.com/how-it-works">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.wintogetherplan.com/images/how-it-works.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How It Works - Win Together | Easy Steps to Start Investing">
+    <meta name="twitter:description" content="Start your investment journey with Win Together. Learn how our simple process makes investing in crypto, stocks, and gold accessible to everyone.">
+    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/how-it-works.jpg">
+    @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')
