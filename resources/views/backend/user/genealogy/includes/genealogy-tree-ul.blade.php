@@ -3,6 +3,7 @@
         $level++
     @endphp
     @for ($i = 1; $i <= config('genealogy.children', 2); $i++)
+    
         <li class="position-{{ $i }}">
             @php
                 unset($descendant);
