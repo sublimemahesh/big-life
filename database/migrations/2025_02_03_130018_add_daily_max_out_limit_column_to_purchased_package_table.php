@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('purchased_package', function (Blueprint $table) {
-            $table->double('daily_max_out_limit')->default(0)->nullable()->after('invested_amount');
+            $table->double('daily_max_out_limit')->nullable()->after('invested_amount');
         });
     }
 
