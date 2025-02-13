@@ -14,7 +14,7 @@ class Package extends Model
     use Loggable;
     use Sluggable;
 
-    protected $fillable = ['name', 'amount', 'gas_fee', 'bv_points', 'month_of_period', 'daily_leverage', 'is_active', 'order'];
+    protected $fillable = ['name', 'amount', 'gas_fee', 'bv_points', 'daily_max_out_limit', 'month_of_period', 'daily_leverage', 'is_active', 'order'];
 
     public function sluggable(): array
     {

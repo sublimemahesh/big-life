@@ -52,7 +52,33 @@ class GenerateUserDailyEarning implements ShouldQueue
         try {
             DB::transaction(function () use ($purchase) {
                 $date = $this->date;
-                 $earned = $purchase->earnings()->whereDate('created_at', $date)->where('type', 'PACKAGE')->doesntExist();
+
+                $daily_max_out_limit = $purchase->daily_max_out_limit ?? $purchase->packageRef->daily_max_out_limit;
+
+                $today_earnings_for_active_package = Earning::where('user_id', $purchase->user_id)
+                    ->where('purchased_package_id', $purchase->id)
+                    ->whereDate('created_at', $date)
+                    ->whereIn('status', ['RECEIVED', 'HOLD'])
+                    ->sum('amount');
+
+                Log::channel('max-out-log')->info(
+                    "Package {$purchase->id} | " .
+                    "Max out limit: {$daily_max_out_limit}. | " .
+                    "Today(" . $date . ") Earnings: {$today_earnings_for_active_package}. | " .
+                    "Package Ref Max out Limit: {$purchase->packageRef->daily_max_out_limit}. | " .
+                    "Purchased Date: {$purchase->created_at} | " .
+                    "User: {$purchase->user->username} - {$purchase->user_id}");
+
+
+                if ($today_earnings_for_active_package >= $daily_max_out_limit) {
+                    Log::channel('max-out-log')->warning("No earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . $date . ") max out limit {$today_earnings_for_active_package}. | " .
+                        "Package {$purchase->id} | " .
+                        "User: {$purchase->user->username} - {$purchase->user_id} ");
+
+                    return;
+                }
+
+                $earned = $purchase->earnings()->whereDate('created_at', $date)->where('type', 'PACKAGE')->doesntExist();
                 // $earned = Earning::where('purchased_package_id', $purchase->id)->whereDate('created_at', $date)->doesntExist();
                 if ($earned) {
 

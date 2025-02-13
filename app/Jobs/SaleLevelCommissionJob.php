@@ -139,6 +139,32 @@ class SaleLevelCommissionJob implements ShouldQueue
                         $commissionLevelUserActivePackages = $commission_level_user->activePackages;
 
                         foreach ($commissionLevelUserActivePackages as $activePackage) {
+
+                            $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
+
+                            $today_earnings_for_active_package = Earning::where('user_id', $commission->user_id)
+                                ->where('purchased_package_id', $activePackage->id)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                ->sum('amount');
+
+                            Log::channel('max-out-log')->info(
+                                "Package {$activePackage->id} | " .
+                                "Max out limit: {$daily_max_out_limit}. | " .
+                                "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                                "Package Ref Max out Limit: {$activePackage->packageRef->daily_max_out_limit}. | " .
+                                "Purchased Date: {$activePackage->created_at} | " .
+                                "User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+
+                            if ($today_earnings_for_active_package >= $daily_max_out_limit) {
+                                Log::channel('max-out-log')->warning("No Commission earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . date('Y-m-d') . ") max out limit {$today_earnings_for_active_package}. | " .
+                                    "Package {$activePackage->id} | " .
+                                    "User: {$activePackage->user->username} - {$activePackage->user_id} ");
+
+                                continue;
+                            }
+
                             $already_earned_percentage = $activePackage->earned_profit;
 
                             $total_already_earned_income = ($activePackage->invested_amount / 100) * $already_earned_percentage;
@@ -164,6 +190,25 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 $commission_amount_left = 0;
                             }
 
+                            $today_remaining_income = $daily_max_out_limit - $today_earnings_for_active_package;
+                            if ($commission_amount > $today_remaining_income) {
+                                $can_today_paid_commission_amount = $today_remaining_income;
+
+                                Log::channel('max-out-log')->info("Package {$activePackage->id} | LOGIC: $commission_amount > $today_remaining_income |" .
+                                    "CAN_TODAY_PAID_COMMISSION_AMOUNT: $can_today_paid_commission_amount | User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+                                Log::channel('max-out-log')->debug("Package {$activePackage->id} | COMMISSION_AMOUNT: $commission_amount | COMMISSION_AMOUNT_LEFT: $commission_amount_left");
+
+                                if ($can_today_paid_commission_amount <= 0) {
+                                    Log::channel('max-out-log')->warning("Package {$activePackage->id} | CAN_TODAY_PAID_COMMISSION_AMOUNT: <= 0");
+                                    continue;
+                                }
+
+                                $commission_amount_left += ($commission_amount - $can_today_paid_commission_amount);
+                                $commission_amount = $can_today_paid_commission_amount;
+
+                                Log::channel('max-out-log')->debug("Package {$activePackage->id} | COMMISSION_AMOUNT: $commission_amount | COMMISSION_AMOUNT_LEFT: $commission_amount_left");
+                            }
 
                             $commission->earnings()->save(Earning::forceCreate([
                                 'user_id' => $commission->user_id,
@@ -210,6 +255,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                     }
 
                     if (!$isQualified || $commission_amount_left > 0) {
+                        $commission->refresh();
                         if ($commission_amount_left > 0 && $commission_amount_left !== $commission->amount) {
                             Commission::forceCreate([
                                 'parent_id' => $commission->id,
@@ -223,6 +269,8 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 'status' => 'DISQUALIFIED'
                             ]);
                         }
+
+
                         $commission->adminEarnings()->create([
                             'user_id' => $commission->user_id,
                             'type' => 'DISQUALIFIED_COMMISSION',
@@ -235,6 +283,10 @@ class SaleLevelCommissionJob implements ShouldQueue
                         );
 
                         $admin_wallet->increment('balance', $commission_amount_left);
+                    }
+
+                    if ($commission->paid <= 0) {
+                        $commission->update(['status' => 'DISQUALIFIED']);
                     }
 
                     if ($commission_level_user->super_parent_id === null) {

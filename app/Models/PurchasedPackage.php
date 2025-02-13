@@ -32,6 +32,7 @@ class PurchasedPackage extends Model
         'purchaser_id',
         'package_id',
         'invested_amount',
+        'daily_max_out_limit',
         'payable_percentage',
         'status',
         'expired_at',

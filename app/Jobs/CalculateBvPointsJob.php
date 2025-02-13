@@ -138,6 +138,31 @@ class CalculateBvPointsJob implements ShouldQueue
 
                                 $BvUserActivePackages = $parent->activePackages;
                                 foreach ($BvUserActivePackages as $activePackage) {
+                                    $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
+
+                                    $today_earnings_for_active_package = Earning::where('user_id', $reward->user_id)
+                                        ->where('purchased_package_id', $activePackage->id)
+                                        ->whereDate('created_at', date('Y-m-d'))
+                                        ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                        ->sum('amount');
+
+                                    Log::channel('max-out-log')->info(
+                                        "Package {$activePackage->id} | " .
+                                        "Max out limit: {$daily_max_out_limit}. | " .
+                                        "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                                        "Package Ref Max out Limit: {$activePackage->packageRef->daily_max_out_limit}. | " .
+                                        "Purchased Date: {$activePackage->created_at} | " .
+                                        "User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+
+                                    if ($today_earnings_for_active_package >= $daily_max_out_limit) {
+                                        Log::channel('max-out-log')->warning("No BV earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . date('Y-m-d') . ") max out limit {$today_earnings_for_active_package}. | " .
+                                            "Package {$activePackage->id} | " .
+                                            "User: {$activePackage->user->username} - {$activePackage->user_id} ");
+
+                                        continue;
+                                    }
+
                                     $already_earned_percentage = $activePackage->earned_profit;
 
                                     $total_already_earned_income = ($activePackage->invested_amount / 100) * $already_earned_percentage;
@@ -161,6 +186,26 @@ class CalculateBvPointsJob implements ShouldQueue
                                         $usdValue = $can_paid_bv_reward_amount;
                                     } else {
                                         $usdValue_left = 0;
+                                    }
+
+                                    $today_remaining_income = $daily_max_out_limit - $today_earnings_for_active_package;
+                                    if ($usdValue > $today_remaining_income) {
+                                        $can_today_paid_bv_reward_amount = $today_remaining_income;
+
+                                        Log::channel('max-out-log')->info("Package {$activePackage->id} | LOGIC: $usdValue > $today_remaining_income |" .
+                                            "CAN_TODAY_PAID_BV_REWARD_AMOUNT: $can_today_paid_bv_reward_amount | User: {$activePackage->user->username} - {$activePackage->user_id}");
+
+                                        Log::channel('max-out-log')->debug("Package {$activePackage->id} | USDT VALUE: $usdValue | USD VALUE LEFT: $usdValue_left");
+
+                                        if ($can_today_paid_bv_reward_amount <= 0) {
+                                            Log::channel('max-out-log')->warning("Package {$activePackage->id} | CAN_TODAY_PAID_BV_REWARD_AMOUNT: <= 0");
+                                            continue;
+                                        }
+
+                                        $usdValue_left += ($usdValue - $can_today_paid_bv_reward_amount);
+                                        $usdValue = $can_today_paid_bv_reward_amount;
+
+                                        Log::channel('max-out-log')->debug("Package {$activePackage->id} | USDT VALUE: $usdValue | USD VALUE LEFT: $usdValue_left");
                                     }
 
                                     $earning = $reward->earnings()->save(Earning::forceCreate([
@@ -206,6 +251,7 @@ class CalculateBvPointsJob implements ShouldQueue
                             }
 
                             if (!$isQualified || $usdValue_left > 0) {
+                                $reward->refresh();
                                 if ($usdValue_left !== $reward->amount) { // only add new record if reward qualified and left due to insufficient package-profit limit
                                     BvPointReward::forceCreate([
                                         'parent_id' => $reward->id,
@@ -216,6 +262,11 @@ class CalculateBvPointsJob implements ShouldQueue
                                         'status' => 'expired'
                                     ]);
                                 }
+
+                            }
+
+                            if ($reward->paid <= 0) {
+                                $reward->update(['status' => 'expired']);
                             }
                             // Break the loop after issuing the highest possible reward
                             // continue; // TODO: use continue or break after discussed the client requirement. for now assumed the all possible rewards are issued if criteria met
