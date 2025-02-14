@@ -11,6 +11,7 @@ use App\Models\Currency;
 use App\Models\Earning;
 use App\Models\Page;
 use App\Models\PopupNotice;
+use App\Models\PurchasedPackage;
 use App\Models\Rank;
 use App\Models\Transaction;
 use Auth;
@@ -20,13 +21,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::where('user_id', Auth::user()->id)
+        $transactions = PurchasedPackage::where('user_id', Auth::user()->id)
             ->whereIn('status', ['PAID', 'EXPIRED'])
             ->get();
 
-        $total_investment = number_format($transactions->sum('amount'), 2);
-        $active_investment = number_format($transactions->where('status', 'PAID')->sum('amount'), 2);
-        $expired_investment = number_format($transactions->where('status', 'EXPIRED')->sum('amount'), 2);
+        $total_investment = number_format($transactions->sum('invested_amount'), 2);
+        $active_investment = number_format($transactions->where('status', 'ACTIVE')->sum('invested_amount'), 2);
+        $expired_investment = number_format($transactions->where('status', 'EXPIRED')->sum('invested_amount'), 2);
 
         $income = number_format(Earning::where('user_id', Auth::user()->id)
             ->where('status', 'RECEIVED')
