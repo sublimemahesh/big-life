@@ -22,7 +22,7 @@ class DashboardController extends Controller
     public function index()
     {
         $transactions = PurchasedPackage::where('user_id', Auth::user()->id)
-            ->whereIn('status', ['PAID', 'EXPIRED'])
+            ->whereIn('status', ['ACTIVE', 'EXPIRED'])
             ->get();
 
         $total_investment = number_format($transactions->sum('invested_amount'), 2);
