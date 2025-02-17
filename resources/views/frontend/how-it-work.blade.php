@@ -79,7 +79,7 @@
                                     <div class="icon-content">
                                         <div class="step-number2">{{ $key+1 }}</div>
                                         <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                        <div class="hwt-content">
+                                        <div class="hwt-content cml-60">
                                         {!! html_entity_decode($section->content) !!}
                                        </div>
                                     </div>
