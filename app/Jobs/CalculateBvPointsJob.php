@@ -175,6 +175,7 @@ class CalculateBvPointsJob implements ShouldQueue
                                         Log::channel('bv-points')->info(
                                             "Package {$activePackage->id} | " .
                                             "COMPLETED {$total_already_earned_income}. | " .
+                                            "CALCULATE BV TOTAL_ALLOWED_INCOME: {$total_allowed_income}. | " .
                                             "Purchased Date: {$activePackage->created_at} | " .
                                             "User: {$activePackage->user->username} - {$activePackage->user_id}");
 
@@ -232,6 +233,7 @@ class CalculateBvPointsJob implements ShouldQueue
                                         Log::channel('bv-points')->info(
                                             "Package {$activePackage->id} | " .
                                             "COMPLETED {$total_already_earned_income}. | " .
+                                            "CALCULATE BV TOTAL_PROFIT: {$activePackage->total_profit}. | " .
                                             "Purchased Date: {$activePackage->created_at} | " .
                                             "User: {$activePackage->user->username} - {$activePackage->user_id}");
                                     }

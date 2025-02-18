@@ -177,6 +177,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 Log::channel('daily')->info(
                                     "Package {$activePackage->id} | " .
                                     "COMPLETED {$total_already_earned_income}. | " .
+                                    "SALES LEVEL COMMISSION TOTAL_ALLOWED_INCOME: {$total_allowed_income}. | " .
                                     "Purchased Date: {$activePackage->created_at} | " .
                                     "User: {$activePackage->user->username} - {$activePackage->user_id}");
 //                                $can_paid_commission_amount = $total_allowed_income - $total_already_earned_income;
@@ -236,6 +237,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 Log::channel('daily')->info(
                                     "Package {$activePackage->id} | " .
                                     "COMPLETED {$total_already_earned_income}. | " .
+                                    "SALES LEVEL COMMISSION TOTAL_PROFIT: {$activePackage->total_profit}. | " .
                                     "Purchased Date: {$activePackage->created_at} | " .
                                     "User: {$activePackage->user->username} - {$activePackage->user_id}");
                             }

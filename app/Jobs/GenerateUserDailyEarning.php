@@ -104,6 +104,7 @@ class GenerateUserDailyEarning implements ShouldQueue
                         $purchase->update(['status' => 'EXPIRED']);
                         Log::channel('daily')->info(
                             "Package {$purchase->id} | " .
+                            "PACKAGE FILLED | total_allowed_income < (total_already_earned_income + earned_amount) | {$total_allowed_income} <= {$total_already_earned_income} + {$earned_amount} | " .
                             "COMPLETED {$total_already_earned_income}. | " .
                             "Purchased Date: {$purchase->created_at} | " .
                             "User: {$purchase->user->username} - {$purchase->user_id}");
