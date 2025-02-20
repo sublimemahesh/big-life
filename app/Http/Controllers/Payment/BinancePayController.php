@@ -174,7 +174,8 @@ class BinancePayController extends Controller
                         $json['status'] = true;
                         $json['message'] = 'Request successful';
                         $json['icon'] = 'success'; // warning | info | question | success | error
-                        $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.invoice', $transaction)];
+                        // $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.invoice', $transaction)];
+                        $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.index')];
                         return response()->json($json);
                     }
 
@@ -204,7 +205,8 @@ class BinancePayController extends Controller
                     $json['status'] = true;
                     $json['message'] = 'Request successful';
                     $json['icon'] = 'success'; // warning | info | question | success | error
-                    $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.invoice', $transaction)];
+                    // $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.index', $transaction)];
+                    $json['data'] = ['checkoutUrl' => URL::signedRoute('user.transactions.index')];
                     return response()->json($json);
                 }
 
