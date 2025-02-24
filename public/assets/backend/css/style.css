@@ -41302,7 +41302,7 @@ table.dataTable thead .sorting_asc {
 }
 
 .list-row-head span {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--primary);
     display: inline-block;
     flex: 1 1;
@@ -41324,7 +41324,7 @@ table.dataTable thead .sorting_asc {
 
 .list-table .list-row span {
     flex: 1 1;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--title);
     display: inline-block;
     padding: 3px 30px;
@@ -49510,6 +49510,10 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:fo
 
 .cmt-40 {
     margin-top: 40px !important;
+}
+
+.cus-fs{
+    font-size: 15px !important;
 }
 
 
