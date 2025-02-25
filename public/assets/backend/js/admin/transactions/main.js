@@ -52,7 +52,8 @@ $(function () {
         columnDefs: [
             {
                 render: function (data, type, full, meta) {
-                    return `<div style="font-size: 0.75rem !important;" > ${data} </div>`;
+                    // return `<div style="font-size: 0.75rem !important;" > ${data} </div>`;
+                    return `<div> ${data} </div>`;
                 },
                 targets: [5, 7],
             },

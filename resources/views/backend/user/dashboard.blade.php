@@ -354,7 +354,7 @@
                                                 <span class="px-0">Received</span>
                                                 <span class="px-0">Package</span>
                                                 <span class="px-0">Paid Percentage</span>
-                                                <span class="px-0 text-end">Date</span>
+                                                <span class="px-0 ">Date</span>
                                             </div>
                                             <div class="list-table success">
                                                 @foreach ($package_latest as $day_earn)
@@ -362,7 +362,7 @@
                                                         <span class="p-0">$ {{ number_format($day_earn->amount,2) }}</span>
                                                         <span class="p-0">{{ $day_earn->earnable->package_info_json->name }}</span>
                                                         <span class="p-0">{{ $day_earn->payed_percentage ?? $day_earn->earnable->payable_percentage }}%</span>
-                                                        <span class="p-0 text-end">{{ $day_earn->created_at->format('Y-m-d') }}</span>
+                                                        <span class="p-0 ">{{ $day_earn->created_at->format('Y-m-d') }}</span>
                                                         <div class="bg-layer"></div>
                                                     </div>
                                                 @endforeach
@@ -373,7 +373,9 @@
                                                 <span class="px-0">Received</span>
                                                 <span class="px-0">Paid</span>
                                                 <span class="px-0">Lost</span>
-                                                <span class="px-0 text-end">User</span>
+                                                <span class="px-0">User</span>
+                                                <span class="px-0">Date</span>
+
                                                 {{--<span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
@@ -382,7 +384,8 @@
                                                         <span class="p-0">$ {{ number_format($sale->amount,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
-                                                        <span class="p-0 text-end">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0">{{ $sale->created_at->format('Y-m-d') }}</span>
                                                         {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>
@@ -394,7 +397,8 @@
                                                 <span class="px-0">Received</span>
                                                 <span class="px-0">Paid</span>
                                                 <span class="px-0">Lost</span>
-                                                <span class="px-0 text-end">User</span>
+                                                <span class="px-0 ">User</span>
+                                                <span class="px-0 ">Date</span>
                                                 {{-- <span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
@@ -403,7 +407,8 @@
                                                         <span class="p-0">$ {{ number_format($sale->amount,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
-                                                        <span class="p-0 text-end">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0 ">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0 ">{{ $sale->created_at->format('Y-m-d') }}</span>
                                                         {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>

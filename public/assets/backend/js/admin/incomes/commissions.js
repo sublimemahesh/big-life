@@ -50,7 +50,7 @@ $(function () {
         columnDefs: [
             {
                 render: function (date, type, full, meta) {
-                    return `<div style='font-size: 0.76rem !important;'> ${date} </div>`;
+                    return `<div> ${date} </div>`;
                 },
                 targets: [2, 3, 4, 5, 6],
             },
