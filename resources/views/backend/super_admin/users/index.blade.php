@@ -10,14 +10,6 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-    @section('plugin-styles')
-    <style>
-        td {
-            word-wrap: break-word !important;
-            white-space: normal !important;
-        }
-    </style>
-    @endsection
 
 
     @section('breadcrumb-items')
