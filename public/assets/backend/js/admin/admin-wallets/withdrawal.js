@@ -44,7 +44,7 @@ $(function () {
         columnDefs: [
             {
                 render: function (data, type, full, meta) {
-                    return `<div style='font-size: 0.76rem !important;'> ${data !== null ? data : '-'} </div>`;
+                    return `<div> ${data !== null ? data : '-'} </div>`;
                 }, targets: [0, 1, 2, 3, 4],
             },
             {

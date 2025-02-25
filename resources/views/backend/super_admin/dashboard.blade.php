@@ -130,7 +130,7 @@
                                     <p class="mb-1">TOTAL PACKAGE EARNINGS</p>
                                     <h4 class="text-white  dashboard-card-font-size-change"> $ {{ $total_package_earnings }}</h4>
                                     <br>
-                                    <small> Package daily income </small>
+                                    <p> Package daily income </p>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                                     <p class="mb-1">TOTAL DIRECT EARNINGS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_direct_commission_earnings }}</h4>
                                     <br>
-                                    <small> Daily direct commissions </small>
+                                    <p> Daily direct commissions </p>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                     <p class="mb-1">TOTAL INDIRECT EARNINGS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_indirect_commission_earnings }}</h4>
                                     <br>
-                                    <small> Daily indirect commission </small>
+                                    <p> Daily indirect commission </p>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                                     <p class="mb-1">TOTAL RANK BONUSES</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_rank_bonus_earnings }}</h4>
                                     <br>
-                                    <small> Daily Rank Bonus </small>
+                                    <p> Daily Rank Bonus </p>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                                     <p class="mb-1">MAIN WALLET BALANCE</p>
                                     <h4 class="text-white  dashboard-card-font-size-change"> $ {{ $total_available_wallet_balance }}</h4>
                                     <br>
-                                    <small> Total main Wallets balance </small>
+                                    <p> Total main Wallets balance </p>
                                 </div>
                             </div>
                         </div>
@@ -267,7 +267,7 @@
                                     <p class="mb-1">MANUAL TRANSACTIONS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_manual_transactions }}</h4>
                                     <br>
-                                    <small> Gas Fee: $ {{ $total_manual_transactions_gas_fees }} </small>
+                                    <p> Gas Fee: $ {{ $total_manual_transactions_gas_fees }} </p>
                                 </div>
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                                     <p class="mb-1">WALLET TOPUPS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_wallet_topup }}</h4>
                                     <br>
-                                    <small> Total wallet top-ups </small>
+                                    <p> Total wallet top-ups </p>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +302,7 @@
                                     <p class="mb-1">TOTAL ACTIVE SALES</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_active_package_balance }}</h4>
                                     <br>
-                                    <small>Current total Active packages </small>
+                                    <p>Current total Active packages </p>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +319,7 @@
                                     <p class="mb-1">TOTAL EXPIRED SALES</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_expired_package_balance }}</h4>
                                     <br>
-                                    <small>Current total Inactive packages </small>
+                                    <p>Current total Inactive packages </p>
                                 </div>
                             </div>
                         </div>
@@ -336,7 +336,7 @@
                                     <p class="mb-1">PENDING WITHDRAWALS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_pending_withdrawal_balance }}</h4>
                                     <br>
-                                    <small>Pending to accept </small>
+                                    <p>Pending to accept </p>
                                 </div>
                             </div>
                         </div>
@@ -353,7 +353,7 @@
                                     <p class="mb-1">TOTAL P2P TRANSACTIONS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_p2p_transfers }}</h4>
                                     <br>
-                                    <small>Total P2P Transactions </small>
+                                    <p>Total P2P Transactions </p>
                                 </div>
                             </div>
                         </div>
@@ -370,7 +370,7 @@
                                     <p class="mb-1">TOTAL WITHDRAWALS</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ $total_withdraws }}</h4>
                                     <br>
-                                    <small>Total Withdrawal amount </small>
+                                    <p>Total Withdrawal amount </p>
                                 </div>
                             </div>
                         </div>
@@ -387,7 +387,7 @@
                                     <p class="mb-1">TOTAL TRANSACTION FEES</p>
                                     <h4 class="text-white dashboard-card-font-size-change"> $ {{ number_format($total_p2p_transaction_fees + $total_withdraws_transaction_fees,2) }}</h4>
                                     <br>
-                                    <small> P2P: $ {{ $total_p2p_transaction_fees }} / Withdraw: $ {{ $total_withdraws_transaction_fees }} </small>
+                                    <p> P2P: $ {{ $total_p2p_transaction_fees }} / Withdraw: $ {{ $total_withdraws_transaction_fees }} </p>
                                 </div>
                             </div>
                         </div>

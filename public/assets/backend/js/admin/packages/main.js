@@ -58,19 +58,19 @@ $(function () {
         columnDefs: [
             {
                 render: function (data, type, full, meta) {
-                    return `<div style="font-size: 0.76rem !important;" > ${data} </div>`;
+                    return `<div> ${data} </div>`;
                 },
                 targets: [0, 1, 3, 4, 5, 6],
             },
             {
                 render: function (data, type, full, meta) {
-                    return `<div style="font-size: 0.76rem !important;" class="text-center"> ${data} </div>`;
+                    return `<div class="text-center"> ${data} </div>`;
                 },
                 targets: [2],
             },
             {
                 render: function (amount, type, full, meta) {
-                    return `<div style='min-width:120px' class="text-right"> ${amount} </div>`;
+                    return `<div  class="text-right"> ${amount} </div>`;
                 },
                 targets: [2, 7],
             },

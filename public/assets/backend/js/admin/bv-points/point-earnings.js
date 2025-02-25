@@ -29,7 +29,7 @@ $(function () {
         columnDefs: [
             {
                 render: function (date, type, full, meta) {
-                    return `<div style="font-size: 0.76rem !important;" class="text-right"> ${date} </div>`;
+                    return `<div  class="text-right"> ${date} </div>`;
                 }, targets: 5,
             },
             {

@@ -49516,4 +49516,10 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:fo
     font-size: 15px !important;
 }
 
+table tr td{
+    font-size: 14px !important;
+}
 
+table tr td code {
+    font-size: 15px !important;
+}
