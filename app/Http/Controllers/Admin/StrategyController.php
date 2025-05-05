@@ -8,6 +8,7 @@ use Arr;
 use DB;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use JsonException;
 use RuntimeException;
 use Throwable;
@@ -115,9 +116,10 @@ class StrategyController extends Controller
     {
         $this->authorize('viewAny', Strategy::class);
 
-        $strategies = Strategy::whereIn('name', ['commission_level_count', 'commissions', 'rank_gift', 'rank_bonus'])->get();
+        $strategies = Strategy::whereIn('name', ['commission_level_count', 'commissions', 'rank_gift', 'rank_bonus', 'old_users_commission_divide'])->get();
 
         $commission_level_count = $strategies->where('name', 'commission_level_count')->first(null, fn() => new Strategy(['value' => 7]));
+        $old_users_commission_divide = $strategies->where('name', 'old_users_commission_divide')->first(null, fn() => new Strategy(['value' => 2]));
         $commissions = $strategies->where('name', 'commissions')->first(null, fn() => new Strategy(['value' => '{"1":25,"2":20,"3":15,"4":10,"5":5,"6":5,"7":5}']));
         $rank_gift = $strategies->where('name', 'rank_gift')->first(null, fn() => new Strategy(['value' => 5]));
         $rank_bonus = $strategies->where('name', 'rank_bonus')->first(null, fn() => new Strategy(['value' => 10]));
@@ -125,7 +127,7 @@ class StrategyController extends Controller
         $commissions = json_decode($commissions->value, false, 512, JSON_THROW_ON_ERROR);
         $total_percentage = array_sum(get_object_vars($commissions));
         $total_percentage += ($rank_gift->value + $rank_bonus->value);
-        return view('backend.admin.strategies.commissions.index', compact('total_percentage', 'commission_level_count', 'commissions', 'rank_gift', 'rank_bonus'));
+        return view('backend.admin.strategies.commissions.index', compact('total_percentage', 'commission_level_count', 'commissions', 'rank_gift', 'rank_bonus', 'old_users_commission_divide'));
     }
 
     /**
@@ -340,6 +342,7 @@ class StrategyController extends Controller
 
         $validated = Validator::make($request->all(), [
             'commission_level_count' => ['required', 'integer', 'gte:1'],
+            'old_users_commission_divide' => ['required', 'integer', 'gte:1'],
             'commissions' => ['nullable', Rule::requiredIf($request->get('commission_level_count') > 0), 'array', 'size:' . $request->get('commission_level_count')],
             'commissions.*' => ['required', 'numeric'],
             'rank_gift' => ['required', 'numeric'],
@@ -359,6 +362,7 @@ class StrategyController extends Controller
         }
 
         $commission_level_count = count($validated['commissions']);
+        $old_users_commission_divide = $validated['old_users_commission_divide'];
         if (!isset($validated['commissions']) || count($validated['commissions']) <= 0) {
             $commissions = '{}';
         } else {
@@ -372,10 +376,14 @@ class StrategyController extends Controller
         $rank_bonus = $validated['rank_bonus'];
         $rank_gift = $validated['rank_gift'];
 
-        DB::transaction(function () use ($commission_level_count, $commissions, $rank_gift, $rank_bonus) {
+        DB::transaction(function () use ($old_users_commission_divide, $commission_level_count, $commissions, $rank_gift, $rank_bonus) {
             Strategy::updateOrCreate(
                 ['name' => 'commission_level_count'],
                 ['value' => $commission_level_count]
+            );
+            Strategy::updateOrCreate(
+                ['name' => 'old_users_commission_divide'],
+                ['value' => $old_users_commission_divide]
             );
 
             Strategy::updateOrCreate(

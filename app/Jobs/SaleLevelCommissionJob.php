@@ -43,6 +43,7 @@ class SaleLevelCommissionJob implements ShouldQueue
             'commissions',
             'level_commission_requirement',
             'commission_level_count',
+            'old_users_commission_divide',
             'max_withdraw_limit'
         ])->get();
     }
@@ -99,12 +100,23 @@ class SaleLevelCommissionJob implements ShouldQueue
             $commission_start_at = 1;
             if ($purchasedUser->super_parent_id !== null) {
                 $commission_level_strategy = $strategies->where('name', 'commission_level_count')->first(null, fn() => new Strategy(['value' => 4]));
+                $old_users_commission_divide = $strategies->where('name', 'old_users_commission_divide')->first(null, fn() => new Strategy(['value' => 2]));
                 $commission_level = (int)$commission_level_strategy->value;
+
+                $purchasePackageCount = $purchasedUser->purchasedPackages()->count();
+                $is_new_customer_first_purchase = $purchasePackageCount <= 1;
 
                 $commission_level_user = $purchasedUser->sponsor instanceof User ? $purchasedUser->sponsor : User::find($purchasedUser->super_parent_id);
                 for ($i = $commission_start_at; $i <= $commission_level; $i++) {
 
-                    $commission_amount = ($package->invested_amount * $commissions[$i]) / 100;
+                    $commission_percentage = $commissions[$i];
+                    Log::channel('daily')->debug("Purchased Package Count: $purchasePackageCount | Commission Level: $i | Commission Percentage: $commission_percentage");
+                    if (!$is_new_customer_first_purchase) {
+                        $commission_percentage /= ($old_users_commission_divide->value ?? 2);
+                        Log::channel('daily')->debug("Not a New Customer Fresh Purchase: Purchased Package Count: $purchasePackageCount | Commission Level: $i | Commission Percentage: $commission_percentage");
+                    }
+
+                    $commission_amount = ($package->invested_amount * $commission_percentage) / 100;
 
                     $direct_sale_count = $commission_level_user->children()->count();
                     $is_level_commission_requirement_satisfied = $direct_sale_count >= ($level_commission_requirement->value ?? 1);
@@ -217,7 +229,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 'income_level' => $i,
                                 'purchased_package_id' => $activePackage->id,
                                 'amount' => $commission_amount,
-                                'payed_percentage' => $commissions[$i],
+                                'payed_percentage' => $commission_percentage,
                                 'type' => $commission->type,
                                 'status' => 'RECEIVED',
                             ]));
