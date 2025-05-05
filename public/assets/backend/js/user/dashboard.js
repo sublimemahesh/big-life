@@ -46,28 +46,30 @@ jQuery(window).on('resize', function () {
 });
 
 
-
-
 var owl = $('.owl-banner');
 owl.owlCarousel({
-    items:1,
-    loop:true,
-    margin:10,
-    autoplay:true,
-    autoplayTimeout:1000,
-    autoplayHoverPause:true
+    items: 1,
+    loop: true,
+    margin: 10,
+    autoplay: true,
+    autoplayTimeout: 1000,
+    autoplayHoverPause: true
 });
 
 
-let copyText = document.querySelector(".copy-text");
-copyText.querySelector(".copy-el").addEventListener("click", function () {
-    // alert('ddd');
-    let input = copyText.querySelector("input");
+document.querySelectorAll(".copy-el").forEach((copyBtn) => {
+    copyBtn.addEventListener("click", function () {
+        const parent = this.closest(".copy-text");
+        const input = parent.querySelector("input");
 
-    navigator.clipboard.writeText(input.value).then(() => {
-        Toast.fire({
-            icon: "success", title: "Copied to your clipboard",
-        });
+        if (input) {
+            navigator.clipboard.writeText(input.value).then(() => {
+                Toast.fire({
+                    icon: "success",
+                    title: "Copied to your clipboard",
+                });
+            });
+        }
     });
-
 });
+

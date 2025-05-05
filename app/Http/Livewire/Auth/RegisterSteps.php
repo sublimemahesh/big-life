@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Enums\BinaryPlaceEnum;
 use App\Models\Country;
 use App\Models\User;
 use Auth;
@@ -19,6 +20,7 @@ class RegisterSteps extends Component
     use PasswordValidationRules;
 
     public bool $disable_sponsor_modify = false;
+    public bool $disable_position_modify = false;
 
     public string $phone_iso = 'LK';
 
@@ -38,11 +40,15 @@ class RegisterSteps extends Component
 
     public User $sponsor;
 
+    public BinaryPlaceEnum|null $position;
+
     public function mount()
     {
         $this->state['super_parent_id'] = $this->sponsor?->id;
         $this->state['sponsor'] = $this->sponsor?->username;
+        $this->state['position'] = $this->position?->value;
         $this->disable_sponsor_modify = $this->sponsor->id !== null;
+        $this->disable_position_modify = $this->position !== null;
     }
 
     protected function rules(): array

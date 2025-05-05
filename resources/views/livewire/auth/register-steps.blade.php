@@ -126,7 +126,7 @@
                     <label class="mb-1" for="position"><strong class="main-register-form-text">{{ __('Placement') }}
                             <sup class="main-required">*</sup></strong>
                     </label>
-                    <select id="gender" wire:model.lazy="state.position" class="block mt-1 w-full  form-control">
+                    <select id="gender" wire:model.lazy="state.position" @disabled($disable_position_modify) class="block mt-1 w-full  form-control">
                         <option value="">Select Placement</option>
                         <option value="{{ \App\Enums\BinaryPlaceEnum::LEFT->value }}">Left</option>
                         <option value="{{ \App\Enums\BinaryPlaceEnum::RIGHT->value }}">Right</option>

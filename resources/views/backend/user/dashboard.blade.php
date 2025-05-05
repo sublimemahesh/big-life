@@ -78,21 +78,29 @@
                                                 <h3 class="fw-normal mb-0 text-secondary">Join Our Referral Program Today!</h3>
                                                 <h1 class="mb-4">Earn More with Our Referral Program</h1>
                                                 <div class="row align-items-center">
-                                                    <div class="col-12 col-md-11 col-xxl-11 mb-4">
-                                                        @php
-                                                            if (Auth::user()->active_date !== null) {
-                                                            $url_ref = Auth::user()->referral_link;
-                                                            } else {
-                                                            $url_ref = 'Please activate the package.';
-                                                            }
-                                                        @endphp
-                                                        <div class="input-group mb-3 input-primary copy-text">
-                                                            <input class="form-control border-end-0" readonly value="{{ $url_ref }}"
-                                                                   placeholder="Referral link">
-                                                            <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                    @if(Auth::user()->active_date !== null)
+                                                        <div class="col-12 col-md-6 col-xxl-6 mb-4">
+                                                            <label for="">Left Referral Link</label>
+                                                            <div class="input-group mb-3 input-primary copy-text">
+                                                                <input class="form-control border-end-0" readonly value="{{ Auth::user()->left_referral_link }}"
+                                                                       placeholder="Referral link">
+                                                                <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                            </div>
                                                         </div>
-                                                        <p>Join our referral program and start earning rewards effortlessly! Share your unique referral code with friends, and when they activate their package, you get exclusive benefits. Copy your code now and invite them to be part of our growing community!</p>
-                                                    </div>
+                                                        <div class="col-12 col-md-6 col-xxl-6 mb-4">
+                                                            <label for="">Right Referral Link</label>
+                                                            <div class="input-group mb-3 input-primary copy-text">
+                                                                <input class="form-control border-end-0" readonly value="{{ Auth::user()->right_referral_link }}"
+                                                                       placeholder="Referral link">
+                                                                <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-12 col-md-12 mb-4">
+                                                            <div class="form-control border-end-0">Please Activate a package first!</div>
+                                                        </div>
+                                                    @endif
+                                                    <p>Join our referral program and start earning rewards effortlessly! Share your unique referral code with friends, and when they activate their package, you get exclusive benefits. Copy your code now and invite them to be part of our growing community!</p>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4  d-flex justify-content-center">
