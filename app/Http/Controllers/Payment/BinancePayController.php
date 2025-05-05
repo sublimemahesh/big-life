@@ -31,7 +31,7 @@ class BinancePayController extends Controller
     {
         $validated = Validator::make($request->all(), [
             'package' => ['required', 'exists:packages,slug'],
-            'method' => ['required', 'in:manual'],/*binance,main,topup,*/
+            'method' => ['required', 'in:manual,main,topup'],/*binance,,*/
             'proof_document' => ['required_if:method,manual', 'nullable', 'file:pdf,jpg,jpeg,png'],
             'purchase_for' => [
                 'nullable',

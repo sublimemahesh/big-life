@@ -117,7 +117,7 @@
             <div class="authincation-content">
                 <div class="row no-gutters">
 
-                    <livewire:auth.register-steps :sponsor="$sponsor"/>
+                    <livewire:auth.register-steps :sponsor="$sponsor" :position="$position"/>
 
                 </div>
             </div>

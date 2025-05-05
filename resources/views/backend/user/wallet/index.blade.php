@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-4 d-none">
+        <div class="col-xl-4 col-lg-4">
             <div class="rounded-1 card prim-card">
                 <div class="card-body py-3 d-flex flex-column justify-content-evenly">
                     <img src="{{ asset('assets/images/topup-wallet.png') }}" alt="logo" width="64"/>

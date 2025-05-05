@@ -77,7 +77,7 @@
         </ul>
     </li>
 @endcan--}}
-{{--@can('wallet.topup')
+@can('wallet.topup')
     <li>
         <a href="{{ route('admin.wallet.topup') }}" class="" aria-expanded="false">
             <i class="bi bi-send-plus"></i>
@@ -93,7 +93,7 @@
             <span class="nav-text">Topup History</span>
         </a>
     </li>
-@endcan--}}
+@endcan
 
 @can('users.genealogy')
     <li>
