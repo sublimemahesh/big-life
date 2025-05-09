@@ -73,7 +73,7 @@ $(function () {
         const password = $('#password').val();
         const code = $('#code').val();
         const wallet_type = $("input[name='wallet_type']:checked").val();
-        const otp = $('#otp').val();
+        // const otp = $('#otp').val();
 
         /* || parseFloat(amount) > MAX_WITHDRAW_LIMIT*/
         if (amount.length <= 0 || parseFloat(amount) < MINIMUM_PAYOUT_LIMIT) {
@@ -81,17 +81,17 @@ $(function () {
                 icon: 'error', title: "Please Enter a valid amount to transfer!",
             })
             return false
-        } else if (password === null || password.length <= 0) {
+        }else if (password === null || password.length <= 0) {
             Toast.fire({
                 icon: 'error', title: "Please Enter a your account password!",
             })
             return false
-        } else if (otp === null || otp.length <= 0) {
+        }/*  else if (otp === null || otp.length <= 0) {
             Toast.fire({
                 icon: 'error', title: "Please Enter a OTP that sent to your email or mobile!",
             })
             return false
-        } else {
+        }*/ else {
             Swal.fire({
                 title: "Are You Sure?",
                 text: "Request a payout?",
@@ -105,7 +105,7 @@ $(function () {
                         remark,
                         wallet_type,
                         password,
-                        otp,
+                        // otp,
                         code
                     }).then(response => {
                         Toast.fire({
