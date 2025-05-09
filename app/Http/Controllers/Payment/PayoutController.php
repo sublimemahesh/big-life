@@ -317,20 +317,20 @@ class PayoutController extends Controller
                 }
             ],
             'wallet_type' => ['required', 'in:main,topup'], //,staking
-            'password' => 'required',
-            'otp' => 'required|digits:6',
-            'code' => 'nullable',
+             'password' => 'required',
+             'code' => 'nullable',
+            // 'otp' => 'required|digits:6',
             'remark' => 'nullable',
         ])->validate();
 
-        $hashed_username = hash("sha512", auth()->user()?->username);
-        $hashed_code = hash("sha512", $validated['otp']);
-        if (!session()->has($hashed_username) || session()->get($hashed_username) !== $hashed_code) {
-            $json['status'] = false;
-            $json['message'] = 'Entered OTP code is invalid!';
-            $json['icon'] = 'error'; // warning | info | question | success | error
-            return response()->json($json, Response::HTTP_UNAUTHORIZED);
-        }
+//        $hashed_username = hash("sha512", auth()->user()?->username);
+//        $hashed_code = hash("sha512", $validated['otp']);
+//        if (!session()->has($hashed_username) || session()->get($hashed_username) !== $hashed_code) {
+//            $json['status'] = false;
+//            $json['message'] = 'Entered OTP code is invalid!';
+//            $json['icon'] = 'error'; // warning | info | question | success | error
+//            return response()->json($json, Response::HTTP_UNAUTHORIZED);
+//        }
 
         if (!$user?->profile->is_kyc_verified) {
             $json['status'] = false;

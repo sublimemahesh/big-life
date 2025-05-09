@@ -174,7 +174,7 @@
                                         <input id="code" type="password" class="form-control" autocomplete="one-time-password" placeholder="2FA code OR Recovery Code">
                                     </div>
                                 @endif
-                                <p>
+                                {{--<p>
                                     OTP code will be sent to Email: {{ substr(auth()->user()?->email, 0, 2) }}*****{{ substr(auth()->user()?->email, -9) }}
                                     @if(str_starts_with(auth()->user()?->phone, '+94'))
                                         and Phone:  {{ substr(auth()->user()?->phone, 0, 5) }}*****{{ substr(auth()->user()?->phone, -2) }}
@@ -184,8 +184,8 @@
                                     <button type="submit" id="send-2ft-code" class="btn btn-sm btn-google mb-2">Send
                                         Verification Code
                                     </button>
-                                </div>
-                                {{--<button type="submit" id="confirm-payout" class="btn btn-sm btn-success mb-2">Confirm & Withdraw</button>--}}
+                                </div>--}}
+                                <button type="submit" id="confirm-payout" class="btn btn-sm btn-success mb-2">Confirm & Withdraw</button>
                             </form>
                         </div>
                     </div>
