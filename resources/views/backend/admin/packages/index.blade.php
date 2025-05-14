@@ -38,10 +38,10 @@
                                 <th>ACTIONS</th>
                                 <th>NAME</th>
                                 <th>SLUG</th>
-                                <th>CURRENCY</th>
-                                <th>AMOUNT</th>
-                                <th>GAS FEE</th>
+                                <th>AMOUNT (USDT)</th>
+                                <th>GAS FEE (USDT)</th>
                                 <th>BV POINT</th>
+                                <th>MAX OUT (USDT)</th>
                                 {{--<th>MONTH OF PERIOD</th>--}}
                                 {{--<th>DAILY LEVERAGE</th>--}}
                                 <th>IS ACTIVE</th>
@@ -65,10 +65,10 @@
                                     </td>
                                     <td>{{ $package->name }}</td>
                                     <td>{{ $package->slug }}</td>
-                                    <td>{{ $package->currency }}</td>
-                                    <td class="text-end">{{ $package->amount }}</td>
-                                    <td class="text-end">{{ $package->gas_fee }}</td>
-                                    <td>{{ $package->bv_points }}</td>
+                                    <td class="text-end">{{ number_format($package->amount, 2) }}</td>
+                                    <td class="text-end">{{ number_format($package->gas_fee, 2) }}</td>
+                                    <td class="text-end">{{ $package->bv_points }}</td>
+                                    <td class="text-end"> {{ number_format($package->daily_max_out_limit, 2) }}</td>
                                     {{--<td>{{ $package->month_of_period }}</td>--}}
                                     {{--<td>{{ $package->daily_leverage }}</td>--}}
                                     <td>

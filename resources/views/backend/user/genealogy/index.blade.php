@@ -12,7 +12,7 @@
         <li class="breadcrumb-item">Genealogy</li>
     @endsection
     <div class="row">
-        <div class="col-xl-12 col-sm-12 ">
+        <div class="col-xl-12 col-sm-12">
             <div class="bg-secondary card d-flex email-susb  m-auto ">
                 @include('backend.user.teams.top-nav')
             </div>
@@ -21,7 +21,7 @@
     @if (Auth::user()->id === config('fortify.super_parent_id') ||
     (Auth::user()->parent_id !== null && Auth::user()->position !== null))
         <div class="row">
-            <div class="col-xl-12 col-sm-12 ">
+            <div class="col-xl-12 col-sm-12 cmt-40">
                 <div class="bg-secondary card d-flex email-susb justify-content-center m-auto w-75">
                     <div class="card-body text-center">
                         <div class="referral-img">

@@ -1,7 +1,30 @@
 @extends('auth.layouts.auth')
-@section('title', 'Login')
-@section('contents')
+@section('title', 'Login - Win Together | Access Your Investment Account')
+@section('meta')
 
+    <meta name="description" content="Log in to your Win Together account to manage your investments in stocks, crypto, and gold. Securely access your investment portfolio anytime.">
+    <meta name="keywords" content="login, Win Together, login to account, investment login, secure login, crypto trading, stock market, gold investment">
+    <meta name="author" content="Win Together">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Login - Win Together | Access Your Investment Account">
+    <meta property="og:description" content="Log in to your Win Together account securely to view and manage your investments in stocks, crypto, and gold.">
+    <meta property="og:url" content="https://www.wintogetherplan.com/login">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.wintogetherplan.com/images/login.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Login - Win Together | Access Your Investment Account">
+    <meta name="twitter:description" content="Securely log in to your Win Together account to track and manage your investments in crypto, stocks, and gold.">
+    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/login.jpg">
+
+@endsection
+
+
+@section('contents')
     <div class="row justify-content-center main-register-form-style">
         <div class="col-md-6">
             <div class="authincation-content">

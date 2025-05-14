@@ -17849,6 +17849,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 @media only screen and (max-width: 87.5rem) {
     .deznav {
         width: 17rem;
+         /* width: 100%; */
     }
 }
 
@@ -20684,7 +20685,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 @media only screen and (max-width: 47.9375rem) {
     [data-sidebar-style="overlay"] .deznav .metismenu>li>a {
-        font-size: 0.875rem;
+        /* font-size: 0.875rem; */
+        font-size: 1.5rem;
         padding: 0.75rem 0.875rem;
     }
 
@@ -20697,12 +20699,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
     }
 
-
-
-
-
     [data-sidebar-style="overlay"] .deznav .metismenu>li>form a {
-        font-size: 0.875rem;
+        /* font-size: 0.875rem; */
+        font-size: 1.5rem;
         padding: 0.75rem 0.875rem;
     }
 
@@ -20714,6 +20713,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         padding-left: 42px;
     }
 
+    .header{
+        background-color: #252a3d !important;
+    }
 
 }
 
@@ -41300,7 +41302,7 @@ table.dataTable thead .sorting_asc {
 }
 
 .list-row-head span {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--primary);
     display: inline-block;
     flex: 1 1;
@@ -41322,7 +41324,7 @@ table.dataTable thead .sorting_asc {
 
 .list-table .list-row span {
     flex: 1 1;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--title);
     display: inline-block;
     padding: 3px 30px;
@@ -49477,4 +49479,47 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:fo
 
 .img-250{
     width: 250px !important;
+}
+
+
+
+@media (min-width: 769px) {
+   .tbl-res {
+    table-layout: fixed !important;
+    width: 100% !important;
+   }
+}
+
+
+@media (max-width: 768px) {
+    .deznav {
+         width: 100% !important;
+    }
+}
+
+.deznav .metismenu > li{
+ margin-top: 10px;
+}
+
+.tree:has(ul:nth-of-type(2)) {
+    display: flex;
+    /* justify-content: flex-end; */
+    justify-content: flex-start;
+}
+
+
+.cmt-40 {
+    margin-top: 40px !important;
+}
+
+.cus-fs{
+    font-size: 15px !important;
+}
+
+table tr td{
+    font-size: 14px !important;
+}
+
+table tr td code {
+    font-size: 15px !important;
 }

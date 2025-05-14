@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BinaryPlaceEnum;
 use App\Http\Resources\Select2UserResource;
 use App\Models\User;
 use Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +18,16 @@ class RegisteredUserController extends Controller
     public function create(Request $request)
     {
         $sponsor = new User;
+
+        $position = null;
+
         if ($request->get('ref', false)) {
+
+            $request->validate([
+                'position' => ['required', new Enum(BinaryPlaceEnum::class)],
+            ]);
+
+            $position = $request->enum('position', BinaryPlaceEnum::class);
             // abort_if(!$request->hasValidSignature(), Response::HTTP_UNAUTHORIZED, 'Invalid referral link!');
             $parent = $request->get('ref', null);
             $sponsor = User::whereUsername($parent)
@@ -31,7 +42,7 @@ class RegisteredUserController extends Controller
                 ->firstOrFail();
         }
 
-        return view('auth.register', compact('sponsor'));
+        return view('auth.register', compact('sponsor', 'position'));
     }
 
     public function findUsers($search_text): \Illuminate\Http\Resources\Json\AnonymousResourceCollection

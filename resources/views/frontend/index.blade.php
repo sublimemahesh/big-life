@@ -1,6 +1,32 @@
 <x-frontend.layouts.app>
-    @section('title', 'Home Page | Win Together ')
+    @section('title', 'Win Together - Your Gateway to Smart Investments | wintogetherplan.com')
     @section('header-title', 'Welcome ')
+
+    @section('meta')
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="Join Win Together at wintogetherplan.com to explore seamless investment opportunities in stocks, crypto, and gold. Empower your financial future with expert guidance.">
+    <meta name="keywords" content="Win Together, investments, crypto trading, stock market, gold investment, secure investing, financial growth, wintogetherplan.com">
+    <meta name="author" content="Win Together">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Win Together - Your Gateway to Smart Investments | wintogetherplan.com">
+    <meta property="og:description" content="Invest in stocks, cryptocurrencies, and gold with ease. Join Win Together to secure your financial future.">
+    <meta property="og:url" content="https://www.wintogetherplan.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.wintogetherplan.com/images/preview.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Win Together - Your Gateway to Smart Investments | wintogetherplan.com">
+    <meta name="twitter:description" content="Start your investment journey with Win Together. Trade in crypto, stocks, and gold with expert guidance.">
+    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/preview.jpg">
+
+    @endsection
+
+
 
     @section('header')
     @include('frontend.layouts.header')

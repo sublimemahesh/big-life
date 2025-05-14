@@ -10,6 +10,8 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
+
+
     @section('breadcrumb-items')
         <li class="breadcrumb-item">
             <a href="">Users</a>

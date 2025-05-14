@@ -1,7 +1,7 @@
 <div class="col-xl-12 col-lg-12">
     <div class="card profile-card card-bx m-b30">
         <div class="card-header">
-            <h6 class="title"> {{ __('Profile Information111') }}</h6>
+            <h6 class="title"> {{ __('Profile Information') }}</h6>
         </div>
         <form class="profile-form" wire:submit.prevent="{{ 'updateProfileInformation' }}">
             <div class="card-body">

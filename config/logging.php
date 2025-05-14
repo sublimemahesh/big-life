@@ -70,6 +70,13 @@ return [
             'days' => 14,
         ],
 
+        'max-out-log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/max-out-log.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
+
         'registration' => [
             'driver' => 'daily',
             'path' => storage_path('logs/registration.log'),

@@ -6,6 +6,7 @@ use App\Enums\BinaryPlaceEnum;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -132,6 +133,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getReferralLinkAttribute(): string
     {
         return $this->referral_link = route('register', ['ref' => $this->username]);
+    }
+
+    protected function leftReferralLink(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => route('register', ['ref' => $this->username, 'position' => BinaryPlaceEnum::LEFT]),
+        );
+    }
+
+    protected function rightReferralLink(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => route('register', ['ref' => $this->username, 'position' => BinaryPlaceEnum::RIGHT]),
+        );
     }
 
     public function getActiveDateAttribute(): string|null

@@ -1,5 +1,5 @@
 @extends('auth.layouts.auth')
-@section('title', 'SIGN UP YOUR ACCOUNT')
+@section('title', 'Register - Win Together | Create Your Investment Account')
 @section('styles')
     <style>
         .loader {
@@ -79,6 +79,37 @@
 
     </style>
 @endsection
+
+
+@section('meta')
+
+        <meta name="description" content="Register with Win Together to start your investment journey. Create an account to access opportunities in stocks, crypto, and gold with expert guidance.">
+        <meta name="keywords" content="register, Win Together, create account, investment registration, sign up, crypto trading, stock market, gold investment, financial growth">
+        <meta name="author" content="Win Together">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:title" content="Register - Win Together | Create Your Investment Account">
+        <meta property="og:description" content="Sign up for Win Together and unlock investment opportunities in stocks, crypto, and gold. Start your financial journey today.">
+        <meta property="og:url" content="https://www.wintogetherplan.com/register">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://www.wintogetherplan.com/images/register.jpg">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Register - Win Together | Create Your Investment Account">
+        <meta name="twitter:description" content="Join Win Together today. Register to explore smart investment options in crypto, stocks, and gold.">
+        <meta name="twitter:image" content="https://www.wintogetherplan.com/images/register.jpg">
+
+@endsection
+
+
+
+
+
+
+
 @section('contents')
 
     <div class="row justify-content-center main-register-form-style">
@@ -86,7 +117,7 @@
             <div class="authincation-content">
                 <div class="row no-gutters">
 
-                    <livewire:auth.register-steps :sponsor="$sponsor"/>
+                    <livewire:auth.register-steps :sponsor="$sponsor" :position="$position"/>
 
                 </div>
             </div>

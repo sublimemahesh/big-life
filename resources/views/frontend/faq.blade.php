@@ -1,6 +1,28 @@
 <x-frontend.layouts.app>
-    @section('title', 'FAQ | Win Together ')
-    @section('header-title', 'Welcome ')
+    @section('title', 'FAQ - Win Together | Answers to Your Investment Questions')
+    @section('header-title', 'Welcome')
+    @section('meta')
+
+        <meta name="description" content="Find answers to common questions about investing with Win Together. Learn more about our platform, investment process, and available opportunities.">
+        <meta name="keywords" content="FAQ, Win Together, frequently asked questions, investment platform, crypto trading, stock market, gold investment, secure investing">
+        <meta name="author" content="Win Together">
+        <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:title" content="FAQ - Win Together | Answers to Your Investment Questions">
+        <meta property="og:description" content="Get answers to the most frequently asked questions about investing with Win Together. Learn how our platform helps you grow your financial future.">
+        <meta property="og:url" content="https://www.wintogetherplan.com/faq">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://www.wintogetherplan.com/images/faq.jpg">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="FAQ - Win Together | Answers to Your Investment Questions">
+        <meta name="twitter:description" content="Have questions? Find answers to frequently asked questions about investing with Win Together, including platform details and investment options.">
+        <meta name="twitter:image" content="https://www.wintogetherplan.com/images/faq.jpg">
+
+    @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')

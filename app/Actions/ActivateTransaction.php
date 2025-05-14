@@ -34,6 +34,7 @@ class ActivateTransaction
                 'investment_profit' => $investment_profit,
                 'level_commission_profit' => $level_commission_profit,
                 'invested_amount' => $transaction->package->amount,
+                'daily_max_out_limit' => $transaction->package->daily_max_out_limit,
                 'payable_percentage' => $transaction->package->daily_leverage,
                 'status' => 'ACTIVE',
                 'expired_at' => Carbon::now()->addMonths($transaction->package->month_of_period)->format('Y-m-d H:i:s'),

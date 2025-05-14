@@ -36,7 +36,7 @@
                                                         Registration new user
                                                     </a>--}}
 
-                                                    <a href="{{ route('user.genealogy') }}" class="btn btn-info rounded-3 profile-card-btn">
+                                                    <a href="{{ route('user.genealogy') }}" class="btn btn-info rounded-3 profile-card-btn mt-4">
                                                         <i class="fa fa-sitemap" aria-hidden="true"></i>
                                                         My genealogy
                                                     </a>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @if (Auth::user()->id === config('fortify.super_parent_id') ||(Auth::user()->parent_id !== null && Auth::user()->position !== null))
                         <div class="row">
                             <div class="col-lg-12">
@@ -78,28 +78,35 @@
                                                 <h3 class="fw-normal mb-0 text-secondary">Join Our Referral Program Today!</h3>
                                                 <h1 class="mb-4">Earn More with Our Referral Program</h1>
                                                 <div class="row align-items-center">
-                                                    <div class="col-12 col-md-11 col-xxl-11 mb-4">
-                                                        @php
-                                                            if (Auth::user()->active_date !== null) {
-                                                            $url_ref = Auth::user()->referral_link;
-                                                            } else {
-                                                            $url_ref = 'Please activate the package.';
-                                                            }
-                                                        @endphp
-                                                        <div class="input-group mb-3 input-primary copy-text">
-                                                            <input class="form-control border-end-0" readonly value="{{ $url_ref }}"
-                                                                   placeholder="Referral link">
-                                                            <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                    @if(Auth::user()->active_date !== null)
+                                                        <div class="col-12 col-md-6 col-xxl-6 mb-4">
+                                                            <label for="">Left Referral Link</label>
+                                                            <div class="input-group mb-3 input-primary copy-text">
+                                                                <input class="form-control border-end-0" readonly value="{{ Auth::user()->left_referral_link }}"
+                                                                       placeholder="Referral link">
+                                                                <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                            </div>
                                                         </div>
-                                                        <p>Join our referral program and start earning rewards effortlessly! Share your unique referral code with friends, and when they activate their package, you get exclusive benefits. Copy your code now and invite them to be part of our growing community!</p>
-                                                    </div>
+                                                        <div class="col-12 col-md-6 col-xxl-6 mb-4">
+                                                            <label for="">Right Referral Link</label>
+                                                            <div class="input-group mb-3 input-primary copy-text">
+                                                                <input class="form-control border-end-0" readonly value="{{ Auth::user()->right_referral_link }}"
+                                                                       placeholder="Referral link">
+                                                                <button class="input-group-text copy-el"><i class="bi bi-copy"></i>Copy</button>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-12 col-md-12 mb-4">
+                                                            <div class="form-control border-end-0">Please Activate a package first!</div>
+                                                        </div>
+                                                    @endif
+                                                    <p>Join our referral program and start earning rewards effortlessly! Share your unique referral code with friends, and when they activate their package, you get exclusive benefits. Copy your code now and invite them to be part of our growing community!</p>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-4  d-flex justify-content-center">
                                                 <img src="{{ asset('assets/backend/images/ref.gif') }}" class="img-250">
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -355,7 +362,7 @@
                                                 <span class="px-0">Received</span>
                                                 <span class="px-0">Package</span>
                                                 <span class="px-0">Paid Percentage</span>
-                                                <span class="px-0">Date</span>
+                                                <span class="px-0 ">Date</span>
                                             </div>
                                             <div class="list-table success">
                                                 @foreach ($package_latest as $day_earn)
@@ -363,7 +370,7 @@
                                                         <span class="p-0">$ {{ number_format($day_earn->amount,2) }}</span>
                                                         <span class="p-0">{{ $day_earn->earnable->package_info_json->name }}</span>
                                                         <span class="p-0">{{ $day_earn->payed_percentage ?? $day_earn->earnable->payable_percentage }}%</span>
-                                                        <span class="p-0">{{ $day_earn->created_at->format('Y-m-d') }}</span>
+                                                        <span class="p-0 ">{{ $day_earn->created_at->format('Y-m-d') }}</span>
                                                         <div class="bg-layer"></div>
                                                     </div>
                                                 @endforeach
@@ -375,6 +382,8 @@
                                                 <span class="px-0">Paid</span>
                                                 <span class="px-0">Lost</span>
                                                 <span class="px-0">User</span>
+                                                <span class="px-0">Date</span>
+
                                                 {{--<span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
@@ -384,6 +393,7 @@
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
                                                         <span class="p-0">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0">{{ $sale->created_at->format('Y-m-d') }}</span>
                                                         {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>
@@ -395,7 +405,8 @@
                                                 <span class="px-0">Received</span>
                                                 <span class="px-0">Paid</span>
                                                 <span class="px-0">Lost</span>
-                                                <span class="px-0">User</span>
+                                                <span class="px-0 ">User</span>
+                                                <span class="px-0 ">Date</span>
                                                 {{-- <span class="px-0">Next Pay</span>--}}
                                             </div>
                                             <div class="list-table success">
@@ -404,7 +415,8 @@
                                                         <span class="p-0">$ {{ number_format($sale->amount,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->paid,2) }}</span>
                                                         <span class="p-0">$ {{ number_format($sale->lost_amount,2) }}</span>
-                                                        <span class="p-0">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0 ">{{ $sale->purchasedPackage->user->username }}</span>
+                                                        <span class="p-0 ">{{ $sale->created_at->format('Y-m-d') }}</span>
                                                         {{--<span class="p-0">{{ Carbon::parse($sale->next_payment_date)->format('Y-m-d') }}</span>--}}
                                                         <div class="bg-layer"></div>
                                                     </div>
@@ -451,12 +463,12 @@
                                     <tbody>
                                         @forelse($bv_rewards as $bv)
                                             <tr>
-                                                <td class="py-1">{{ $bv->bv_points }}</td>
-                                                <td class="py-1">{{ number_format($bv->amount,2) }}</td>
-                                                <td class="py-1 text-success">{{ number_format($bv->paid,2) }}</td>
-                                                <td class="py-1 text-danger">{{ number_format($bv->lost_amount,2) }}</td>
-                                                <td class="py-1">{{ $bv->status }}</td>
-                                                <td class="py-1">{{ $bv->created_at->format('Y-m-d h:i A') }}</td>
+                                                <td class="py-1 cus-fs">{{ $bv->bv_points }}</td>
+                                                <td class="py-1 cus-fs">{{ number_format($bv->amount,2) }}</td>
+                                                <td class="py-1 text-success cus-fs">{{ number_format($bv->paid,2) }}</td>
+                                                <td class="py-1 text-danger cus-fs">{{ number_format($bv->lost_amount,2) }}</td>
+                                                <td class="py-1 cus-fs">{{ $bv->status }}</td>
+                                                <td class="py-1 cus-fs">{{ $bv->created_at->format('Y-m-d h:i A') }}</td>
                                             </tr>
                                         @empty
                                             <tr>
