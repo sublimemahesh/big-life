@@ -32,7 +32,8 @@ class Profile extends Model
         'wallet_address',
         'binance_email',
         'binance_id',
-        'binance_phone'
+        'binance_phone',
+        'binance_qr_code'
     ];
 
     protected $appends = [

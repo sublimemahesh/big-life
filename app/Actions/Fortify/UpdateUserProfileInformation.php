@@ -47,6 +47,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'profile_info.binance_email' => ['nullable', 'email', 'max:255'],
             'profile_info.binance_id' => ['nullable', 'string', 'max:255'],
             'profile_info.binance_phone' => ['nullable', 'string', 'max:255'],
+            'profile_info.binance_qr_code' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ], customAttributes: [
             'name' => "Name (Personal Details)",
             'email' => "Email (Personal Details)",
@@ -63,10 +64,18 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'profile_info.binance_email' => "Binance email (Payment Details)",
             'profile_info.binance_id' => "Binance id (Payment Details)",
             'profile_info.binance_phone' => "Binance phone (Payment Details)",
+            'profile_info.binance_qr_code' => "Binance Wallet QR (Payment Details)",
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
+        }
+
+        // Handle Binance QR Code upload if provided
+        if (isset($input['profile_info']['binance_qr_code'])) {
+            $filename = 'binance_qr_' . auth()->id() . '_' . time() . '.' . $input['profile_info']['binance_qr_code']->hashName();
+            $input['profile_info']['binance_qr_code']->storeAs('user/binance_qr_codes', $filename);
+            $input['profile_info']['binance_qr_code'] = $filename;
         }
 
         if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
@@ -99,6 +108,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'binance_email' => $input['profile_info']['binance_email'] ?? null,
             'binance_id' => $input['profile_info']['binance_id'] ?? null,
             'binance_phone' => $input['profile_info']['binance_phone'] ?? null,
+            'binance_qr_code' => $input['profile_info']['binance_qr_code'] ?? null,
         ]);
     }
 

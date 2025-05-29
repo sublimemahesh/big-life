@@ -261,6 +261,41 @@
                                                      class="block mt-1 w-full form-control" type="text" name="wallet_address"/>
                                         <x-jet-input-error for="profile_info.wallet_address" class="mt-2"/>
                                     </div>
+                                    <div class="col-lg-6 m-b30 mt-2" x-data="{ isUploading: false, progress: 0 }">
+                                        <label class="form-label" for="binance_qr_code"> {{ __('Binance QR Code') }}</label>
+                                        <div class="mb-3">
+                                            <input type="file" id="binance_qr_code"
+                                                   wire:model="binanceQrCode"
+                                                   x-on:livewire-upload-start="isUploading = true"
+                                                   x-on:livewire-upload-finish="isUploading = false"
+                                                   x-on:livewire-upload-error="isUploading = false"
+                                                   x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                                   class="form-control"
+                                                   accept="image/jpeg,image/png,image/jpg,image/webp">
+                                            <div x-show="isUploading" class="mt-2">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" :style="'width: ' + progress + '%'"
+                                                         :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                                                        <span x-text="progress + '%'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <x-jet-input-error for="binanceQrCode" class="mt-2"/>
+                                            <div class="text-muted mt-1">{{ __('Accepted formats: JPG, JPEG, PNG, WEBP') }}</div>
+                                        </div>
+
+                                        <!-- QR Code Preview -->
+                                        <div class="mt-3">
+                                            @if ($binanceQrCode)
+                                                <div class="text-sm mb-2">{{ __('New QR Code Preview:') }}</div>
+                                                <img src="{{ $binanceQrCode->temporaryUrl() }}" class="img-fluid" style="max-width: 200px; max-height: 200px;">
+                                            @elseif (auth()->user()->profile->binance_qr_code)
+                                                <div class="text-sm mb-2">{{ __('Current QR Code:') }}</div>
+                                                <img src="{{ storage('user/binance_qr_codes/' . auth()->user()->profile->binance_qr_code) }}"
+                                                     class="img-fluid" style="max-width: 200px; max-height: 200px;">
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -286,7 +321,7 @@
                             </p>
                             <br>
                             <div id="2ft-section">
-                                <button type="submit" wire:click="sendOTP" class="btn btn-sm btn-google mb-2">
+                                <button wire:click.prevent="sendOTP" class="btn btn-sm btn-google mb-2">
                                     Send Verification Code
                                 </button>
                             </div>
@@ -378,5 +413,4 @@
         });
 
     </script>
-    @endpush
-    </div>
+@endpush
