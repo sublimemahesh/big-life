@@ -91,6 +91,13 @@
                                         <p class="mb-0"><b>Id:</b> {{ $profile->binance_id }}</p>
                                         <p class="mb-0"><b>Address:</b> {{ $profile->wallet_address }}</p>
                                         <p class="mb-0"><b>Phone:</b> {{ $profile->binance_phone }}</p>
+                                        @if($profile->binance_qr_code)
+                                        <div class="mt-3">
+                                            <p class="mb-0"><b>Binance QR Code:</b></p>
+                                            <img src="{{ storage('user/binance_qr_codes/' . $profile->binance_qr_code) }}" 
+                                                class="img-fluid mt-2" style="max-width: 200px; max-height: 200px;">
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="text-info">Change Details:
                                         <a href="{{ route('profile.show') }}">Edit Profile</a>
