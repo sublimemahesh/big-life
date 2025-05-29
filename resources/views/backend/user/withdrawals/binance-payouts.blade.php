@@ -17,6 +17,9 @@
                     And also, Please ensure that you have remaining withdrawal amount for the day
                 </div>
             @endif
+            <div class="alert alert-warning">
+                <strong>Weekly Withdrawal Limit:</strong> Please note that you can only make one Binance withdrawal request per week. If you have already made a withdrawal request in the past 7 days, your new request will be declined.
+            </div>
         </div>
         <div class="col-xl-8 col-sm-6">
             <div class="card">

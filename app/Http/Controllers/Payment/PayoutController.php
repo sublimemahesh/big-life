@@ -13,7 +13,7 @@ use App\Models\Withdraw;
 use App\Services\OTPService;
 use App\Services\TwoFactorAuthenticateService;
 use Auth;
-use Carbon;
+use Carbon\Carbon;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
@@ -249,6 +249,20 @@ class PayoutController extends Controller
     {
         $strategies = Strategy::whereIn('name', ['payout_transfer_fee', 'daily_max_withdrawal_limits', 'withdrawal_days_of_week'])->get();
 
+        // Check if user has made a withdrawal request in the past week
+        $weeklyWithdrawalCount = Withdraw::where('user_id', Auth::user()->id)
+            ->where('type', 'MANUAL')
+            ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->count();
+
+        if ($weeklyWithdrawalCount > 0) {
+            $json['status'] = false;
+            $json['message'] = "You can only make one withdrawal request per week. Please wait until your current request is processed.";
+            $json['icon'] = 'error'; // warning | info | question | success | error
+            return response()->json($json, Response::HTTP_UNAUTHORIZED);
+        }
+
         if (!$this->checkTodayWithdrawalEligibility($strategies, $request->input('amount', 0))) {
             $json['status'] = false;
             $json['message'] = "Sorry, you are not eligible to make a withdrawal at this time. Please ensure that you have remaining withdrawal amount for the day and that today is one of the designated withdrawal days.!";
@@ -301,6 +315,20 @@ class PayoutController extends Controller
         $minimum_payout_limit = $strategies->where('name', 'minimum_payout_limit')->first(null, fn() => new Strategy(['value' => 25]));
         $max_withdraw_limit = $user_wallet->withdraw_limit;
 
+        // Check if user has made a withdrawal request in the past week
+        $weeklyWithdrawalCount = Withdraw::where('user_id', $user?->id)
+            ->where('type', 'MANUAL')
+            ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->count();
+
+        if ($weeklyWithdrawalCount > 0) {
+            $json['status'] = false;
+            $json['message'] = "You can only make one withdrawal request per week. Please wait until your current request is processed.";
+            $json['icon'] = 'error'; // warning | info | question | success | error
+            return response()->json($json, Response::HTTP_UNAUTHORIZED);
+        }
+
         if (!$this->checkTodayWithdrawalEligibility($strategies, $request->input('amount', 0))) {
             $json['status'] = false;
             $json['message'] = "Sorry, you are not eligible to make a withdrawal at this time. Please ensure that you have remaining withdrawal amount for the day and that today is one of the designated withdrawal days.!";
@@ -316,9 +344,9 @@ class PayoutController extends Controller
                     }
                 }
             ],
-            'wallet_type' => ['required', 'in:main,topup'], //,staking
-             'password' => 'required',
-             'code' => 'nullable',
+            'wallet_type' => ['required', 'in:main,topup,binance'], //,staking
+            'password' => 'required',
+            'code' => 'nullable',
             // 'otp' => 'required|digits:6',
             'remark' => 'nullable',
         ])->validate();
