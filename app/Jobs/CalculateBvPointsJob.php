@@ -3,9 +3,11 @@
 namespace App\Jobs;
 
 use App\Enums\BinaryPlaceEnum;
+use App\Events\UserReachedDailyMaxOut;
 use App\Models\BvPointEarning;
 use App\Models\BvPointReward;
 use App\Models\Earning;
+use App\Models\MaxedOutBvPoint;
 use App\Models\PurchasedPackage;
 use App\Models\User;
 use App\Models\Wallet;
@@ -136,15 +138,18 @@ class CalculateBvPointsJob implements ShouldQueue
 
                             if ($isQualified) {
 
+                                $daily_max_out_limit = $parent->effective_daily_max_out_limit; // get the highest daily max out limit from the user active packages'
                                 $BvUserActivePackages = $parent->activePackages;
-                                foreach ($BvUserActivePackages as $activePackage) {
-                                    $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
 
-                                    $today_earnings_for_active_package = Earning::where('user_id', $reward->user_id)
-                                        ->where('purchased_package_id', $activePackage->id)
-                                        ->whereDate('created_at', date('Y-m-d'))
-                                        ->whereIn('status', ['RECEIVED', 'HOLD'])
-                                        ->sum('amount');
+                                $today_earnings_for_active_package = Earning::where('user_id', $reward->user_id)
+                                    //->where('purchased_package_id', $activePackage->id)
+                                    ->whereDate('created_at', date('Y-m-d'))
+                                    ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                    ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
+                                    ->sum('amount');
+
+                                foreach ($BvUserActivePackages as $activePackage) {
+                                    // $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
 
                                     Log::channel('max-out-log')->info(
                                         "Package {$activePackage->id} | " .
@@ -160,7 +165,11 @@ class CalculateBvPointsJob implements ShouldQueue
                                             "Package {$activePackage->id} | " .
                                             "User: {$activePackage->user->username} - {$activePackage->user_id} ");
 
-                                        continue;
+                                        event(new UserReachedDailyMaxOut($parent, $activePackage, "BV Point Earnings: Daily max limit of {$daily_max_out_limit} exceeded"));
+
+                                        Log::channel('max-out-log')->warning("BREAKING THE LOOP");
+
+                                        break;
                                     }
 
                                     $already_earned_percentage = $activePackage->earned_profit;
@@ -190,6 +199,10 @@ class CalculateBvPointsJob implements ShouldQueue
                                     }
 
                                     $today_remaining_income = $daily_max_out_limit - $today_earnings_for_active_package;
+                                    // Zero out BV Points
+                                    if ($usdValue >= $today_remaining_income) {
+                                        event(new UserReachedDailyMaxOut($parent, $activePackage, "BV Point Earnings: Daily max limit of {$daily_max_out_limit} exceeded"));
+                                    }
                                     if ($usdValue > $today_remaining_income) {
                                         $can_today_paid_bv_reward_amount = $today_remaining_income;
 
@@ -199,8 +212,8 @@ class CalculateBvPointsJob implements ShouldQueue
                                         Log::channel('max-out-log')->debug("Package {$activePackage->id} | USDT VALUE: $usdValue | USD VALUE LEFT: $usdValue_left");
 
                                         if ($can_today_paid_bv_reward_amount <= 0) {
-                                            Log::channel('max-out-log')->warning("Package {$activePackage->id} | CAN_TODAY_PAID_BV_REWARD_AMOUNT: <= 0");
-                                            continue;
+                                            Log::channel('max-out-log')->warning("BREAKING THE LOOP: Package {$activePackage->id} | CAN_TODAY_PAID_BV_REWARD_AMOUNT: <= 0");
+                                            break;
                                         }
 
                                         $usdValue_left += ($usdValue - $can_today_paid_bv_reward_amount);
