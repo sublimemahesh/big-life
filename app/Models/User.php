@@ -198,6 +198,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->purchasedPackages()->activePackages();
 
     }
+    
+    public function maxedOutBvPoints(): HasMany
+    {
+        return $this->hasMany(MaxedOutBvPoint::class, 'user_id', 'id');
+    }
 
     public function descendantPackages(): \Staudenmeir\LaravelAdjacencyList\Eloquent\Relations\HasManyOfDescendants
     {

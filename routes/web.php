@@ -211,6 +211,7 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
             // BV Points
             Route::get('bv-points/earnings', 'Admin\BvPointController@earnings')->name('bv_points.earnings');
             Route::get('bv-points/rewards', 'Admin\BvPointController@rewards')->name('bv_points.rewards');
+            Route::get('bv-points/maxed-out', 'Admin\MaxedOutBvPointController@index')->name('bv_points.maxed_out');
 
             // Transactions
             Route::get('users/purchased-packages', 'Admin\PurchasedPackageController@index')->name('purchased-packages');
@@ -382,6 +383,9 @@ Route::group(["prefix" => "", 'middleware' => ['auth:sanctum', config('jetstream
         Route::get('wallet/withdraws/{withdraw}/summery', 'User\WithdrawController@show')->name('wallet.withdraw.view');
         Route::post('wallet/withdraws/2ft-verify', 'Payment\PayoutController@twoftVerifyWithdraw');
         Route::post('wallet/withdraw/binance', 'Payment\PayoutController@withdraw');
+
+        // Maxed Out BV Points routes
+        Route::get('bv-points/maxed-out', 'User\MaxedOutBvPointController@index')->name('bv-points.maxed-out');
         Route::match(['get', 'post'], 'wallet/withdraws/{withdraw}/cancel-request', 'User\WithdrawController@cancelWithdraw')->name('wallet.withdraw.cancel');
 
         // Route::get('wallet/transfers/p2p/history', 'User\WithdrawController@p2pHistory')->name('transfers.p2p');
