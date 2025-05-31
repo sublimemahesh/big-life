@@ -14,6 +14,25 @@
 
     <div class="row">
         @include('backend.user.transactions.top-nav')
+        <div class="col-12">
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-xl mb-6">
+                <div class="font-bold mb-1">📢 Important Note on Daily Earning Limits</div>
+                <p class="text-sm leading-relaxed">
+                    Your daily earnings are capped based on your <strong>highest active package</strong>. Please keep in mind:
+                </p>
+                <ul class="list-item list-disc ml-5 text-sm mt-2 space-y-1">
+                    <li class="li-disc">Even if you have multiple active packages, <strong>only the highest invested package</strong> determines your daily maximum earning limit.</li>
+                    <li class="li-disc">Once you reach or exceed this daily limit, <strong>no further BV or referral rewards will be credited</strong> for that day.</li>
+                    <li class="li-disc"><span class="text-red-700 font-semibold">⚠️ If you hit your daily limit, your collected left and right BV points will be reset to Zero.</span></li>
+                    <li class="li-disc">This means you will need to start collecting BV points from zero again the next day.</li>
+                    <li class="li-disc">To avoid losing BV points, make sure <strong>your total daily earnings stay below your max-out limit</strong>.</li>
+                    <li class="li-disc">If you have multiple packages with the same value, the one purchased earlier will be considered for limit calculation.</li>
+                </ul>
+                <p class="text-sm mt-3">
+                    ✅ You can still earn from all your packages, but your <strong>total daily earnings</strong> (from all sources) will not exceed the cap set by your top package.
+                </p>
+            </div>
+        </div>
         @foreach($packages as $package)
             {{--@php
                 $gas_fee = $is_gas_fee_added ? $package->gas_fee : 0;
