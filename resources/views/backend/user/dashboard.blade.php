@@ -147,7 +147,7 @@
                                             <p class="mb-1">PAYOUT BALANCE</p>
                                             <h4 class="text-white user-dashboard-card-font-size-change">
                                                 @if(auth()->user()->direct_sales_count <= 0)
-                                                    USDT {{number_format(($wallet->withdraw_limit/400)*300,2) }}
+                                                    USDT {{number_format($wallet->withdraw_limit - 100,2) }}
                                                 @else
                                                     USDT {{number_format($wallet->withdraw_limit,2) }}
                                                 @endif
