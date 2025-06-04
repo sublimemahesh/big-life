@@ -14,6 +14,7 @@ use App\Models\PopupNotice;
 use App\Models\PurchasedPackage;
 use App\Models\Rank;
 use App\Models\Transaction;
+use App\Models\Withdraw;
 use Auth;
 use DB;
 
@@ -154,6 +155,18 @@ class DashboardController extends Controller
         $leftDescendantCount = $leftChild ? $leftChild->descendantsAndSelf()->count() : 0;
         $rightDescendantCount = $rightChild ? $rightChild->descendantsAndSelf()->count() : 0;
 
+        $purchased_package_investment_profit_sum = PurchasedPackage::where('user_id', Auth::user()->id)->sum('invested_amount');
+        $purchased_package_investment_profit_sum *= (300 / 100);
+
+        $withdrawal_sum = Withdraw::where('user_id', Auth::user()->id)
+            ->where('type', 'MANUAL')
+            ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
+            ->sum('amount');
+
+        $purchased_package_investment_profit_sum -= $withdrawal_sum;
+
+        $available_withdraw_level = auth()->user()->direct_sales_count <= 0 ? $purchased_package_investment_profit_sum : Auth::user()->wallet->withdraw_limit;
+
         return view('backend.user.dashboard',
             compact(
                 'banners',
@@ -185,6 +198,7 @@ class DashboardController extends Controller
 
                 'leftDescendantCount',
                 'rightDescendantCount',
+                'available_withdraw_level',
             )
         );
 
