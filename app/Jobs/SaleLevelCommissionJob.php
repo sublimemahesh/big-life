@@ -153,7 +153,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                         $daily_max_out_limit = $commission_level_user->effective_daily_max_out_limit;  // get the highest daily max out limit from the user active packages'
                         $commissionLevelUserActivePackages = $commission_level_user->activePackages;
 
-                        $today_earnings_for_active_package = Earning::where('user_id', $commission->user_id)
+                        $today_total_earnings = Earning::where('user_id', $commission->user_id)
                             //->where('purchased_package_id', $activePackage->id)
                             ->whereDate('created_at', date('Y-m-d'))
                             ->whereIn('status', ['RECEIVED', 'HOLD'])
@@ -167,21 +167,22 @@ class SaleLevelCommissionJob implements ShouldQueue
                             Log::channel('max-out-log')->info(
                                 "Package {$activePackage->id} | " .
                                 "Max out limit: {$daily_max_out_limit}. | " .
-                                "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                                "Today(" . date('Y-m-d') . ") Earnings: {$today_total_earnings}. | " .
                                 "Package Ref Max out Limit: {$activePackage->packageRef->daily_max_out_limit}. | " .
                                 "Purchased Date: {$activePackage->created_at} | " .
                                 "User: {$activePackage->user->username} - {$activePackage->user_id}");
 
 
-                            if ($today_earnings_for_active_package >= $daily_max_out_limit) {
-                                Log::channel('max-out-log')->warning("No Commission earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . date('Y-m-d') . ") max out limit {$today_earnings_for_active_package}. | " .
+                            if ($today_total_earnings >= $daily_max_out_limit) {
+                                Log::channel('max-out-log')->warning("No Commission earnings recorded because of max out limit {$daily_max_out_limit} exceeded today(" . date('Y-m-d') . ") max out limit {$today_total_earnings}. | " .
                                     "Package {$activePackage->id} | " .
                                     "User: {$activePackage->user->username} - {$activePackage->user_id} ");
 
                                 event(new UserReachedDailyMaxOut($commission_level_user, $activePackage, "Level Commissions: Daily max limit of {$daily_max_out_limit} exceeded"));
 
                                 Log::channel('max-out-log')->warning("BREAKING THE LOOP");
-
+                                $commission_amount_left = $commission_amount;
+                                $commission_amount = 0;
                                 break;
                             }
 
@@ -211,7 +212,7 @@ class SaleLevelCommissionJob implements ShouldQueue
                                 $commission_amount_left = 0;
                             }
 
-                            $today_remaining_income = $daily_max_out_limit - $today_earnings_for_active_package;
+                            $today_remaining_income = $daily_max_out_limit - $today_total_earnings;
                             // Zero out BV Points
                             if ($commission_amount >= $today_remaining_income) {
                                 event(new UserReachedDailyMaxOut($commission_level_user, $activePackage, "Level Commissions: Daily max limit of {$daily_max_out_limit} exceeded"));

@@ -90,6 +90,32 @@ class CalculateBvPointsJob implements ShouldQueue
                         ['user_id' => $parent->id],
                         ['balance' => 0]
                     );
+
+
+                    $today_earnings_for_active_package = Earning::where('user_id', $parent->id)
+                        //->where('purchased_package_id', $activePackage->id)
+                        ->whereDate('created_at', date('Y-m-d'))
+                        ->whereIn('status', ['RECEIVED', 'HOLD'])
+                        ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
+                        ->sum('amount');
+
+                    $daily_max_out_limit = $parent->effective_daily_max_out_limit; // get the highest daily max out limit from the user active packages'
+                    $highestActivePackage = $parent->highestInvestedPackage->first();
+
+                    if ($highestActivePackage && $today_earnings_for_active_package >= $daily_max_out_limit) {
+                        Log::channel('max-out-log')->info(
+                            "Package {$highestActivePackage->id} | " .
+                            "Max out limit: {$daily_max_out_limit}. | " .
+                            "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                            "Package Ref Max out Limit: {$highestActivePackage->packageRef->daily_max_out_limit}. | " .
+                            "Purchased Date: {$highestActivePackage->created_at} | " .
+                            "User: {$highestActivePackage->user->username} - {$highestActivePackage->user_id}");
+
+                        event(new UserReachedDailyMaxOut($parent, $highestActivePackage, "BV Point Earnings: Daily max limit of {$daily_max_out_limit} exceeded"));
+                    }
+
+                    $parent->refresh();
+
                     // Check for the highest possible balanced BV points and issue rewards
                     $left_children_count = $parent->directSales()->where('position', BinaryPlaceEnum::LEFT->value)->count();
                     $right_children_count = $parent->directSales()->where('position', BinaryPlaceEnum::RIGHT->value)->count();
@@ -138,15 +164,7 @@ class CalculateBvPointsJob implements ShouldQueue
 
                             if ($isQualified) {
 
-                                $daily_max_out_limit = $parent->effective_daily_max_out_limit; // get the highest daily max out limit from the user active packages'
                                 $BvUserActivePackages = $parent->activePackages;
-
-                                $today_earnings_for_active_package = Earning::where('user_id', $reward->user_id)
-                                    //->where('purchased_package_id', $activePackage->id)
-                                    ->whereDate('created_at', date('Y-m-d'))
-                                    ->whereIn('status', ['RECEIVED', 'HOLD'])
-                                    ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
-                                    ->sum('amount');
 
                                 foreach ($BvUserActivePackages as $activePackage) {
                                     // $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
@@ -168,7 +186,8 @@ class CalculateBvPointsJob implements ShouldQueue
                                         event(new UserReachedDailyMaxOut($parent, $activePackage, "BV Point Earnings: Daily max limit of {$daily_max_out_limit} exceeded"));
 
                                         Log::channel('max-out-log')->warning("BREAKING THE LOOP");
-
+                                        $usdValue_left = $usdValue;
+                                        $usdValue = 0;
                                         break;
                                     }
 

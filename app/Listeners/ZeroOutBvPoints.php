@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\UserReachedDailyMaxOut;
 use App\Models\MaxedOutBvPoint;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
@@ -32,27 +33,32 @@ class ZeroOutBvPoints
         $activePackage = $event->highestActivePackage;
 
         Log::channel('max-out-log')->info("Zeroing out BV points for user {$parent->id} as daily max limit exceeded on highest active package {$activePackage->id}");
+        Log::channel('max-out-log')->info("Reason to Zero: {$event->reason}", $parent->only(['left_points_balance', 'right_points_balance']));
 
         // Store current values for logging
         $previousLeftPoints = $parent->left_points_balance;
         $previousRightPoints = $parent->right_points_balance;
 
         // Zero out both left and right BV points
-        $parent->update([
+        User::find($parent->id)->update([
             'left_points_balance' => 0,
             'right_points_balance' => 0
         ]);
 
-        // Store the maxed out BV points in the database
-        MaxedOutBvPoint::create([
-            'user_id' => $parent->id,
-            'purchased_package_id' => $activePackage->id,
-            'left_point' => $previousLeftPoints,
-            'right_point' => $previousRightPoints,
-            'maxed_out_date' => now()->format('Y-m-d'),
-            'reason' => $event->reason
-        ]);
+        $parent->refresh();
 
-        Log::channel('max-out-log')->info("BV points zeroed out for user {$parent->id}. Previous values: Left: {$previousLeftPoints}, Right: {$previousRightPoints}");
+        if ($previousLeftPoints > 0 || $previousRightPoints > 0) {
+            // Store the maxed out BV points in the database
+            MaxedOutBvPoint::create([
+                'user_id' => $parent->id,
+                'purchased_package_id' => $activePackage->id,
+                'left_point' => $previousLeftPoints,
+                'right_point' => $previousRightPoints,
+                'maxed_out_date' => now()->format('Y-m-d'),
+                'reason' => $event->reason
+            ]);
+        }
+
+        Log::channel('max-out-log')->info("BV points zeroed out for user {$parent->id}. Previous values: Left: {$previousLeftPoints}, Right: {$previousRightPoints}", $parent->only(['left_points_balance', 'right_points_balance']));
     }
 }
