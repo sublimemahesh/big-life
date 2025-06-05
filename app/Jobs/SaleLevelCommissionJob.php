@@ -153,14 +153,14 @@ class SaleLevelCommissionJob implements ShouldQueue
                         $daily_max_out_limit = $commission_level_user->effective_daily_max_out_limit;  // get the highest daily max out limit from the user active packages'
                         $commissionLevelUserActivePackages = $commission_level_user->activePackages;
 
-                        $today_total_earnings = Earning::where('user_id', $commission->user_id)
-                            //->where('purchased_package_id', $activePackage->id)
-                            ->whereDate('created_at', date('Y-m-d'))
-                            ->whereIn('status', ['RECEIVED', 'HOLD'])
-                            ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
-                            ->sum('amount');
-
                         foreach ($commissionLevelUserActivePackages as $activePackage) {
+                            // Refresh today's total earnings for each iteration to get the most up-to-date value
+                            $today_total_earnings = Earning::where('user_id', $commission->user_id)
+                                //->where('purchased_package_id', $activePackage->id)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
+                                ->sum('amount');
 
                             // $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
 

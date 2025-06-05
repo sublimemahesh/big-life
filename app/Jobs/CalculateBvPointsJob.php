@@ -91,9 +91,7 @@ class CalculateBvPointsJob implements ShouldQueue
                         ['balance' => 0]
                     );
 
-
-                    $today_earnings_for_active_package = Earning::where('user_id', $parent->id)
-                        //->where('purchased_package_id', $activePackage->id)
+                    $current_total_earnings = Earning::where('user_id', $parent->id)
                         ->whereDate('created_at', date('Y-m-d'))
                         ->whereIn('status', ['RECEIVED', 'HOLD'])
                         ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
@@ -102,11 +100,11 @@ class CalculateBvPointsJob implements ShouldQueue
                     $daily_max_out_limit = $parent->effective_daily_max_out_limit; // get the highest daily max out limit from the user active packages'
                     $highestActivePackage = $parent->highestInvestedPackage->first();
 
-                    if ($highestActivePackage && $today_earnings_for_active_package >= $daily_max_out_limit) {
+                    if ($highestActivePackage && $current_total_earnings >= $daily_max_out_limit) {
                         Log::channel('max-out-log')->info(
                             "Package {$highestActivePackage->id} | " .
                             "Max out limit: {$daily_max_out_limit}. | " .
-                            "Today(" . date('Y-m-d') . ") Earnings: {$today_earnings_for_active_package}. | " .
+                            "Today(" . date('Y-m-d') . ") Earnings: {$current_total_earnings}. | " .
                             "Package Ref Max out Limit: {$highestActivePackage->packageRef->daily_max_out_limit}. | " .
                             "Purchased Date: {$highestActivePackage->created_at} | " .
                             "User: {$highestActivePackage->user->username} - {$highestActivePackage->user_id}");
@@ -167,6 +165,13 @@ class CalculateBvPointsJob implements ShouldQueue
                                 $BvUserActivePackages = $parent->activePackages;
 
                                 foreach ($BvUserActivePackages as $activePackage) {
+                                    // Refresh today's total earnings for each iteration to get the most up-to-date value
+                                    $today_earnings_for_active_package = Earning::where('user_id', $parent->id)
+                                        //->where('purchased_package_id', $activePackage->id)
+                                        ->whereDate('created_at', date('Y-m-d'))
+                                        ->whereIn('status', ['RECEIVED', 'HOLD'])
+                                        ->whereNotIn('type', ['RANK_BONUS', 'RANK_GIFT', 'P2P', 'STAKING']) // 'PACKAGE','DIRECT','INDIRECT','BV','RANK_BONUS','RANK_GIFT','P2P','STAKING'
+                                        ->sum('amount');
                                     // $daily_max_out_limit = $activePackage->daily_max_out_limit ?? $activePackage->packageRef->daily_max_out_limit;
 
                                     Log::channel('max-out-log')->info(
