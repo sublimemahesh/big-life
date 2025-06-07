@@ -35,7 +35,7 @@
                                 @foreach($maxedOutBvPoints as $point)
                                 <tr>
                                     <td>{{ $point->maxed_out_date }}</td>
-                                    <td>{{ $point->purchasedPackage ? $point->purchasedPackage->package->name : 'N/A' }}</td>
+                                    <td>{{ $point->purchasedPackage ? $point->purchasedPackage->packageRef->name : 'N/A' }}</td>
                                     <td>{{ $point->left_point }}</td>
                                     <td>{{ $point->right_point }}</td>
                                     <td>{{ $point->reason }}</td>

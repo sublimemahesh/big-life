@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MaxedOutBvPoint extends Model
 {
@@ -27,7 +28,7 @@ class MaxedOutBvPoint extends Model
     /**
      * Get the purchased package that caused the max out.
      */
-    public function purchasedPackage()
+    public function purchasedPackage(): BelongsTo
     {
         return $this->belongsTo(PurchasedPackage::class);
     }
