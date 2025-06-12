@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\SendUserRegisteredWelcomeNotification;
+use App\Events\UserReachedDailyMaxOut;
+use App\Listeners\ZeroOutBvPoints;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             SendUserRegisteredWelcomeNotification::class,
+        ],
+        UserReachedDailyMaxOut::class => [
+            ZeroOutBvPoints::class,
         ],
     ];
 

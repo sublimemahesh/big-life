@@ -249,6 +249,9 @@
             <li>
                 <a href="{{ route('admin.bv_points.rewards') }}">USDT Rewards</a>
             </li>
+            <li>
+                <a href="{{ route('admin.bv_points.maxed_out') }}">Max Out</a>
+            </li>
         </ul>
     </li>
 @endcan

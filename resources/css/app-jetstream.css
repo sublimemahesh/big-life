@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .li-disc {
+        list-style-type: disc !important;
+    }
+}
+
 .iti {
     width: 100%;
 }

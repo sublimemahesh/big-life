@@ -113,17 +113,18 @@ class PurchasedPackage extends Model
 
     public function getPackageActivateDateAttribute(): string
     {
-        $created_at_week_day = $this->created_at->dayOfWeek;
-        if (in_array($created_at_week_day, [1, 2, 3, 4])) {
-            return $this->created_at->addDays(6)->format('Y-m-d') . " 12:00 AM";
-        }
-        if ($created_at_week_day === 5) {
-            return $this->created_at->addDays(5)->format('Y-m-d') . " 12:00 AM";
-        }
-        if (in_array($created_at_week_day, [0, 6])) {
-            return $this->created_at->addDays(4)->format('Y-m-d') . " 12:00 AM";
-        }
-        return $this->created_at->format('Y-m-d') . " 12:00 AM";
+        // Convert Carbon's dayOfWeek to MySQL's WEEKDAY
+        // Carbon: 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+
+        // MySQL WEEKDAY: 6=Sunday, 0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday, 5=Saturday
+        // (0,1,2,6) 9 DAY
+        // (5) 10 DAY
+        // (3,4) 11 DAY
+        return match ($this->created_at->dayOfWeek) {
+            0, 1, 2, 3 => $this->created_at->addDays(9)->format('Y-m-d') . " 12:00 AM",
+            4, 5 => $this->created_at->addDays(11)->format('Y-m-d') . " 12:00 AM",
+            default => $this->created_at->addDays(10)->format('Y-m-d') . " 12:00 AM",
+        };
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

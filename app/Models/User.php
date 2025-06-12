@@ -195,8 +195,33 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function activePackages(): HasMany
     {
-        return $this->purchasedPackages()->activePackages();
+        return $this->purchasedPackages()
+            ->activePackages()
+            ->orderByDesc('invested_amount') // highest first
+            ->oldest();  // older first if same amount
+    }
 
+    public function highestInvestedPackage(): HasMany
+    {
+        return $this->purchasedPackages()
+            ->activePackages()
+            ->orderByDesc('invested_amount')
+            ->oldest()
+            ->limit(1);
+    }
+
+    public function getEffectiveDailyMaxOutLimitAttribute(): float
+    {
+        $highest = $this->highestInvestedPackage()->first();
+
+        return $highest?->daily_max_out_limit
+            ?? $highest?->packageRef?->daily_max_out_limit
+            ?? 0;
+    }
+
+    public function maxedOutBvPoints(): HasMany
+    {
+        return $this->hasMany(MaxedOutBvPoint::class, 'user_id', 'id');
     }
 
     public function descendantPackages(): \Staudenmeir\LaravelAdjacencyList\Eloquent\Relations\HasManyOfDescendants

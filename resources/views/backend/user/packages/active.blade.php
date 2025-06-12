@@ -13,11 +13,54 @@
     @endsection
 
     <div class="alert alert-info">
-        All package earnings will be generated after 3 working days from the date of purchase.
+        All package earnings will be generated after 7 working days from the date of purchase.
     </div>
 
     <div class="row">
         @include('backend.user.transactions.top-nav')
+        <div class="col-12">
+
+            @php
+                $topPackage = Auth::user()->highestInvestedPackage()->first();
+            @endphp
+
+            @if($topPackage)
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-xl mb-6">
+                    <div class="font-bold mb-1">📢 Daily Earning Limit Warning</div>
+                    <p class="text-sm leading-relaxed">
+                        Your current daily earning limit is based on your <strong>${{ number_format($topPackage->invested_amount, 2) }} package</strong>, purchased on <strong>{{ $topPackage->created_at->format('M d, Y') }}</strong>.
+                    </p>
+                    <ul class="!list-disc ml-5 text-sm mt-2 space-y-1">
+                        <li class="li-disc"><strong>Daily Max Limit:</strong> ${{ number_format(Auth::user()->effective_daily_max_out_limit, 2) }}</li>
+                        <li class="li-disc">All earnings — including referral commissions and BV rewards — count toward this limit.</li>
+                        <li class="li-disc"><span class="text-red-700 font-semibold">⚠️ If this limit is reached, your left and right BV points will be reset to Zero.</span></li>
+                        <li class="li-disc">You will start collecting BV points again from zero the next day.</li>
+                        <li class="li-disc">To retain BV points, make sure your earnings stay <strong>below the daily limit</strong>.</li>
+                    </ul>
+                    <p class="text-sm mt-3">
+                        ✅ You can still earn from all your packages, but only up to your daily limit based on the top package.
+                    </p>
+                </div>
+            @else
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-xl mb-6">
+                    <div class="font-bold mb-1">📢 Important Note on Daily Earning Limits</div>
+                    <p class="text-sm leading-relaxed">
+                        Your daily earnings are capped based on your <strong>highest active package</strong>. Please keep in mind:
+                    </p>
+                    <ul class="!list-disc ml-5 text-sm mt-2 space-y-1">
+                        <li class="li-disc">Even if you have multiple active packages, <strong>only the highest invested package</strong> determines your daily maximum earning limit.</li>
+                        <li class="li-disc">Once you reach or exceed this daily limit, <strong>no further BV or referral rewards will be credited</strong> for that day.</li>
+                        <li class="li-disc"><span class="text-red-700 font-semibold">⚠️ If you hit your daily limit, your collected left and right BV points will be reset to Zero.</span></li>
+                        <li class="li-disc">This means you will need to start collecting BV points from zero again the next day.</li>
+                        <li class="li-disc">To avoid losing BV points, make sure <strong>your total daily earnings stay below your max-out limit</strong>.</li>
+                        <li class="li-disc">If you have multiple packages with the same value, the one purchased earlier will be considered for limit calculation.</li>
+                    </ul>
+                    <p class="text-sm mt-3">
+                        ✅ You can still earn from all your packages, but your <strong>total daily earnings</strong> (from all sources) will not exceed the cap set by your top package.
+                    </p>
+                </div>
+            @endif
+        </div>
         @foreach ($activePackages as $subscription)
             <div class="col-xl-6 ">
                 <div class="card1">

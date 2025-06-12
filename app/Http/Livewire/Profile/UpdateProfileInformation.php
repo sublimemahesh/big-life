@@ -7,6 +7,7 @@ use App\Mail\ProfileModifyMail;
 use App\Services\OTPService;
 use App\Traits\MaskCredentials;
 use Exception;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
@@ -19,11 +20,14 @@ use Validator;
 class UpdateProfileInformation extends Component
 {
     use WithFileUploads;
+    use MaskCredentials;
 
 
     public $state = [];
 
     public $photo;
+
+    public $binanceQrCode;
 
     public $verificationLinkSent = false;
 
@@ -34,7 +38,7 @@ class UpdateProfileInformation extends Component
     public function mount()
     {
         $this->state = Auth::user()->withoutRelations()->toArray();
-        $this->state['email'] = MaskCredentials::maskedEmailAddress(auth()->user()->email);
+        $this->state['email'] = self::maskedEmailAddress(auth()->user()->email);
         //$this->state['phone'] = MaskCredentials::maskedPhone(auth()->user()->phone);
     }
 
@@ -59,7 +63,7 @@ class UpdateProfileInformation extends Component
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function updateProfileInformation(UpdatesUserProfileInformation $updater): \Illuminate\Http\RedirectResponse|null
+    public function updateProfileInformation(UpdatesUserProfileInformation $updater)
     {
         $this->resetErrorBag();
 
@@ -78,12 +82,15 @@ class UpdateProfileInformation extends Component
             'email' => auth()->user()->email,
             'phone' => auth()->user()->phone,
         ];
-        $updater->update(
-            Auth::user(),
-            $this->photo
-                ? [...$this->state, 'photo' => $this->photo]
-                : $this->state
-        );
+        $state = $this->state;
+        if ($this->photo) {
+            $state = [...$state, 'photo' => $this->photo];
+        }
+        if ($this->binanceQrCode) {
+            $state = [...$state, 'profile_info' => [...$state['profile_info'], 'binance_qr_code' => $this->binanceQrCode]];
+        }
+
+        $updater->update(Auth::user(), $state);
 
         session()->forget($hashed_username);
         $this->otpSent = false;
@@ -95,7 +102,7 @@ class UpdateProfileInformation extends Component
                 ->send(new ProfileModifyMail(auth()->user(), $old_data));
         }
 
-        if (isset($this->photo)) {
+        if (isset($this->photo) || isset($this->binanceQrCode)) {
             return redirect()->route('profile.show');
         }
 

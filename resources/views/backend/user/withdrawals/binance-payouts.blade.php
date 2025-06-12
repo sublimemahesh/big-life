@@ -17,6 +17,9 @@
                     And also, Please ensure that you have remaining withdrawal amount for the day
                 </div>
             @endif
+            <div class="alert alert-warning">
+                <strong>Weekly Withdrawal Limit:</strong> Please note that you can only make one Binance withdrawal request per week. If you have already made a withdrawal request in the past 7 days, your new request will be declined.
+            </div>
         </div>
         <div class="col-xl-8 col-sm-6">
             <div class="card">
@@ -91,6 +94,13 @@
                                         <p class="mb-0"><b>Id:</b> {{ $profile->binance_id }}</p>
                                         <p class="mb-0"><b>Address:</b> {{ $profile->wallet_address }}</p>
                                         <p class="mb-0"><b>Phone:</b> {{ $profile->binance_phone }}</p>
+                                        @if($profile->binance_qr_code)
+                                        <div class="mt-3">
+                                            <p class="mb-0"><b>Binance QR Code:</b></p>
+                                            <img src="{{ storage('user/binance_qr_codes/' . $profile->binance_qr_code) }}" 
+                                                class="img-fluid mt-2" style="max-width: 200px; max-height: 200px;">
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="text-info">Change Details:
                                         <a href="{{ route('profile.show') }}">Edit Profile</a>
