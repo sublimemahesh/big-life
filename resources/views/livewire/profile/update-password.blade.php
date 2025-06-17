@@ -42,7 +42,7 @@
                         </p>
                         <br>
                         <div id="2ft-section">
-                            <button type="submit" wire:click="sendOTP" id="send-2ft-code" class="btn btn-sm btn-google mb-2">
+                            <button wire:click="sendOTP" id="send-2ft-code" class="btn btn-sm btn-google mb-2">
                                 Send Verification Code
                             </button>
                         </div>
@@ -51,6 +51,9 @@
                             <label for="otp">OTP Code </label>
                             <input id="otp" type="text" wire:model.lazy="otp" class="block mt-1 w-full form-control" autocomplete="one-time-password" placeholder="OTP code">
                             <div class="text-info cursor-pointer" wire:click="sendOTP" id="send-2ft-code">Resend OTP</div>
+                            @if(session()->has('message'))
+                                <div class="alert alert-success">{{ session('message') }}</div>
+                            @endif
                             @error('otp')
                             <div class="mr-3 text-sm text-danger">{{ $message }}</div>
                             @enderror
