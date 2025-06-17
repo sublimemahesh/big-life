@@ -128,7 +128,7 @@
                                             <p class="text-sm mt-2">
                                                 {{ __('Your email address is unverified.') }}
 
-                                                <button type="button"
+                                                <button type="button" wire:loading.attr="disabled"
                                                         class="underline text-sm text-gray-600 hover:text-gray-900"
                                                         wire:click.prevent="sendEmailVerification">
                                                     {{ __('Click here to re-send the verification email.') }}
@@ -141,6 +141,11 @@
                                                     {{ __('A new verification link has been sent to your email
                                                     address.') }}
                                                 </p>
+                                            @endif
+                                            @if (session()->has('error') )
+                                                <div class="font-medium text-danger-600 text-sm text-danger">
+                                                    {{ session('error') }}
+                                                </div>
                                             @endif
                                         @endif
                                     </div>
@@ -331,6 +336,9 @@
                                 <input id="otp" type="text" wire:model.lazy="otp" class="block mt-1 w-full form-control"
                                        autocomplete="one-time-password" placeholder="OTP code">
                                 <div class="text-info cursor-pointer" wire:click="sendOTP">Resend OTP</div>
+                                @if(session()->has('message'))
+                                    <div class="alert alert-success">{{ session('message') }}</div>
+                                @endif
                                 @error('otp')
                                 <div class="mr-3 text-sm text-danger">{{ $message }}</div>
                                 @enderror

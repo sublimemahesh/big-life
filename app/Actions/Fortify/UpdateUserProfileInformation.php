@@ -3,8 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Profile;
+use App\Models\User;
 use App\Traits\MaskCredentials;
 use Carbon;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -119,7 +121,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param array $input
      * @return void
      */
-    protected function updateVerifiedUser($user, array $input)
+    protected function updateVerifiedUser(User $user, array $input)
     {
         $user->forceFill([
             'name' => $input['name'],
@@ -127,6 +129,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email_verified_at' => null,
         ])->save();
 
-        $user->sendEmailVerificationNotification();
+        $user->notify(new VerifyEmail);
     }
 }
