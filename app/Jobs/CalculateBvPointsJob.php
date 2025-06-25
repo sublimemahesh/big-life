@@ -57,8 +57,15 @@ class CalculateBvPointsJob implements ShouldQueue
             Log::channel('bv-points')->notice("Calculate Bv Points Job started. | Package: " . $package->id . " Purchased Date: " . $package->created_at . " | User: " . $package->user->username . "-" . $package->user_id);
 
             \DB::transaction(function () use ($package, $purchasedUser) {
+
+                $purchasePackageCount = $purchasedUser->purchasedPackages()->count();
+                $is_new_customer_first_purchase = $purchasePackageCount <= 1;
+
                 $step = 20; // Pattern increment step (20, 40, 60, ...)
                 $usdValueIncrement = 7; // USD increment for each step
+                if (!$is_new_customer_first_purchase) {
+                    $usdValueIncrement /= 2;
+                }
 
                 // Traverse the genealogy tree and issue BV points
                 $currentUser = $purchasedUser;
