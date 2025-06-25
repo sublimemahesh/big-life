@@ -229,7 +229,11 @@
     @push('scripts')
         <script>
             const MINIMUM_PAYOUT_LIMIT = parseFloat("{{ $minimum_payout_limit->value }}");
-
+            const P2P_TRANSFER_FEE = parseFloat("{{ $payout_transfer_fee->value }}");
+            const STAKING_TRANSFER_FEE = parseFloat("{{ $staking_withdrawal_fee->value }}");
+            const MAX_WITHDRAW_LIMIT = parseFloat("{{ $max_withdraw_limit }}");
+        </script>
+        <script !src="">
             // Countdown timer for next withdrawal availability
             @if(isset($nextWithdrawalTime) && $nextWithdrawalTime && $nextWithdrawalTime->isFuture())
             const countdownDate = new Date('{{ $nextWithdrawalTime->toIso8601String() }}').getTime();
@@ -258,9 +262,6 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
             @endif
-            const P2P_TRANSFER_FEE = parseFloat("{{ $payout_transfer_fee->value }}");
-            const STAKING_TRANSFER_FEE = parseFloat("{{ $staking_withdrawal_fee->value }}");
-            const MAX_WITHDRAW_LIMIT = parseFloat("{{ $max_withdraw_limit }}");
         </script>
         <script src="{{ asset('assets/backend/js/user/wallet/binance-payout.js') }}"></script>
     @endpush
