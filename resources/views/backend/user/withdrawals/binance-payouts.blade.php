@@ -20,6 +20,27 @@
             <div class="alert alert-warning">
                 <strong>Weekly Withdrawal Limit:</strong> Please note that you can only make one Binance withdrawal request per week. If you have already made a withdrawal request in the past 7 days, your new request will be declined.
             </div>
+
+            @php
+                $lastWithdrawal = \App\Models\Withdraw::where('user_id', Auth::user()->id)
+                    ->where('type', 'MANUAL')
+                    ->whereIn('status', ['PENDING', 'PROCESSING', 'SUCCESS'])
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+                $nextWithdrawalTime = $lastWithdrawal ? $lastWithdrawal->created_at->addDays(7) : null;
+            @endphp
+
+            @if($nextWithdrawalTime && $nextWithdrawalTime->isFuture())
+                <div class="alert alert-info mt-3">
+                    <h6 class="text-center">Next Withdrawal Available In:</h6>
+                    <div id="withdrawal-countdown" class="h4 font-weight-bold text-center">
+                        <span id="countdown-days">00</span>d
+                        <span id="countdown-hours">00</span>h
+                        <span id="countdown-minutes">00</span>m
+                        <span id="countdown-seconds">00</span>s
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-xl-8 col-sm-6">
             <div class="card">
@@ -95,11 +116,11 @@
                                         <p class="mb-0"><b>Address:</b> {{ $profile->wallet_address }}</p>
                                         <p class="mb-0"><b>Phone:</b> {{ $profile->binance_phone }}</p>
                                         @if($profile->binance_qr_code)
-                                        <div class="mt-3">
-                                            <p class="mb-0"><b>Binance QR Code:</b></p>
-                                            <img src="{{ storage('user/binance_qr_codes/' . $profile->binance_qr_code) }}" 
-                                                class="img-fluid mt-2" style="max-width: 200px; max-height: 200px;">
-                                        </div>
+                                            <div class="mt-3">
+                                                <p class="mb-0"><b>Binance QR Code:</b></p>
+                                                <img src="{{ storage('user/binance_qr_codes/' . $profile->binance_qr_code) }}"
+                                                     class="img-fluid mt-2" style="max-width: 200px; max-height: 200px;">
+                                            </div>
                                         @endif
                                     </div>
                                     <div class="text-info">Change Details:
@@ -208,6 +229,35 @@
     @push('scripts')
         <script>
             const MINIMUM_PAYOUT_LIMIT = parseFloat("{{ $minimum_payout_limit->value }}");
+
+            // Countdown timer for next withdrawal availability
+            @if(isset($nextWithdrawalTime) && $nextWithdrawalTime && $nextWithdrawalTime->isFuture())
+            const countdownDate = new Date('{{ $nextWithdrawalTime->toIso8601String() }}').getTime();
+
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    document.getElementById('withdrawal-countdown').innerHTML = 'Withdrawal available now!';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+            };
+
+            // Update countdown every second
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            @endif
             const P2P_TRANSFER_FEE = parseFloat("{{ $payout_transfer_fee->value }}");
             const STAKING_TRANSFER_FEE = parseFloat("{{ $staking_withdrawal_fee->value }}");
             const MAX_WITHDRAW_LIMIT = parseFloat("{{ $max_withdraw_limit }}");
