@@ -4,118 +4,405 @@
 
     @section('meta')
 
-        <meta name="description" content="Learn about Win Together's mission to make investing accessible to everyone. Join us to explore investment opportunities in stocks, crypto, and gold.">
-        <meta name="keywords" content="About Win Together, investment platform, crypto trading, stock market, gold investment, secure investing, financial growth">
-        <meta name="author" content="Win Together">
-        <meta name="robots" content="index, follow">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- Open Graph / Facebook -->
-        <meta property="og:title" content="About Us - Win Together | Empowering Smart Investments">
-        <meta property="og:description" content="Discover how Win Together is making investments accessible for all. Join us and grow your financial future.">
-        <meta property="og:url" content="https://www.wintogetherplan.com/about-us">
-        <meta property="og:type" content="website">
-        <meta property="og:image" content="https://www.wintogetherplan.com/images/about-us.jpg">
-
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="About Us - Win Together | Empowering Smart Investments">
-        <meta name="twitter:description" content="Win Together is dedicated to helping individuals invest in stocks, crypto, and gold. Learn more about our mission.">
-        <meta name="twitter:image" content="https://www.wintogetherplan.com/images/about-us.jpg">
-
     @endsection
 
     @section('header')
     @include('frontend.layouts.header-other')
 
+
     <!-- CONTENT START -->
-    <div class="page-content">
 
-        <!-- INNER PAGE BANNER -->
-        <div class="wt-bnr-inr overlay-wraper" style="background-image:url({{ asset('assets/frontend/images/banner/banner.png') }});">
-            <div class="overlay-main themecolor-1 opacity-07"></div>
-            <div class="container">
-                <div class="wt-bnr-inr-entry">
-                    <h1 class="text-white banner-txt">About Us</h1>
-                </div>
-            </div>
-        </div>
-        <!-- INNER PAGE BANNER END -->
+        <main class="main">
 
-        <!-- BREADCRUMB ROW -->
-        <div class="themecolor-1 p-tb20">
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb">
             <div class="container">
-                <ul class="wt-breadcrumb breadcrumb-style-2">
-                    <li><a href="javascript:void(0);"><i class="fa fa-home"></i> Home</a></li>
-                    <li>About Us </li>
+                <h2 class="breadcrumb-title">About Us</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                    <li class="active">About Us</li>
                 </ul>
             </div>
+            <div class="breadcrumb-shape">
+                <img src="assets/img/shape/shape-5.svg" alt="">
+            </div>
         </div>
-        <!-- BREADCRUMB  ROW END -->
-
-        <!-- ABOUT COMPANY SECTION START -->
+        <!-- breadcrumb end -->
 
 
-        <div class="section-full p-tb100 themecolor-2">
+        <!-- about area -->
+        <div class="about-area py-120">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="about-left">
+                            <div class="about-img">
+                                <img src="assets/img/about/01.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="about-right">
+                            <div class="site-heading mb-3">
+                                <span class="site-title-tagline">About Us</span>
+                                <h2 class="site-title">We Offer Best <span>Investment Solutions</span> For Your Profit
+                                </h2>
+                            </div>
+                            <p class="about-text">There are many variations of passages of Lorem Ipsum available,
+                                but the majority have suffered alteration in some form, by injected humour, or
+                                randomised words which don't look even.</p>
+                            <div class="about-list-wrapper">
+                                <ul class="about-list list-unstyled">
+                                    <li>
+                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
+                                        <div class="text">
+                                            <p>Take a look at our round up of the best shows</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
+                                        <div class="text">
+                                            <p>It has survived not only five centuries</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
+                                        <div class="text">
+                                            <p>Lorem Ipsum has been the ndustry standard dummy text</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="about.html" class="theme-btn">Discover More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- about area end -->
+
+
+
+        <!-- counter area -->
+        <div class="counter-area">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6">
-                        <div class="section-head text-left">
-                            <span class="wt-title-subline text-gray-dark font-16 m-b15">What is Win Together</span>
-                            <h2 class="text-uppercase">{{ $abouts->title }}</h2>
-                            <div class="wt-separator-outer">
-                                <div class="wt-separator bg-primary"></div>
-                            </div>
-                             {!! $abouts->content !!}
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="counter-box">
+                            <div class="icon"><i class="flaticon-reward"></i></div>
+                            <div><span class="counter" data-count="+" data-to="500" data-speed="3000">500</span><span
+                                    class="counter-sign">K</span></div>
+                            <h6 class="title">Active Members</h6>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6">
-                        <div class="wt-media">
-                            <img src="{{ storage('pages/' . $abouts->image) }} " alt="" class="img-responsive about-pt" />
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="counter-box">
+                            <div class="icon"><i class="flaticon-graph"></i></div>
+                            <div><span class="counter" data-count="+" data-to="150" data-speed="3000">150</span><span
+                                    class="counter-sign">M</span></div>
+                            <h6 class="title">Total Deposit</h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="counter-box">
+                            <div class="icon"><i class="flaticon-wallet"></i></div>
+                            <div><span class="counter" data-count="+" data-to="120" data-speed="3000">120</span><span
+                                    class="counter-sign">M</span></div>
+                            <h6 class="title">Total Withdraw</h6>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="counter-box">
+                            <div class="icon"><i class="flaticon-world"></i></div>
+                            <div><span class="counter" data-count="+" data-to="170" data-speed="3000">170</span><span
+                                    class="counter-sign">+</span></div>
+                            <h6 class="title">Our Cover Area</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- counter area end -->
 
-        <!-- ABOUT COMPANY SECTION END -->
 
-        <!-- WHY CHOOSE US SECTION START  -->
-        <div class="section-full  p-t80 p-b80 themecolor-1">
+        <!-- download area -->
+        <div class="download-area py-120">
             <div class="container">
-                <!-- TITLE START-->
-                <div class="section-head text-center">
-                    <h2 class="text-uppercase">Why Choose Win Together</h2>
-                    <div class="wt-separator-outer">
-                        <div class="wt-separator bg-primary"></div>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="download-img">
+                            <img src="assets/img/download/01.png" alt="">
+                        </div>
                     </div>
-                </div>
-                <!-- TITLE END-->
-                <div class="section-content no-col-gap">
-                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="download-content">
+                            <div class="site-heading mb-3">
+                                <span class="site-title-tagline">Hyiptox App</span>
+                                <h2 class="site-title my-3">Download Our <span>App</span></h2>
+                            </div>
+                            <p class="about-text">There are many variations of passages of Lorem Ipsum available,
+                                but the majority have suffered alteration in some form, by injected humour, or
+                                randomised words which don't look even.</p>
+                            <p class="mt-3">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
 
-                        <!-- COLUMNS  -->
-                        @foreach ($benefits as $key => $section)
-                        <div class="col-md-4 col-sm-6 animate_line">
-                            <div class="wt-icon-box-wraper  p-a30 center themecolor-2 m-a5">
-                                <div class="icon-lg text-primary m-b20">
-                                    <a href="" class="icon-cell"><img src="{{ storage('pages/' . $section->image) }}" alt=""></a>
-                                </div>
-                                <div class="icon-content">
-                                    <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                    <p>{!! $section->content !!}</p>
-                                </div>
+                            <div class="download-btn">
+                                <a href="about.html#" class="theme-btn">
+                                    <span class="download-btn-content">
+                                        <span class="fab fa-google-play download-btn-icon"></span>
+                                        <span class="download-text">
+                                            <span class="download-text-subtitle">Get It On</span>
+                                            <span class="download-text-title">Google Play</span>
+                                        </span>
+                                    </span>
+                                </a>
+                                <a href="about.html#" class="theme-btn theme-btn2">
+                                    <span class="download-btn-content">
+                                        <span class="fab fa-apple download-btn-icon"></span>
+                                        <span class="download-text">
+                                            <span class="download-text-subtitle">Get It On</span>
+                                            <span class="download-text-title">App Store</span>
+                                        </span>
+                                    </span>
+                                </a>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-        <!-- WHY CHOOSE US SECTION END -->
-    </div>
+        <!-- download area end -->
+
+
+
+        <!-- testimonial-area -->
+        <div class="testimonial-area bg py-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="site-heading text-center">
+                            <span class="site-title-tagline">Testimonials</span>
+                            <h2 class="site-title">What Client <span>Say's</span></h2>
+                            <div class="heading-divider"></div>
+                            <p>
+                                It is a long established fact that a reader will be distracted by the readable content
+                                of a page when looking at its layout.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slider owl-carousel owl-theme">
+                    <div class="testimonial-single">
+                        <div class="testimonial-quote">
+                            <span class="testimonial-quote-icon"><i class="fal fa-quote-left"></i></span>
+                            <p>
+                                There are many variations of passages available but the majority have suffered
+                                alteration in some form by injected.
+                            </p>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-author-img">
+                                <img src="assets/img/testimonial/01.jpg" alt="">
+                            </div>
+                            <div class="testimonial-author-info">
+                                <h4>Sylvia H Green</h4>
+                                <p>Founder & CEO</p>
+                                <div class="testimonial-rate">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-single">
+                        <div class="testimonial-quote">
+                            <span class="testimonial-quote-icon"><i class="fal fa-quote-left"></i></span>
+                            <p>
+                                There are many variations of passages available but the majority have suffered
+                                alteration in some form by injected.
+                            </p>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-author-img">
+                                <img src="assets/img/testimonial/04.jpg" alt="">
+                            </div>
+                            <div class="testimonial-author-info">
+                                <h4>Gordon D Novak</h4>
+                                <p>Founder & CEO</p>
+                                <div class="testimonial-rate">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-single">
+                        <div class="testimonial-quote">
+                            <span class="testimonial-quote-icon"><i class="fal fa-quote-left"></i></span>
+                            <p>
+                                There are many variations of passages available but the majority have suffered
+                                alteration in some form by injected.
+                            </p>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-author-img">
+                                <img src="assets/img/testimonial/05.jpg" alt="">
+                            </div>
+                            <div class="testimonial-author-info">
+                                <h4>Reid E Butt</h4>
+                                <p>Founder & CEO</p>
+                                <div class="testimonial-rate">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-single">
+                        <div class="testimonial-quote">
+                            <span class="testimonial-quote-icon"><i class="fal fa-quote-left"></i></span>
+                            <p>
+                                There are many variations of passages available but the majority have suffered
+                                alteration in some form by injected.
+                            </p>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-author-img">
+                                <img src="assets/img/testimonial/02.jpg" alt="">
+                            </div>
+                            <div class="testimonial-author-info">
+                                <h4>Parker Jimenez</h4>
+                                <p>Founder & CEO</p>
+                                <div class="testimonial-rate">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- testimonial-area end -->
+
+
+        <!-- team-area -->
+        <div class="team-area py-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="site-heading text-center">
+                            <span class="site-title-tagline">Our Team</span>
+                            <h2 class="site-title">Meet With <span>Experts</span></h2>
+                            <div class="heading-divider"></div>
+                            <p>
+                                It is a long established fact that a reader will be distracted by the readable content
+                                of a page when looking at its layout.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="team-item">
+                            <img src="assets/img/team/01.jpg" alt="thumb">
+                            <div class="team-social">
+                                <a href="about.html#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="about.html#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="about.html#"><i class="fab fa-instagram"></i></a>
+                                <a href="about.html#"><i class="fab fa-linkedin"></i></a>
+                                <a href="about.html#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a href="about.html#">Malissa Fierro</a></h5>
+                                    <span>Developer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="team-item">
+                            <img src="assets/img/team/02.jpg" alt="thumb">
+                            <div class="team-social">
+                                <a href="about.html#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="about.html#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="about.html#"><i class="fab fa-instagram"></i></a>
+                                <a href="about.html#"><i class="fab fa-linkedin"></i></a>
+                                <a href="about.html#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a href="about.html#">Arron Rodri</a></h5>
+                                    <span>Senior Designer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="team-item active">
+                            <img src="assets/img/team/03.jpg" alt="thumb">
+                            <div class="team-social">
+                                <a href="about.html#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="about.html#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="about.html#"><i class="fab fa-instagram"></i></a>
+                                <a href="about.html#"><i class="fab fa-linkedin"></i></a>
+                                <a href="about.html#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a href="about.html#">Chad Smith</a></h5>
+                                    <span>Digital Marketer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="team-item">
+                            <img src="assets/img/team/04.jpg" alt="thumb">
+                            <div class="team-social">
+                                <a href="about.html#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="about.html#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="about.html#"><i class="fab fa-instagram"></i></a>
+                                <a href="about.html#"><i class="fab fa-linkedin"></i></a>
+                                <a href="about.html#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a href="about.html#">Tony Pinto</a></h5>
+                                    <span>CEO & Founder</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- team-area end -->
+
+
+
+    </main>
+
+
+
+
     <!-- CONTENT END -->
+
+
+
     @push('scripts')
-    <script src="{{ asset('assets/frontend/js/net.js') }}"></script>
+
     @endpush
 </x-frontend.layouts.app>
