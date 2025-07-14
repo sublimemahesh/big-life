@@ -70,7 +70,7 @@
                     <div class="col-lg-6">
                         <div class="about-left">
                             <div class="about-img">
-                                <img src="{{ asset('assets/frontend/img/shape/image-name.png') }}assets/img/about/01.png" alt="">
+                                <img src="{{ storage('pages/' . $welcome->image) }}" alt="">
                             </div>
                         </div>
                     </div>
