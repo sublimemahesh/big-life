@@ -32,12 +32,13 @@
 
         <div class="row HIW">
             <ul>
-                <li style="--accent-color:#f28b00">
-                    <div class="date">Lorem ipsum</div>
-                    <div class="title">Lorem, ipsum dolor</div>
-                    <div class="descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos adipisci nobis nostrum vero nihil veniam.</div>
-                </li>
-                
+                 @foreach ($how_it_work as $key => $section)
+                    <li style="--accent-color:#f28b00">
+                        <div class="date">{{ $key+1 }} {{ $section->title }}</div>
+                        {{-- <div class="title">Lorem, ipsum dolor</div> --}}
+                        <div class="descr">{!! html_entity_decode($section->content) !!}</div>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </main>
