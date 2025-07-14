@@ -60,64 +60,6 @@
 
 
 
-        <!-- feature area -->
-        <div class="feature-area pt-120">
-            <div class="container">
-                <div class="feature-area-wrapper">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="flaticon-approve"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Registered Company</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="flaticon-security"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Secure Investment</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item active">
-                                <div class="feature-icon">
-                                    <i class="flaticon-management"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>Referral Program</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="flaticon-megaphone"></i>
-                                </div>
-                                <div class="feature-content">
-                                    <h5>24/7 Support</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- feature area end -->
 
 
 
@@ -128,7 +70,7 @@
                     <div class="col-lg-6">
                         <div class="about-left">
                             <div class="about-img">
-                                <img src="assets/img/about/01.png" alt="">
+                                <img src="{{ asset('assets/frontend/img/shape/image-name.png') }}assets/img/about/01.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -279,7 +221,7 @@
                 </div>
             </div>
             <div class="cta-shape">
-                <img src="assets/img/shape/shape-3.png" alt="">
+                <img src="{{ asset('assets/frontend/img/shape/shape-3.png') }}" alt="">
             </div>
         </div>
         <!-- cta area end -->
