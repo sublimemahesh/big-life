@@ -34,30 +34,34 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-lg-6">
-                        
-                        <div class="accordion" id="accordionExample">
+                    <div class="col-lg-8">
 
+                        @foreach ($faqs as $key => $faq)
 
+                                <div class="accordion" id="accordionExample">
+                                <h4 class="site-title">{{ $faq->title }}</h4>
+                                    @foreach ($faq->children as $key1 => $child)
 
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne1">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne">
-                                        <span><i class="far fa-question"></i></span> Do I Need A Business Plan ?
-                                    </button>
-                                </h2>
-                                <div id="collapseOne1" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne1" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        We denounce with righteous indignation and dislike men who
-                                        are so beguiled and demoralized by the charms of pleasure of the moment, so
-                                        blinded by desire.
-                                    </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading-{{ $key }}-{{ $key1 }}">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-{{ $key }}-{{ $key1 }}" aria-expanded="false" aria-controls="collapseOne">
+                                                        <span><i class="far fa-question"></i></span>{{ $child->title }}
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-{{ $key }}-{{ $key1 }}" class="accordion-collapse collapse"
+                                                    aria-labelledby="heading-{{ $key }}-{{ $key1 }}" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        {!! html_entity_decode($child->content) !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                     @endforeach
+
                                 </div>
-                            </div>
+                        @endforeach
 
-                        </div>
                     </div>
                 </div>
             </div>
