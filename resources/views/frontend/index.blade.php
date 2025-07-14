@@ -5,15 +5,11 @@
     @section('meta')
     @endsection
 
-
-
     @section('header')
     @include('frontend.layouts.header')
     @endsection
 
-
     <!-- CONTENT START -->
-
 
     <main class="main">
 

@@ -16,12 +16,22 @@
                     <div class="collapse navbar-collapse" id="main_nav">
                         <ul class="navbar-nav ms-auto">
 
-                            <li class="nav-item"><a class="nav-link" href="about.html"> Home </a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html"> About Us </a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html"> About </a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html"> How It Works </a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html"> FAQ </a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html"> Contact Us </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('/') }}"> Home </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('about') }}"> About Us </a></li>
+                          
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="index.html#" data-bs-toggle="dropdown">Projects</a>
+                                <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{{ route('project') }}">Existing Projects</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('Upcoming-project') }}">Upcoming Projects</a></li>
+                                </ul>
+                            </li>
+
+
+
+                            <li class="nav-item"><a class="nav-link" href="{{ route('how-it-work') }}"> How It Works </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('faq') }}"> FAQ </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}"> Contact Us </a></li>
 
                         </ul>
                         <div class="header-nav-right">

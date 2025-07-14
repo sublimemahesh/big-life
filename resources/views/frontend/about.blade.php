@@ -3,12 +3,13 @@
     @section('header-title', 'Welcome ')
 
     @section('meta')
-
     @endsection
 
     @section('header')
-    @include('frontend.layouts.header-other')
 
+     @include('frontend.layouts.header')
+
+    @endsection
 
     <!-- CONTENT START -->
 

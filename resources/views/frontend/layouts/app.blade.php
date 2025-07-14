@@ -27,11 +27,12 @@
 
         <div class="page-wraper">
 
-            @yield('header')
+
+        @include('frontend.layouts.header')
 
             {{ $slot }}
 
-            @include('frontend.layouts.footer')
+        @include('frontend.layouts.footer')
 
         </div>
         <!-- Template JS Files -->
@@ -43,20 +44,7 @@
         @yield('scripts')
 
 
-        <!-- Google tag (gtag.js) -->
-        {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XNCT9N2XLP"></script>
-         <script>
-             window.dataLayer = window.dataLayer || [];
 
-             function gtag() {
-                 dataLayer.push(arguments);
-             }
-
-             gtag('js', new Date());
-
-             gtag('config', 'G-XNCT9N2XLP');
-
-         </script>--}}
     </body>
 
 </html>

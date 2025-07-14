@@ -1,11 +1,14 @@
 <x-frontend.layouts.app>
-    @section('title', 'Existing Projects | Win Together')
-    @section('header-title', 'Welcome ')
 
+   @section('title', 'About Us - Win Together | Empowering Smart Investments')
+   @section('header-title', 'Welcome ')
 
+   @section('meta')
+   @endsection
+
+  
 
     <!-- CONTENT START -->
-
 
     <main class="main">
 
@@ -23,7 +26,6 @@
             </div>
         </div>
         <!-- breadcrumb end -->
-
 
         <!-- blog-area -->
         <div class="blog-area py-120">

@@ -1,9 +1,9 @@
 <x-frontend.layouts.app>
-    @section('title', 'Contact Us - Win Together | Get in Touch for Investment Inquiries')
+
+    @section('title', 'About Us - Win Together | Empowering Smart Investments')
     @section('header-title', 'Welcome ')
+
     @section('meta')
-
-
     @endsection
 
 
