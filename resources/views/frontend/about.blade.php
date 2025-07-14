@@ -38,7 +38,7 @@
                     <div class="col-lg-6">
                         <div class="about-left">
                             <div class="about-img">
-                                <img src="assets/img/about/01.png" alt="">
+                                <img src="{{ storage('pages/' . $abouts->image) }}" alt="">
                             </div>
                         </div>
                     </div>
@@ -46,35 +46,14 @@
                         <div class="about-right">
                             <div class="site-heading mb-3">
                                 <span class="site-title-tagline">About Us</span>
-                                <h2 class="site-title">We Offer Best <span>Investment Solutions</span> For Your Profit
+                                <h2 class="site-title">{{ $abouts->title }}
                                 </h2>
                             </div>
-                            <p class="about-text">There are many variations of passages of Lorem Ipsum available,
-                                but the majority have suffered alteration in some form, by injected humour, or
-                                randomised words which don't look even.</p>
+                            <div class="about-text">{!! $abouts->content !!}</div>
                             <div class="about-list-wrapper">
-                                <ul class="about-list list-unstyled">
-                                    <li>
-                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
-                                        <div class="text">
-                                            <p>Take a look at our round up of the best shows</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
-                                        <div class="text">
-                                            <p>It has survived not only five centuries</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="icon"><span class="fas fa-check-circle"></span></div>
-                                        <div class="text">
-                                            <p>Lorem Ipsum has been the ndustry standard dummy text</p>
-                                        </div>
-                                    </li>
-                                </ul>
+
                             </div>
-                            <a href="about.html" class="theme-btn">Discover More</a>
+                            <a href="{{ route('contact') }}" class="theme-btn">Contact US</a>
                         </div>
                     </div>
                 </div>
