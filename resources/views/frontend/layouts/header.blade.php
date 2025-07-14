@@ -4,7 +4,7 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container">
                     <a class="navbar-brand" href="index.html">
-                        <img src="assets/img/logo/logo.png" alt="logo">
+                        <img src="{{ asset('assets/frontend/img/logo/logo.png') }}" alt="logo">
                     </a>
                     <div class="mobile-menu-right">
                         <a href="index.html#" class="mobile-search-btn search-box-outer"><i class="far fa-search"></i></a>
@@ -18,7 +18,7 @@
 
                             <li class="nav-item"><a class="nav-link" href="{{ route('/') }}"> Home </a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('about') }}"> About Us </a></li>
-                          
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="index.html#" data-bs-toggle="dropdown">Projects</a>
                                 <ul class="dropdown-menu fade-up">
