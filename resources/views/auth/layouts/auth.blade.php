@@ -34,11 +34,11 @@
         <div class="page-wraper">
 
 
-        @include('frontend.layouts.header')
+
 
              @yield('contents')
 
-        @include('frontend.layouts.footer')
+       
 
         </div>
         <!-- Template JS Files -->
