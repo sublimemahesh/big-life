@@ -46,21 +46,17 @@
                         <div class="col-md-6 col-lg-6">
                             <div class="hero-img wow animate__animated animate__fadeInRight"
                             data-wow-duration="1s" data-wow-delay=".25s">
-                                <img src="assets/img/hero/hero.png" alt="">
+                                <img src="{{ asset('assets/frontend/img/hero/hero.png') }}" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="hero-shape">
-                    <img src="assets/img/shape/shape-1.svg" alt="">
+                    <img src="{{ asset('assets/frontend/img/shape/shape-1.svg') }}" alt="">
                 </div>
             </div>
         </div>
         <!-- hero area end -->
-
-
-
-
 
 
         <!-- about area -->

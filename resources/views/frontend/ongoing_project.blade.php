@@ -15,10 +15,10 @@
         <!-- breadcrumb -->
         <div class="site-breadcrumb">
             <div class="container">
-                <h2 class="breadcrumb-title">Our Blog</h2>
+                <h2 class="breadcrumb-title">Our Project</h2>
                 <ul class="breadcrumb-menu">
                     <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
-                    <li class="active">Our Blog</li>
+                    <li class="active">Our Project</li>
                 </ul>
             </div>
             <div class="breadcrumb-shape">
@@ -55,26 +55,7 @@
 
                 </div>
 
-                <!-- pagination -->
-                <div class="pagination-area">
-                    <div aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="blog.html#" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="blog.html#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="blog.html#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="blog.html#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="blog.html#" aria-label="Next">
-                                    <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+             
 
             </div>
         </div>
