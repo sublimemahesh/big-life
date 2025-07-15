@@ -1,117 +1,97 @@
-
-
-    <!-- LOADING AREA START ===== -->
-    <div class="loading-area">
-        <div class="loading-box"></div>
-        <div class="loading-pic">
-            <div class="cssload-container">
-                <div class="cssload-dot" style="background-color:var(--theme-color1)"><img src='{{asset('assets/frontend/images/perloader.png')}}'></div>
-                <div class="step" id="cssload-s1"></div>
-                <div class="step" id="cssload-s2"></div>
-                <div class="step" id="cssload-s3"></div>
-            </div>
-        </div>
-    </div>
-    <!-- LOADING AREA  END ====== -->
-
-
-<footer class="site-footer footer-dark bg-no-repeat bg-full-height bg-center " id='footer'  style="background-image:url({{ asset('assets/frontend/images/background/footer-bg.jpg') }});">
-    <!-- FOOTER BLOCKES START -->
-    <div class="footer-top overlay-wraper">
-        <div class="overlay-main themecolor-1 opacity-05"></div>
-        <div class="container">
-            <div class="row">
-                <!-- ABOUT COMPANY -->
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget widget_about">
-                        <h4 class="widget-title text-white">About Company</h4>
-                        <div class="logo-footer clearfix p-b15">
-                            <a href="{{ route('/') }}"><img src="{{ asset('assets/frontend/images/footer-logo.png') }}" width="230" height="67" alt=""/></a>
-                        </div>
-                        {!! $footer_about !!}
-                        @if (strlen($footer_about) > 300)
-                        <a href="{{ route('about') }}">Read More</a>
-                    @endif
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-3">
-                    <div class="widget widget_services">
-                        <h4 class="widget-title text-white">Useful links</h4>
-                        <ul>
-                            <li><a href="{{ route('about') }}">ABOUT</a></li>
-                            <li><a href="{{ route('how-it-work') }}">HOW IT WORK</a></li>
-                            <li><a href="{{ route('faq') }}">FAQ</a></li>
-                            <li><a href="{{ route('pricing') }}">PACKAGES</a></li>
-                            <li><a href="{{ route('news') }}">NEWS</a></li>
-                            <li><a href="{{ route('contact') }}">CONTACT US </a></li>
-
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="widget widget_services">
-                        <h4 class="widget-title text-white">Useful links</h4>
-                        <ul>
-                            <li><a href="{{ route('disclaimer') }}"> DISCLAIMER </a></li>
-                            <li><a href="{{ route('terms&Conditions') }}"> TERM AND CONDITONS </a></li>
-                            <li><a href="{{ route('privacy-and-policy') }}"> PRIVACY AND POLICY </a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- NEWSLETTER -->
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget widget_newsletter">
-                        <h4 class="widget-title text-white">Newsletter</h4>
-                        <div class="newsletter-bx">
-                            <form role="search" method="post">
-                                <div class="input-group">
-                                <input name="news-letter" class="form-control" placeholder="ENTER YOUR EMAIL" type="text">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="site-button"><i class="fa fa-paper-plane-o"></i></button>
-                                </span>
+ <!-- footer area -->
+    <footer class="footer-area">
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row footer-widget-wrapper pt-100 pb-70">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="footer-widget-box about-us">
+                            <a href="index.html#" class="footer-logo">
+                                <img src="assets/img/logo/logo.png" alt="">
+                            </a>
+                            <p class="mb-20">
+                                We are many variations of passages available but the majority have suffered alteration
+                                in some form by injected humour.
+                            </p>
+                            <div class="footer-contact">
+                                <ul>
+                                    <li><i class="far fa-map-marker-alt"></i>25/B Milford Road, New York, USA</li>
+                                    <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+2 123 654 7898</a></li>
+                                    <li><a href="https://live.themewild.com/cdn-cgi/l/email-protection#3f4c4a4f4f504d4b7f5a475e524f535a115c5052"><i
+                                                class="far fa-envelope"></i><span class="__cf_email__" data-cfemail="d9aaaca9a9b6abad99bca1b8b4a9b5bcf7bab6b4">[email&#160;protected]</span></a> </li>
+                                </ul>
                             </div>
-                             </form>
+                            <ul class="footer-social">
+                                <li><a href="index.html#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="index.html#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="index.html#"><i class="fab fa-x-twitter"></i></a></li>
+                                <li><a href="index.html#"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- SOCIAL LINKS -->
-                    <div class="widget widget_social_inks">
-                        <h4 class="widget-title text-white">Social Links</h4>
-                        <ul class="social-icons social-square social-darkest">
-                            <li><a href="javascript:void(0);" class="fa fa-facebook"></a></li>
-                            <li><a href="javascript:void(0);" class="fa fa-twitter"></a></li>
-                            <li><a href="javascript:void(0);" class="fa fa-linkedin"></a></li>
-                            <li><a href="javascript:void(0);" class="fa fa-rss"></a></li>
-                            <li><a href="javascript:void(0);" class="fa fa-youtube"></a></li>
-                            <li><a href="javascript:void(0);" class="fa fa-instagram"></a></li>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Quick Links</h4>
+                            <ul class="footer-list">
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> About Us</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> FAQ's</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Terms Of Service</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Privacy policy</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Refund Policy</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Customer Care</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Live Chat</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Investment Plan</h4>
+                            <ul class="footer-list">
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Silvar Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Gold Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Platinum Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Diamond Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Premium Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> VIP Invest Plan</a></li>
+                                <li><a href="index.html#"><i class="fas fa-caret-right"></i> Custom Invest Plan</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Newsletter</h4>
+                            <div class="footer-newsletter">
+                                <p>Subscribe Our Newsletter To Get Latest Update And News</p>
+                                <div class="subscribe-form">
+                                    <form action="index.html#">
+                                        <input type="email" class="form-control" placeholder="Your Email">
+                                        <button class="theme-btn" type="submit">
+                                            Subscribe Now <i class="far fa-paper-plane"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <p class="copyright-text">
+                            &copy; Copyright <span id="date"></span> <a href="index.html#"> Hyiptox </a> All Rights Reserved.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 align-self-center">
+                        <ul class="footer-menu">
+                            <li><a href="index.html#">Support</a></li>
+                            <li><a href="index.html#">Terms Of Services</a></li>
+                            <li><a href="index.html#">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-    <!-- FOOTER COPYRIGHT -->
-    <div class="footer-bottom themecolor-1  overlay-wraper">
-        <div class="overlay-main"></div>
-        <div class="constrot-strip"></div>
-        <div class="container p-t30">
-            <div class="row">
-                <div class="wt-footer-bot-left">
-                    <span class="copyrights-text">© 2023 Win Together. All Rights Reserved.</span>
-                </div>
-                <div class="wt-footer-bot-right">
-                    <ul class="copyrights-nav pull-right">
-                        <li><a href="javascript:void(0);">Terms  & Condition</a></li>
-                        <li><a href="javascript:void(0);">Privacy Policy</a></li>
-                        <li><a href="contact-1.html">Contact Us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- BUTTON TOP START -->
-<button class="scroltop"><span class=" iconmoon-house relative" id="btn-vibrate"></span>Top</button>
-<!-- BUTTON TOP END -->
+    </footer>
+    <!-- footer area end -->

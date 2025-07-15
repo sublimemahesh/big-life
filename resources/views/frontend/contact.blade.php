@@ -1,164 +1,133 @@
 <x-frontend.layouts.app>
-    @section('title', 'Contact Us - Win Together | Get in Touch for Investment Inquiries')
+
+    @section('title', 'About Us - Win Together | Empowering Smart Investments')
     @section('header-title', 'Welcome ')
+
     @section('meta')
-
-    <!-- Meta Tags for Contact Page -->
-    <meta name="description" content="Have questions or need support? Contact Win Together for more information about our investment opportunities in stocks, crypto, and gold.">
-    <meta name="keywords" content="contact, Win Together, contact us, investment inquiries, investment support, crypto trading, stock market, gold investment, customer service">
-    <meta name="author" content="Win Together">
-    <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Contact Us - Win Together | Get in Touch for Investment Inquiries">
-    <meta property="og:description" content="Contact Win Together for any inquiries about investments in stocks, crypto, and gold. We're here to assist you in your investment journey.">
-    <meta property="og:url" content="https://www.wintogetherplan.com/contact">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://www.wintogetherplan.com/images/contact.jpg">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contact Us - Win Together | Get in Touch for Investment Inquiries">
-    <meta name="twitter:description" content="Have questions or need help? Reach out to Win Together for assistance with your investment needs. We're ready to guide you.">
-    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/contact.jpg">
-
     @endsection
 
-    @section('header')
-    @include('frontend.layouts.header-other')
-    @endsection
 
     <!-- CONTENT START -->
-    <div class="page-content">
 
-        <!-- INNER PAGE BANNER -->
-        <div class="wt-bnr-inr overlay-wraper" style="background-image:url({{asset('assets/frontend/images/banner/banner.png') }});">
-            <div class="overlay-main themecolor-1 opacity-07"></div>
+     <main class="main">
+
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb">
             <div class="container">
-                <div class="wt-bnr-inr-entry">
-                    <h1 class="text-white  banner-txt">Contact</h1>
-                </div>
-            </div>
-        </div>
-        <!-- INNER PAGE BANNER END -->
-
-
-        <!-- BREADCRUMB ROW -->
-        <div class="themecolor-1 p-tb20">
-            <div class="container">
-                <ul class="wt-breadcrumb breadcrumb-style-2">
-                    <li><a href="javascript:void(0);"><i class="fa fa-home"></i> Home</a></li>
-                    <li>Contact</li>
+                <h2 class="breadcrumb-title">Contact Us</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                    <li class="active">Contact Us</li>
                 </ul>
             </div>
-        </div>
-        <!-- BREADCRUMB ROW END -->
-
-
-
-        <!-- SECTION CONTENT -->
-        <div class="section-full p-t80 p-b50 themecolor-2">
-            <div class="container">
-                <div class="wt-box col-md-6">
-                    <h4 class="text-uppercase">Contact Detail </h4>
-                    <div class="wt-separator-outer m-b30">
-                        <div class="wt-separator bg-primary"></div>
-                    </div>
-
-                    {{-- <div class="m-b30">
-                        <div class="wt-icon-box-wraper bx-style-1 p-a15 left clearfix themecolor-1">
-                            <div class="icon-sm">
-                                <span class="icon-cell text-primary">
-                                    <i class="fa fa-phone"></i>
-                                </span>
-                            </div>
-                            <div class="icon-content text-black">
-                                <h5 class="wt-tilte text-uppercase">Phone</h5>
-                                <p>+91 564 548 4854</p>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                    <div class="m-b30">
-                        <div class="wt-icon-box-wraper bx-style-1 p-a15 left clearfix themecolor-1">
-                            <div class="icon-sm">
-                                <span class="icon-cell text-primary">
-                                    <i class="fa fa-envelope"></i>
-                                </span>
-                            </div>
-                            <div class="icon-content text-black">
-                                <h5 class="wt-tilte text-uppercase">Email</h5>
-                                <p>support@wintogetherplan.com</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- <div class="m-b30">
-                        <div class="wt-icon-box-wraper bx-style-1 p-a15 left clearfix themecolor-1">
-                            <div class="icon-sm">
-                                <span class="icon-cell text-primary">
-                                    <i class="fa fa-fax"></i>
-                                </span>
-                            </div>
-                            <div class="icon-content text-black">
-                                <h5 class="wt-tilte text-uppercase">Fax</h5>
-                                <p>+91 564 548 4854</p>
-                            </div>
-                        </div>
-                    </div> --}}
-{{--
-                    <div class="m-b30">
-                        <div class="wt-icon-box-wraper bx-style-1 p-a15 left clearfix themecolor-1">
-                            <div class="icon-sm">
-                                <span class="icon-cell text-primary">
-                                    <i class="fa fa-map-marker"></i>
-                                </span>
-                            </div>
-                            <div class="icon-content text-black">
-                                <h5 class="wt-tilte text-uppercase">Address</h5>
-                                <p>252 W 43rd St New York, NY</p>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                </div>
-                <div class="wt-box col-md-6">
-                    <h4 class="text-uppercase">Contact Form </h4>
-                    <div class="wt-separator-outer m-b30">
-                        <div class="wt-separator bg-primary"></div>
-                    </div>
-                    <div class="p-a50 p-b60 themecolor-1">
-                        <form class="cons-contact-form" method="post" action="http://thewebmax.com/bitinvest/form-handler.php">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input name="username" type="text" required class="form-control" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input name="email" type="text" class="form-control" required placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon v-align-t"><i class="fa fa-pencil"></i></span>
-                                    <textarea name="message" rows="5" class="form-control Message" required placeholder="Message"></textarea>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button name="submit" type="submit" value="Submit" class="site-button-secondry ">Submit</button>
-                                <button name="Resat" type="reset" value="Reset" class="site-button ">Reset</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            <div class="breadcrumb-shape">
+                <img src="assets/img/shape/shape-5.svg" alt="">
             </div>
-            <!-- SECTION CONTENT END -->
         </div>
-    </div>
+        <!-- breadcrumb end -->
+
+
+        <!-- contact area -->
+        <div class="contact-area py-120">
+            <div class="container">
+                <div class="contact-wrapper">
+                    <div class="row">
+                        <div class="col-md-8 align-self-center">
+                            <div class="contact-form">
+                                <div class="contact-form-header">
+                                    <h2>Get In Touch</h2>
+                                    <p>It is a long established fact that a reader will be distracted by the readable
+                                        content of a page when looking at its layout. </p>
+                                </div>
+                                <form method="post" action="https://live.themewild.com/hyiptox/assets/php/contact.php" id="contact-form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name"
+                                                    placeholder="Your Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="email"
+                                                    placeholder="Your Email" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="subject"
+                                            placeholder="Your Subject" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="message" cols="30" rows="5" class="form-control"
+                                            placeholder="Write Your Message"></textarea>
+                                    </div>
+                                    <button type="submit" class="theme-btn">Send
+                                        Message <i class="far fa-paper-plane"></i></button>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-messege text-success"></div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-content">
+                                <div class="contact-info">
+                                    <div class="contact-info-icon">
+                                        <i class="fal fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-info-content">
+                                        <h5>Office Address</h5>
+                                        <p>25/B Milford, New York, USA</p>
+                                    </div>
+                                </div>
+                                <div class="contact-info">
+                                    <div class="contact-info-icon">
+                                        <i class="fal fa-phone"></i>
+                                    </div>
+                                    <div class="contact-info-content">
+                                        <h5>Call Us</h5>
+                                        <p>+2 123 654 7898</p>
+                                    </div>
+                                </div>
+                                <div class="contact-info">
+                                    <div class="contact-info-icon">
+                                        <i class="fal fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-info-content">
+                                        <h5>Email Us</h5>
+                                        <p><a href="https://live.themewild.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9bf2f5fdf4dbfee3faf6ebf7feb5f8f4f6">[email&#160;protected]</a></p>
+                                    </div>
+                                </div>
+                                <div class="contact-info">
+                                    <div class="contact-info-icon">
+                                        <i class="fal fa-clock"></i>
+                                    </div>
+                                    <div class="contact-info-content">
+                                        <h5>Office Open</h5>
+                                        <p>Sun - Fri (08AM - 10PM)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96708.34194156103!2d-74.03927096447748!3d40.759040329405195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4a01c8df6fb3cb8!2sSolomon%20R.%20Guggenheim%20Museum!5e0!3m2!1sen!2sbd!4v1619410634508!5m2!1sen!2s"
+                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+            </div>
+        </div>
+        <!-- end contact area -->
+
+
+    </main>
+
+
  <!-- CONTENT END -->
 
 
