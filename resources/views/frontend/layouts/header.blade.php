@@ -1,117 +1,50 @@
-<header class="site-header header-style-3 topbar-transparent">
-
-    <div class="top-bar">
-        <div class="container">
-            <div class="row">
-                <div class="clearfix">
-                    <div class="wt-topbar-left">
-                        <ul class="social-icons social-square social-darkest">
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-facebook"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-twitter"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-linkedin"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-rss"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-youtube"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="fa fa-instagram"></a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="wt-topbar-right">
-                        <ul class="list-unstyled e-p-bx pull-right mob-btn">
-                            @auth()
-                                <li>
-                                    <a class="header-btn" href="{{ route(authUserFolder() .'.dashboard') }}"><i class="fa fa-dashboard"></i>Dashboard</a>
-                                </li>
-                            @endauth
-                            @guest()
-                                <li>
-                                    <a class="header-btn login-btn" href="{{ route('login') }}"><i class="fa fa-user"></i><b>Login</b></a>
-                                </li>
-                                <li>
-                                    <a class="header-btn" href="{{ route('register')}}"><i class="fa fa-sign-in"></i><b>Register</b></a>
-                                </li>
-                            @endguest
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="sticky-header main-bar-wraper">
-        <div class="main-bar main-bar-marging">
-            <div class="container">
-
-                <div class="logo-header mostion mob-width">
-                    <a href="{{ route('/') }}">
-                        <img src="{{asset('assets/frontend/images/logo-light.png') }}" width="230" height="67" alt=""/>
+<!-- header area -->
+    <header class="header">
+        <div class="main-navigation">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="{{ asset('assets/frontend/img/logo/logo.png') }}" alt="logo">
                     </a>
+                    <div class="mobile-menu-right">
+                        <a href="index.html#" class="mobile-search-btn search-box-outer"><i class="far fa-search"></i></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="far fa-stream"></i>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="main_nav">
+                        <ul class="navbar-nav ms-auto">
+
+                            <li class="nav-item"><a class="nav-link" href="{{ route('/') }}"> Home </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('about') }}"> About Us </a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="index.html#" data-bs-toggle="dropdown">Projects</a>
+                                <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{{ route('project') }}">Existing Projects</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('Upcoming-project') }}">Upcoming Projects</a></li>
+                                </ul>
+                            </li>
+
+
+
+                            <li class="nav-item"><a class="nav-link" href="{{ route('how-it-work') }}"> How It Works </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('faq') }}"> FAQ </a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}"> Contact Us </a></li>
+
+                        </ul>
+                        <div class="header-nav-right">
+                            <div class="header-nav-search">
+                                <a href="index.html#" class="search-box-outer"><i class="far fa-search"></i></a>
+                            </div>
+                            <div class="header-btn">
+                                <a href="index.html#" class="theme-btn">GET QUOTE</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- NAV Toggle Button -->
-                <button data-target=".header-nav" data-toggle="collapse" type="button" class="navbar-toggle collapsed">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <!-- MAIN Vav -->
-                <div class="header-nav navbar-collapse collapse ">
-                    <ul class=" nav navbar-nav">
-                        <li class="active">
-                            <a href="{{ route('/') }}">HOME</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('about') }}">ABOUT US</a>
-                        </li>
-
-                        <li>
-                            <a href="javascript:">PROJECTS<i class="fa fa-chevron-down"></i></a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ route('project') }}">EXISTING PROJECTS</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('Upcoming-project') }}">UPCOMING PROJECTS</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('pricing') }}">PACKAGES</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('how-it-work') }}">HOW IT WORK</a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('faq') }}">FAQ</a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('news') }}">NEWS</a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('contact') }}">CONTACT US</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
+            </nav>
         </div>
-    </div>
-
-</header>
+    </header>
+    <!-- header area end -->

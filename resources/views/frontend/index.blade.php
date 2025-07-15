@@ -3,378 +3,236 @@
     @section('header-title', 'Welcome ')
 
     @section('meta')
-
-    <!-- Meta Tags for SEO -->
-    <meta name="description" content="Join Win Together at wintogetherplan.com to explore seamless investment opportunities in stocks, crypto, and gold. Empower your financial future with expert guidance.">
-    <meta name="keywords" content="Win Together, investments, crypto trading, stock market, gold investment, secure investing, financial growth, wintogetherplan.com">
-    <meta name="author" content="Win Together">
-    <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Win Together - Your Gateway to Smart Investments | wintogetherplan.com">
-    <meta property="og:description" content="Invest in stocks, cryptocurrencies, and gold with ease. Join Win Together to secure your financial future.">
-    <meta property="og:url" content="https://www.wintogetherplan.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://www.wintogetherplan.com/images/preview.jpg">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Win Together - Your Gateway to Smart Investments | wintogetherplan.com">
-    <meta name="twitter:description" content="Start your investment journey with Win Together. Trade in crypto, stocks, and gold with expert guidance.">
-    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/preview.jpg">
-
     @endsection
-
-
 
     @section('header')
     @include('frontend.layouts.header')
     @endsection
 
-
     <!-- CONTENT START -->
-    <div class="page-content">
-        <!-- SLIDER START -->
-        @include('frontend.slider')
-        <!-- SLIDER END -->
 
-        <!-- MARQUEE SCROLL -->
-        <div class="marquee-bg marquee">
-            <div class="TickerNews" id="T1">
-                <div class="ti_wrapper">
-                    <div class="ti_slide">
-                        <div class="ti_content">
-                            <div class="ti_news">
-                                <a href="#">
-                                    <img src="{{asset('assets/frontend/images/coin-icon/bitcoin.png') }}" alt="">
-                                    <span>BTC: </span><span class="bitcoin"></span><span class="text-white p-lr5 bitcoin-change"></span></a>
+    <main class="main">
+
+        <!-- hero area -->
+        <div class="hero-section">
+            <div class="hero-wrapper">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-lg-6">
+                            <div class="hero-content">
+                                <h6 class="hero-sub-title wow animate__animated animate__fadeInUp"
+                                    data-wow-duration="1s" data-wow-delay=".25s">
+                                    Safe and secure investment
+                                </h6>
+                                <h1 class="hero-title wow animate__animated animate__fadeInUp" data-wow-duration="1s"
+                                    data-wow-delay=".50s">
+                                    Best Hyip Investment <span>Solutions</span> For You
+                                </h1>
+                                <p class="wow animate__animated animate__fadeInUp" data-wow-duration="1s"
+                                    data-wow-delay=".75s">
+                                    There are many variations of passages available but the majority have suffered
+                                    alteration in some form by injected humour or randomised words.
+                                </p>
+                                <div class="hero-btn wow animate__animated animate__fadeInUp" data-wow-duration="1s"
+                                    data-wow-delay="1s">
+                                    <a href="index.html#" class="theme-btn">Get Started</a>
+                                    <div class="video-btn">
+                                        <a href="https://www.youtube.com/watch?v=jLS3DrTJrpI"
+                                            class="play-btn popup-youtube"><i class="fas fa-play"></i></a>
+                                    </div>
+                                </div>
                             </div>
-
-
-                            <div class="ti_news">
-                                <a href="#">
-                                    <img src="{{asset('assets/frontend/images/coin-icon/Ethereum.png') }}" alt="">
-                                    <span>ETH: </span><span class="ethereum"></span><span class="text-white p-lr5 ethereum-change"></span></a>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <div class="hero-img wow animate__animated animate__fadeInRight"
+                            data-wow-duration="1s" data-wow-delay=".25s">
+                                <img src="{{ asset('assets/frontend/img/hero/hero.png') }}" alt="">
                             </div>
-
-
-
-                            <div class="ti_news">
-                                <a href="#">
-                                    <img src="{{asset('assets/frontend/images/coin-icon/litecoin.png') }}" alt="">
-                                    <span>LTC: </span><span class="litecoin"></span><span class="text-white p-lr5 litecoin-change"></span></a>
-                            </div>
-
-
-
-
-                            <div class="ti_news">
-                                <a href="#">
-                                    <img src="{{asset('assets/frontend/images/coin-icon/tether.png') }}" alt="">
-                                    <span>TETH: </span><span class="tether">Ƀ 0.05590</span><span class="text-white p-lr5 tether-change"></span></a>
-                            </div>
-
-
-
                         </div>
                     </div>
                 </div>
+                <div class="hero-shape">
+                    <img src="{{ asset('assets/frontend/img/shape/shape-1.svg') }}" alt="">
+                </div>
             </div>
         </div>
-        <!-- MARQUEE SCROLL SECTION  END -->
+        <!-- hero area end -->
 
-        <!-- OUR VALUE SECTION START -->
 
-        <div class="section-full themecolor-1">
+        <!-- about area -->
+        <div class="about-area py-120">
             <div class="container">
-                <div class="section-content ">
-                    <!-- COLL-TO ACTION START -->
-                    <div class="wt-subscribe-box">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-9 col-sm-9">
-                                    <div class="call-to-action-left p-tb20 ">
-                                        <h5 class="text-uppercase m-b10 font-weight-600">We strive to make the investment process seamless and accessible to all.
-                                            <br>At SECURE INVEST, we firmly believe that everyone has the potential to become an investor.</h5>
-
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="call-to-action-right p-tb30">
-                                        <a href="{{ route('register') }}" class="site-button-secondry text-uppercase font-weight-600">
-                                            JOIN US
-                                        </a>
-                                    </div>
-                                </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="about-left">
+                            <div class="about-img">
+                                <img src="{{ storage('pages/' . $welcome->image) }}" alt="">
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="about-right">
+                            <div class="site-heading mb-3">
+                                <span class="site-title-tagline">Welcome</span>
+                                <h2 class="site-title">{{ $welcome->title }}</h2>
+                            </div>
+                                <div> {!! $welcome->content !!}</div>
+                            <a href="{{ route('about') }}" class="theme-btn">Discover More</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- about area end -->
 
-        <!-- OUR VALUE SECTION  END -->
 
-        <!-- WELCOME SECTION START -->
-        <div class="section-full home-about-section p-t80 bg-no-repeat bg-bottom-right themecolor-2" style="background-image:url(images/background/bg-coin.png)">
+        <!-- choose area -->
+        <div class="choose-area py-120">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="wt-box text-left">
-                            <img src="{{ storage('pages/' . $welcome->image) }}" alt="">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="wt-right-part p-b80 text-left">
-                            <!-- TITLE START -->
-                            <div class="section-head text-left">
-                                <span class="wt-title-subline font-16 text-gray-dark m-b15">Trusted  Investment Project</span>
-                                <h2 class="text-uppercase">{{ $welcome->title }}</h2>
-                                <div class="wt-separator-outer">
-                                    <div class="wt-separator bg-primary"></div>
-                                </div>
+                <div class="row align-items-center">
+
+                     <div class="col-lg-12">
+                        <div class="choose-content">
+                            <div class="site-heading mb-3">
+                                <span class="site-title-tagline">Our Benefit</span>
+                                <h2 class="site-title my-3">Invest For Your <span>Future In Best</span> Platform</h2>
                             </div>
-                            <!-- TITLE END -->
-                            <div class="section-content">
-                                <div class="wt-box">
-                                    <p>
-                                        <strong>
-                                            {!! $welcome->content !!}
-                                        </strong>
-                                    </p>
-
-                                    <a href="{{ route('about') }}" class="site-button text-uppercase m-r15 site-button2">Read More</a>
-                                    <a href="{{ route('contact') }}" class="site-button-secondry text-uppercase">Contact us</a>
-                                </div>
+                            <div>
+                                 {!! $benefits->content !!}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- WELCOME SECTION  END -->
-
-        <!-- WHY CHOOSE US SECTION START  -->
-
-        <div class="section-full themecolor-1 p-t90 p-b30  ">
-            <div class="container">
-                <!-- TITLE START-->
-                <div class="section-head text-center">
-                    <span class="wt-title-subline font-16 text-gray-dark m-b15">Our Benefit</span>
-                    <h2 class="text-uppercase">Why Choose Win Together</h2>
-                    <div class="wt-separator-outer">
-                        <div class="wt-separator bg-primary"></div>
-                    </div>
-                    {!! $benefits->content !!}
-                </div>
-                <!-- TITLE END-->
-                <div class="section-content hover-block-outer" data-toggle="tab-hover">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-12 m-b30  p-t30">
-
-
-                            @foreach ($benefits?->children as $key => $section)
-                            @if ($key % 2 == 0)
-
-                            <div class="wt-icon-box-wraper  right p-a20" data-target="#tab1" data-toggle="tab">
-                                <div class="icon-md text-primary">
-                                    <span class="icon-cell  text-primary"><img src="{{ storage('pages/' . $section->image) }}" alt=""></span>
-                                </div>
-                                <div class="icon-content">
-                                    <h4 class="wt-tilte text-uppercase">{{ $section->title }}</h4>
-                                    <p> {!! $section->content !!}</p>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-
-
-                        </div>
-
-                        <div class="col-md-4 col-sm-12 m-b30 circle-content-pic ">
-
-                            <div class="tab-content ">
-                                <div id="tab1" class="tab-pane active">
-                                    <div class="wt-box">
-                                        <div class="wt-media text-primary m-t60 text-center">
-                                            <img class="up-down-animation" src="{{asset('assets/frontend/images/ipad/banner.png')}}" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-12 m-b30  p-t30 mob-m">
-
-                            @foreach ($benefits?->children as $key => $section)
-                            @if ($key % 2 != 0)
-
-                            <div class="wt-icon-box-wraper left p-a20 ">
-                                <div class="icon-md text-primary">
-                                    <span class="icon-cell  text-primary"><img src="{{ storage('pages/' . $section->image) }}" alt=""></span>
-                                </div>
-                                <div class="icon-content">
-                                    <h4 class="wt-tilte text-uppercase">{{ $section->title }}</h4>
-                                    <p> {!! $section->content !!}</p>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- WHY CHOOSE US SECTION END -->
-
-        <!-- HOW IT WORK SECTION START  -->
-
-
-        <div class="section-full p-t50 p-b50 overlay-wraper bg-parallax clouds1 bg-repeat" data-stellar-background-ratio="0.5" style="background-image:url({{ asset('assets/frontend/images/background/bg-1.jpg') }});">
-            <div class="overlay-main themecolor-3 opacity-05"></div>
-            <div class="container ">
-
-                <div class="container ">
-                    <!-- TITLE START-->
-                    <div class="section-head text-center">
-                        <span class="wt-title-subline font-16 text-gray-dark m-b15">Three steps Win Together</span>
-                        <h2 class="text-uppercase">How It Work</h2>
-                        <div class="wt-separator-outer">
-                            <div class="wt-separator bg-primary"></div>
-                        </div>
-                        {!! html_entity_decode($how_it_work->content) !!}
-                    </div>
-                    <!-- TITLE END-->
-                    <div class="section-content no-col-gap">
-                        <div class="row">
-
-                            @foreach ($how_it_work->children as $key => $section)
-                            @if ($key%2 == 0)
-                            <!-- COLUMNS 1 -->
-
-                            <div class="col-md-4 col-sm-4 step-number-block">
-                                <div class="wt-icon-box-wraper  p-a30 center themecolor-2 m-a5">
-                                    <div class="icon-lg text-primary m-b20">
-                                        <a href="#" class="icon-cell">
-                                            <img src="{{ storage('pages/' . $section->image) }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="icon-content">
-                                        <div class="step-number">{{ $key+1 }}</div>
-                                        <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                        {!! html_entity_decode($section->content) !!}
-                                    </div>
-                                </div>
-                            </div>
-
-                            @else
-                            <!-- COLUMNS 2 -->
-                            <div class="col-md-4 col-sm-4 step-number-block">
-                                <div class="wt-icon-box-wraper  p-a30 center themecolor-3 m-a5 ">
-                                    <div class="icon-lg m-b20">
-                                        <a href="#" class="icon-cell">
-                                            <img src="{{ storage('pages/' . $section->image) }}" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="icon-content text-white">
-                                        <div class="step-number active">{{ $key+1 }}</div>
-                                        <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                        {!! html_entity_decode($section->content) !!}
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-
 
                         </div>
                     </div>
 
                 </div>
-
-
-            </div>
-        </div>
-
-        <!-- HOW IT WORK  SECTION END -->
-
-
-        <!-- SECTION CONTENT START -->
-        <div class="section-full no-col-gap bg-repeat">
-            <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 themecolor-3 h-410">
-                        <div class="section-content p-tb60 p-r30 clearfix">
-                            <div class="wt-left-part any-query">
-                                <img src="{{asset('assets/frontend/images/any-query.png')}}" alt="">
-                                <div class="text-center p-t60">
-                                    <h3 class="text-uppercase font-weight-500 text-white">Any Query?</h3>
-                                    <div class="text-white">{!! $any_query->content !!}</div>
-                                    <h4 class="text-primary">support@wintogetherplan.com</h4>
-                                </div>
-                            </div>
+
+                    <div class="col-lg-6">
+                        <div class="choose-content">
+
+                            <ul>
+
+                                 @foreach ($benefits?->children as $key => $section)
+                                    @if ($key % 2 == 0)
+
+                                        <li>
+                                            <div class="choose-content-wrapper">
+                                                <i class="flaticon-management"></i>
+                                                <div class="choose-content-item">
+                                                    <h5>{{ $section->title }}</h5>
+                                                        {!! $section->content !!}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                            </ul>
+
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 bg-primary h-410">
-                        <div class="section-content p-tb60 p-l30 clearfix">
-                            <div class="wt-right-part any-query-contact">
-                                <img src="{{asset('assets/frontend/images/any-query-contact.png')}}" alt="">
-                                <div class="text-center p-t60">
-                                    <h3 class="text-uppercase font-weight-500 text-white">Contact Us</h3>
-                                    <p class="text-white"><div class="text-white">{!! $contact_us->content !!}</div></p>
-                                    <h4 class="text-secondry">support@wintogetherplan.com</h4>
-                                </div>
-                            </div>
+
+                      <div class="col-lg-6">
+                        <div class="choose-content">
+
+                            <ul>
+
+                              @foreach ($benefits?->children as $key => $section)
+                                    @if ($key % 2 != 0)
+                                        <li>
+                                            <div class="choose-content-wrapper">
+                                                <i class="flaticon-management"></i>
+                                                <div class="choose-content-item">
+                                                    <h5>{{ $section->title }}</h5>
+                                                    {!! $section->content !!}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                            </ul>
+                            <a href="index.html#" class="theme-btn">Get Started</a>
                         </div>
                     </div>
+
                 </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="choose-img">
+                            <img src="assets/img/choose/01.png" alt="">
+                        </div>
+                    </div>
 
             </div>
         </div>
-        <!-- SECTION CONTENT  END -->
-    </div>
+        <!-- choose area end -->
+
+
+        <!-- process area -->
+        <div class="process-area pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="site-heading text-center">
+                            <span class="site-title-tagline">Working Process</span>
+                            <h2 class="site-title">How It <span>Works</span></h2>
+                            <div class="heading-divider"></div>
+                                <div>{!! html_entity_decode($how_it_work->content) !!}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+
+                     @foreach ($how_it_work->children as $key => $section)
+                        <div class="col-lg-3 col-md-6 text-center mb-30">
+                            <div class="process-single">
+                                <div class="icon">
+                                    <span>{{ $key+1 }}</span>
+                                    <i class="flaticon-management"></i>
+                                </div>
+                                <h4>{{ $section->title }}</h4>
+                                <div>{!! html_entity_decode($section->content) !!}</div>
+                            </div>
+                        </div>
+                     @endforeach
+
+                </div>
+            </div>
+        </div>
+        <!-- process area end -->
+
+        <!-- cta area -->
+        <div class="cta-area">
+            <div class="container">
+                <div class="row">
+                    <div class="cta-content">
+                        <h5>We Offer More Commission</h5>
+                        <h2>Get <span>45%</span> Referral Commission</h2>
+                        <p>It is a long established fact that a reader will be distracted by the readable content <br> of a page when looking at its layout.</p>
+                        <a href="index.html#" class="theme-btn">Get Started</a>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-shape">
+                <img src="{{ asset('assets/frontend/img/shape/shape-3.png') }}" alt="">
+            </div>
+        </div>
+        <!-- cta area end -->
+
+
+    </main>
+
+
+
     <!-- CONTENT END -->
 
 
     @section('scripts')
 
-    <script type="text/javascript">
-        jQuery(function() {
-            var timer = !1;
-            _Ticker = jQuery("#T1").newsTicker();
-            _Ticker.on("mouseenter", function() {
-                var __self = this;
-                timer = setTimeout(function() {
-                    __self.pauseTicker();
-                }, 200);
-            });
-            _Ticker.on("mouseleave", function() {
-                clearTimeout(timer);
-                if (!timer) return !1;
-                this.startTicker();
-            });
-        });
 
-    </script>
-
-    <script src="{{asset('assets/frontend/plugins/revolution/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
-    <script src="{{asset('assets/frontend/plugins/revolution/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
-
-    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
-    <script src="{{asset('assets/frontend/plugins/revolution/revolution/js/extensions/revolution-plugin.js') }}"></script>
-    <!-- REVOLUTION SLIDER FUNCTION  ===== -->
-    <script src="{{ asset('assets/frontend/js/rev-script-1.js') }}"></script>
-    <script src="{{ asset('assets/frontend/js/coin_prices.js') }}"></script>
 
     @endsection
 

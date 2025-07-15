@@ -1,122 +1,49 @@
 <x-frontend.layouts.app>
-    @section('title', 'How It Works - Win Together | Easy Steps to Start Investing')
+
+    @section('title', 'About Us - Win Together | Empowering Smart Investments')
     @section('header-title', 'Welcome ')
 
     @section('meta')
-    <meta name="description" content="Learn how Win Together makes investing in stocks, crypto, and gold easy. Follow our simple steps to start your investment journey and grow your wealth.">
-    <meta name="keywords" content="how it works, Win Together, investment process, crypto trading, stock market, gold investment, secure investing, financial growth">
-    <meta name="author" content="Win Together">
-    <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="How It Works - Win Together | Easy Steps to Start Investing">
-    <meta property="og:description" content="Understand the simple steps of how Win Together works. Start investing in stocks, crypto, and gold with our user-friendly platform.">
-    <meta property="og:url" content="https://www.wintogetherplan.com/how-it-works">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://www.wintogetherplan.com/images/how-it-works.jpg">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="How It Works - Win Together | Easy Steps to Start Investing">
-    <meta name="twitter:description" content="Start your investment journey with Win Together. Learn how our simple process makes investing in crypto, stocks, and gold accessible to everyone.">
-    <meta name="twitter:image" content="https://www.wintogetherplan.com/images/how-it-works.jpg">
     @endsection
 
-    @section('header')
-    @include('frontend.layouts.header-other')
+    @section('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/frontend/css/hiw.css')}}">
+    @endsection
 
     <!-- CONTENT START -->
-    <div class="page-content">
 
-        <!-- INNER PAGE BANNER -->
-        <div class="wt-bnr-inr overlay-wraper" style="background-image:url({{ asset('assets/frontend/images/banner/banner.png') }});">
-            <div class="overlay-main themecolor-1 opacity-07"></div>
-            <div class="container">
-                <div class="wt-bnr-inr-entry">
-                    <h1 class="text-white  banner-txt">How it work</h1>
-                </div>
-            </div>
-        </div>
-        <!-- INNER PAGE BANNER END -->
+    <main class="main">
 
-        <!-- BREADCRUMB ROW -->
-        <div class="themecolor-1 p-tb20">
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb">
             <div class="container">
-                <ul class="wt-breadcrumb breadcrumb-style-2">
-                    <li><a href="javascript:void(0);"><i class="fa fa-home"></i> Home</a></li>
-                    <li>How it work</li>
+                <h2 class="breadcrumb-title">About Us</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                    <li class="active">About Us</li>
                 </ul>
             </div>
-        </div>
-        <!-- BREADCRUMB  ROW END -->
-
-        <!-- HOW IT WORK  SECTION START -->
-        <div class="section-full p-tb100 themecolor-2">
-            <div class="container ">
-                <div class="container ">
-                    <!-- TITLE START-->
-                    <div class="section-head text-center">
-
-                        <p>wintogetherplan.com is a forex and cryptocurrency trading investment site that offers an opportunity
-                            for investors to participate in trading activities and potentially earn a profit share.
-                            Here's how it works:</p>
-                        <div class="wt-separator-outer">
-                            <div class="wt-separator bg-primary"></div>
-                        </div>
-                    </div>
-                    <!-- TITLE END-->
-                    <div class="section-content no-col-gap">
-                        <div class="row">
-
-                            @foreach ($how_it_work as $key => $section)
-                            @if ($key%2 == 0)
-                            <!-- COLUMNS 1 -->
-
-                            <div class="col-md-12 col-sm-12 step-number-block hiw-cart-mb">
-                                <div class="wt-icon-box-wraper  p-a30 center themecolor-1 m-a5">
-
-                                    <div class="icon-content">
-                                        <div class="step-number2">{{ $key+1 }}</div>
-                                        <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                        <div class="hwt-content cml-60">
-                                        {!! html_entity_decode($section->content) !!}
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @else
-                            <!-- COLUMNS 2 -->
-                            <div class="col-md-12 col-sm-12 step-number-block hiw-cart-mb">
-                                <div class="wt-icon-box-wraper  p-a30 center themecolor-3 m-a5 ">
-
-                                    <div class="icon-content text-white">
-                                        <div class="step-number2 active">{{ $key+1 }}</div>
-                                        <h4 class="wt-tilte text-uppercase font-weight-500">{{ $section->title }}</h4>
-                                        <div class="hwt-content">
-                                        {!! html_entity_decode($section->content) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-
-
-                        </div>
-                    </div>
-
-                </div>
-
-
+            <div class="breadcrumb-shape">
+                <img src="assets/img/shape/shape-5.svg" alt="">
             </div>
         </div>
+        <!-- breadcrumb end -->
 
-        <!-- HOW IT WORK SECTION END -->
+
+        <div class="row HIW">
+            <ul>
+                 @foreach ($how_it_work as $key => $section)
+                    <li style="--accent-color:#f28b00">
+                        <div class="date">{{ $key+1 }} {{ $section->title }}</div>
+                        {{-- <div class="title">Lorem, ipsum dolor</div> --}}
+                        <div class="descr">{!! html_entity_decode($section->content) !!}</div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </main>
 
 
-    </div>
     <!-- CONTENT END -->
 
 
