@@ -1,4 +1,4 @@
-  <div class="col-lg-3 col-md-4">
+
                     <div class="dashboard-sidebar">
                         <div class="dashboard-profile">
                             <img src="assets/img/investor/user.jpg" alt="">
@@ -21,4 +21,4 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+             
