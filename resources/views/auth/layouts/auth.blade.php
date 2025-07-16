@@ -30,7 +30,7 @@
         </button>
     </div>
     @endif
-
+<main class="main">
     <div class="dashboard-area py-120">
         <div class="container">
             <div class="row">
@@ -50,6 +50,7 @@
             </div>
         </div>
     </div>
+</main>
 
 
     <!-- Template JS Files -->
@@ -58,7 +59,7 @@
 
     <!-- Wrapper Ends -->
 
-    @yield('scripts')
+     @stack('scripts')
 
 
 
