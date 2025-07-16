@@ -1,22 +1,22 @@
-@extends('auth.layouts.auth')
-
-@section('title', 'My Packages')
-@section('header-title', 'Active Packages')
-@section('plugin-styles')
- <!-- Datatable -->
+<x-backend.layouts.app>
+    @section('title', 'Team List | Reports')
+    @section('header-title', 'My Team List' )
+    @section('plugin-styles')
+        <!-- Datatable -->
         <link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/backend/vendor/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/backend/vendor/datatables/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/backend/vendor/datatables/css/datatable-extension.css') }}" rel="stylesheet">
         @vite(['resources/css/app-jetstream.css'])
-@endsection
+    @endsection
 
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">My Team</li>
+    @endsection
 
-
-@section('contents')
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.teams.top-nav')
-
-    <div class="col-12">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="w-full my-3 dark:bg-gray-800">
@@ -97,8 +97,9 @@
                 </div>
             </div>
         </div>
-@endsection
-        @push('scripts')
+    </div>
+
+    @push('scripts')
         <!-- Datatable -->
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/extensions/dataTables.buttons.min.js') }}"></script>
@@ -111,5 +112,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/team/users-list.js') }}"></script>
     @endpush
-
-
+</x-backend.layouts.app>
