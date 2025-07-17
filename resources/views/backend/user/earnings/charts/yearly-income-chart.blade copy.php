@@ -1,5 +1,5 @@
-@extends('auth.layouts.auth')
- @section('title', 'Income Chart | Summery')
+<x-backend.layouts.app>
+    @section('title', '111Income Chart | Summery')
     @section('header-title', 'Yearly Income Chart' )
     @section('plugin-styles')
         <!-- Datatable -->
@@ -11,10 +11,11 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Income Chart</li>
+    @endsection
 
-
- <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.ranks.top-nav')
         <div class="col-12">
             <div class="card">
@@ -87,9 +88,7 @@
         </div>
     </div>
 
-@endsection
-
-@push('scripts')
+    @push('scripts')
         <!-- Datatable -->
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/extensions/dataTables.buttons.min.js') }}"></script>
@@ -104,4 +103,4 @@
         {{--<script src="{{ asset('assets/backend/vendor/chartist/chartist-plugin-tooltip.min.js') }}"></script>--}}
         <script src="{{ asset('assets/backend/js/user/earnings/yearly-income-chart.js') }}"></script>
     @endpush
-
+</x-backend.layouts.app>
