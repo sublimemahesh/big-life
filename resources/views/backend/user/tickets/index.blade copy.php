@@ -1,15 +1,18 @@
-@extends('auth.layouts.auth')
-
- @section('title', '111Support Tickets')
+<x-backend.layouts.app>
+    @section('title', '111Support Tickets')
     @section('header-title', 'Support Tickets' )
     @section('plugin-styles')
         <link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Support Tickets</li>
+    @endsection
+    <div class="row">
 
-   <div class="col-xl-12  col-lg-12">
+
+        <div class="col-xl-12  col-lg-12">
             <div class="card border-0 pb-0">
                 <div class="card-header border-0 pb-0">
                     <h4 class="card-title">Support Tickets {{ count($tickets) }}</h4>
@@ -81,12 +84,17 @@
             </div>
         </div>
 
-@endsection
 
- @push('scripts')
+
+
+    </div>
+
+    @push('scripts')
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/tickets/index.js') }}"></script>
     @endpush
+</x-backend.layouts.app>
+
 
 
