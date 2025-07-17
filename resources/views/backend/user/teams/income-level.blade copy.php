@@ -1,14 +1,16 @@
-@extends('auth.layouts.auth')
- @section('title', '111Team Rankers Count')
+<x-backend.layouts.app>
+    @section('title', '111Team Rankers Count')
     @section('header-title', 'Team Rankers Count' )
     @section('plugin-styles')
         <!-- Datatable -->
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Rankers</li>
+    @endsection
 
- <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
 
         <div class="col-12">
             @include('backend.user.ranks.top-nav')
@@ -59,18 +61,6 @@
         </div>
     </div>
 
-@endsection
-
-@push('scripts')
-        <!-- Datatable -->
-        <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/buttons.colVis.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/jszip.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/vendor/datatables/extensions/buttons.print.min.js') }}"></script>
-        <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
-        <script src="{{ asset('assets/backend/js/user/team/users-list.js') }}"></script>
+    @push('scripts')
     @endpush
+</x-backend.layouts.app>
