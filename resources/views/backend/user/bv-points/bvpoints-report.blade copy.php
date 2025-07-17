@@ -1,5 +1,5 @@
-@extends('auth.layouts.auth')
- @section('title', 'BV Points | Earnings')
+<x-backend.layouts.app>
+    @section('title', '111BV Points | Earnings')
     @section('header-title', 'BV Points' )
     @section('plugin-styles')
         <!-- Datatable -->
@@ -10,10 +10,11 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">BV Points Earnings</li>
+    @endsection
 
-
- <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.bv-points.top-nav')
 
         <div class="col-12">
@@ -134,10 +135,7 @@
         </div>
     </div>
 
-
-@endsection
-
- @push('scripts')
+    @push('scripts')
         <!-- Datatable -->
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/extensions/dataTables.buttons.min.js') }}"></script>
@@ -150,3 +148,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/bv-points/point-earnings.js') }}"></script>
     @endpush
+</x-backend.layouts.app>
