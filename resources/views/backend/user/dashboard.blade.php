@@ -6,19 +6,8 @@
 
 @section('contents')
 
-<main class="main">
 
-    <!-- dashboard area -->
-    <div class="dashboard-area py-120">
-        <div class="container">
-            <div class="row">
-
-                @include('auth.layouts.sidebar')
-               
-                <div class="col-lg-9 col-md-8">
-                    <div class="dashboard-content">
-
-                        @include('auth.layouts.header')
+    
 
                         <div class="dashboard-widget-wrapper">
                             <div class="row">
@@ -185,15 +174,11 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- dashboard area end -->
 
 
-</main>
+
 
 
 @endsection

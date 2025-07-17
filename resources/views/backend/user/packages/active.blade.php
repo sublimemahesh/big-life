@@ -10,7 +10,7 @@
 
 @section('contents')
 
- <main class="main">
+
 
         <!-- invest plan -->
         <div class="invest-plan py-120">
@@ -51,7 +51,5 @@
         </div>
         <!-- invest plan end -->
 
-
-    </main>
 
 @endsection
