@@ -1,6 +1,5 @@
-@extends('auth.layouts.auth')
-
- @section('title', 'Purchase History | Transactions')
+<x-backend.layouts.app>
+    @section('title', 'Purchase History | Transactions')
     @section('header-title', 'My Purchase History' )
     @section('plugin-styles')
         <!-- Datatable -->
@@ -11,9 +10,11 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Purchase History</li>
+    @endsection
 
-   <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.transactions.top-nav')
         <div class="col-12">
             <div class="card">
@@ -157,9 +158,7 @@
         </div>
     </div>
 
-
-@endsection
- @push('scripts')
+    @push('scripts')
         <!-- Datatable -->
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/extensions/dataTables.buttons.min.js') }}"></script>
@@ -172,3 +171,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/transactions/purchase-history.js') }}"></script>
     @endpush
+</x-backend.layouts.app>
