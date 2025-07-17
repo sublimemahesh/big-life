@@ -1,5 +1,6 @@
-@extends('auth.layouts.auth')
- @section('header-title', 'BV Points' )
+<x-backend.layouts.app>
+    @section('title', '111Maxed Out BV Points')
+    @section('header-title', 'BV Points' )
     @section('plugin-styles')
         <!-- Datatable -->
         <link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
@@ -9,10 +10,11 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-@section('contents')
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Maxed Out BV Points</li>
+    @endsection
 
-
- <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.bv-points.top-nav')
 
         <div class="col-12">
@@ -50,9 +52,7 @@
         </div>
     </div>
 
-@endsection
-
- @push('scripts')
+    @push('scripts')
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
         <script src="{{ asset('assets/backend/vendor/datatables/js/buttons.html5.min.js') }}"></script>
@@ -60,4 +60,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/bv-points/maxed-out-bv-points.js') }}"></script>
     @endpush
-
+</x-backend.layouts.app>
