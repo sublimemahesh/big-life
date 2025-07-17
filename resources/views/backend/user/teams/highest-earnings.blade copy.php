@@ -1,6 +1,5 @@
-@extends('auth.layouts.auth')
-
- @section('title', 'Earnings')
+<x-backend.layouts.app>
+    @section('title', 'Earnings')
     @section('header-title', 'Team Earnings' )
     @section('plugin-styles')
         <!-- Datatable -->
@@ -12,9 +11,11 @@
         @vite(['resources/css/app-jetstream.css'])
     @endsection
 
-    @section('contents')
+    @section('breadcrumb-items') 
+        <li class="breadcrumb-item">Team Earnings</li>
+    @endsection
 
-       <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.teams.top-nav')
 
         <div class="col-12">
@@ -105,11 +106,7 @@
         </div>
     </div>
 
-    @endsection
-
-
-
-     @push('scripts')
+    @push('scripts')
         <!-- Datatable -->
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
         {{--<script src="{{ asset('assets/backend/vendor/datatables/js/dataTables.scroller.min.js') }}"></script>--}}
@@ -123,6 +120,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/team/highest-earning.js') }}"></script>
     @endpush
-
-
-
+</x-backend.layouts.app>
