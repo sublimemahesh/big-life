@@ -1,19 +1,20 @@
-@extends('auth.layouts.auth')
-@section('title', 'Team Income')
-@section('header-title', 'Team Commission Income' )
-@section('plugin-styles')
-<!-- Datatable -->
-<link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/backend/vendor/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/backend/vendor/datatables/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/backend/vendor/datatables/css/datatable-extension.css') }}" rel="stylesheet">
-@vite(['resources/css/app-jetstream.css'])
-@endsection
+<x-backend.layouts.app>
+    @section('title', 'Team Income')
+    @section('header-title', 'Team Commission Income' )
+    @section('plugin-styles')
+        <!-- Datatable -->
+        <link href="{{ asset('assets/backend/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/backend/vendor/datatables/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/backend/vendor/datatables/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/backend/vendor/datatables/css/datatable-extension.css') }}" rel="stylesheet">
+        @vite(['resources/css/app-jetstream.css'])
+    @endsection
 
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">Team Commission</li>
+    @endsection
 
-@section('contents')
-
-   <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
+    <div class="row dark"> {{--! Tailwind css used. if using tailwind plz run npm run dev and add tailwind classes--}}
         @include('backend.user.teams.top-nav')
         <div class="col-12">
             <div class="card">
@@ -102,10 +103,8 @@
             </div>
         </div>
     </div>
-@endsection
 
-
- @push('scripts')
+    @push('scripts')
         <!-- Datatable -->
 
         <script src="{{ asset('assets/backend/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
@@ -120,3 +119,4 @@
         <script src="{{ asset('assets/backend/js/global-datatable-extension.js') }}"></script>
         <script src="{{ asset('assets/backend/js/user/team/commission-income.js') }}"></script>
     @endpush
+</x-backend.layouts.app>
