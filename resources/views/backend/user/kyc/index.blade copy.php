@@ -1,12 +1,13 @@
-@extends('auth.layouts.auth')
-@section('title', 'My KYC')
+<x-backend.layouts.app>
+    @section('title', 'My KYC')
     @section('header-title', 'My KYC' )
     @section('styles')
     @endsection
+    @section('breadcrumb-items')
+        <li class="breadcrumb-item">KYC</li>
+    @endsection
 
-@section('contents')
-
-   <div class="row kyc-details-page">
+    <div class="row kyc-details-page">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -85,9 +86,7 @@
         </div>
     </div>
 
-@endsection
-
- @push('scripts')
-    <script src="{{ asset('assets/backend/js/user/kyc/create.js') }}"></script>
-@endpush
-
+    @push('scripts')
+        <script src="{{ asset('assets/backend/js/user/kyc/create.js') }}"></script>
+    @endpush
+</x-backend.layouts.app>
