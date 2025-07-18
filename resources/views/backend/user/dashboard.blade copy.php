@@ -8,6 +8,7 @@
         <div class="col-xl-12">
             <div class="row">
                 <div class="col-xl-12">
+                    
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card bubles rounded-3 profile-card-bg-image">

@@ -9,7 +9,7 @@
         <link href="{{ asset('assets/backend/vendor/datatables/css/buttons.bootstrap5.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/backend/vendor/datatables/css/datatable-extension.css') }}" rel="stylesheet">
         @vite(['resources/css/app-jetstream.css'])
-@endsection 
+@endsection
 
 
 
@@ -96,7 +96,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
+
+
+    
 @endsection
         @push('scripts')
         <!-- Datatable -->
